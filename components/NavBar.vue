@@ -96,7 +96,7 @@ export default {
     // link: "",
     drawer: true,
     links: [
-      { icon: 'dashboard', text: 'Dashboard', route: '/' },
+      { icon: 'dashboard', text: 'Dashboard', route: '/dashboard' },
       { icon: 'folder', text: 'Mijn evenementen', route: '/projects' },
       { icon: 'person', text: 'Team', route: '/Team' }
     ]

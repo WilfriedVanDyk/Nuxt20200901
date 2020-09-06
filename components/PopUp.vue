@@ -157,7 +157,6 @@
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-// import router from '@/router/index'
 import db from '@/plugins/fb'
 
 // import axios from "axios";
@@ -262,6 +261,7 @@ export default {
           beschrijving: this.beschrijving
         }
         try {
+          // hier de express index POST aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
           await db.collection('evenementen')
             .add(evenement)
             .then(() => {
@@ -274,6 +274,8 @@ export default {
           // eslint-disable-next-line no-console
           console.log(e)
         }
+        this.$router.push({ name: 'Dashboard' })
+
         // deze post werkt wel naar jsonplaceholder
         // axios({
         //   method: "post",
@@ -312,7 +314,7 @@ export default {
     cancel () {
       this.dialog = false
       this.$refs.form.reset()
-      this.router.push({ name: 'dashboard' })
+      this.$router.push({ name: 'Dashboard' })
     }
   }
 }

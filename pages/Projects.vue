@@ -17,7 +17,9 @@
                 </div>
 
                 <v-row>
-                  <v-col cols="12" sm="4" md="2">
+                  <v-col
+                    cols="12"
+                  >
                     <div class="caption grey--text">
                       start uur:
                       <span class="black--text">{{ evenementItem.startUur }}</span>
@@ -32,7 +34,7 @@
                   </v-col>
                 </v-row>
 
-                <v-col cols="12" md="12">
+                <v-col cols="12">
                   {{ evenementItem.beschrijving }}
                 </v-col>
               </v-card-text>

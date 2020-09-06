@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div>
     <!-- <vuexProbeersel></vuexProbeersel> -->
 
     <h1 class="subtitle-1 grey--text">
@@ -11,7 +11,7 @@
         <v-card-title>
           Evenementen
           <v-spacer />
-          <v-col cols="12" sm="3">
+          <v-col cols="12">
             <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
@@ -108,11 +108,10 @@ import db from '@/plugins/fb'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-// import axios from "axios";
+import axios from 'axios'
 // import vuexProbeersel from "@/components/vuexProbeersel";
 
 export default {
-  name: 'Dashboard',
   components: {},
 
   data () {
@@ -150,9 +149,8 @@ export default {
         { text: 'beschrijving', value: 'data-table-expand', groupable: false },
         { text: 'Acties', value: 'actions', sortable: false, groupable: false }
       ]
-      // evenementen: []
     }
-  }, // vuexProbeersel
+  },
   computed: {
     evenementen () {
       return this.$store.state.evenementen // return this.$store.dispatch("bindEvenementen");
@@ -161,123 +159,39 @@ export default {
   created () {
     this.$store.dispatch('bindEvenementen')
     // als ik wil werken met parameters:  this.$store.dispatch('evenementen', { id: this.$route.params.assetId });
-
-    // VOORLOPIG LATEN STAAN VOOR DE CODE TE BEHOUDEN INDIEN NODIG!!!!!
-    // db.collection('evenementen')
-    //   .orderBy('evenement')
-    //   .onSnapshot((snapShot) => {
-    //     const changes = snapShot.docChanges()
-    //     changes.forEach((change) => {
-    //       // console.log(change.doc.data());
-    //       if (change.type === 'added') {
-    //         this.evenementen.push({
-    //           ...change.doc.data(),
-    //           id: change.doc.id
-    //         })
-    // console.log(
-    //   `de toegevoegde id is: ${change.doc.id} de naam is ${
-    //     change.doc.data().evenement
-    //   }  en de lengte vd tabel is ${this.evenementen.length} id van ${
-    //     this.evenementen[this.evenementen.length - 1].evenement
-    //   } is ${this.evenementen.length - 1}`
-    // );
-    // } else if (change.type === "removed") {
-    //   let Id = change.doc.id;
-    //   this.evenementen = this.evenementen.filter((evenement) => {
-    //     return evenement.id != Id;
-    //   });
-    // }
-    //   })
-    // })
   },
   methods: {
+    /* eslint-disable no-console */
     deleteItem (id) {
       // console.log("het deleted item id is:  " + id);
       // hier deleten van het evenement in uitdatabank
-      // axios
-      //   .delete("https://jsonplaceholder.typicode.com/posts/1")
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     console.log(`delete met axios succesfull`);
-      //   })
-      //   .catch((error) => {
-      //     console.log(`${error} delete met axios met errors`);
-      //   })
-      //   .finally(() => console.log("delete met axios complete"));
-      //
-      db.collection('evenementen')
-        .doc(id)
-        .delete()
-        .then(() => {
-          // zonder vuex maar met array evenementen in de data
-          this.evenementen = this.evenementen.filter((evenement) => {
-            return evenement.id !== id
-          })
+      axios
+        .delete('https://jsonplaceholder.typicode.com/posts/1')
+        .then((response) => {
+          console.log(response.data)
+          console.log('delete met axios succesfull')
         })
-        .catch((err) => {
+        .catch((error) => {
+          console.log(`${error} delete met axios met errors`)
+        })
+        .finally(() => console.log('delete met axios complete'))
+
+      if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
+        // hier de express index DELETE aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
+        db.collection('evenementen')
+          .doc(id)
+          .delete()
+          .catch((err) => {
           // eslint-disable-next-line no-console
-          console.log(err)
-        })
-      this.dialog = false
+            console.log(err)
+          })
+        this.dialog = false
+      }
     },
     formattedDate (dat) {
       return dat ? format(parseISO(dat), 'dd MMMM yyyy', { locale: nl }) : ''
     }
-  },
-  head () {
-    return {
-      title: 'InvoerApp van Wilfried'
-      // meta: [
-      //   { name: 'twitter:title', content: this.$store.state.evenementen }
-      // ]
-    }
   }
-  // updated: function () {
-  //   this.$nextTick(function () {});
-  // },
-
-  // GETTING DATA
-  // db.collection('evenementen').get().then((snapshot) =>
-  // {
-  //   snapshot.forEach(doc =>{
-  // hierin een functie die de data aan een array of zo toevoegd vb:
-  // this.evenementen.push({...doc.data(), doc.id});
-  //   });
-  // }
-  // );
-  //
-  // SAVING DATA
-  // db.collection('evenementen').add(
-  // { object with properties hierin}
-  // );
-
-  // querying data
-  // db.collection('evenementen').where('organisator', '==', 'this.ingelogdeGebruiker').get().then((snapshot) =>
-  // {
-  //   snapshot.docs.forEach(doc =>{
-  // hierin een functie die de data aan een array of zo toevoegd vb:
-  // this.evenementen.push(doc.data);
-  //   });
-  // }
-  // );
-
-  // ordering data
-  // // db.collection('evenementen').orderBy('organisator').get().then((snapshot) =>
-  // {
-  //   snapshot.docs.forEach(doc =>{
-  // hierin een functie die de data aan een array of zo toevoegd vb:
-  // this.evenementen.push(doc.data);
-  //   });
-  // }
-  // );
-
-  // updating
-  // db.collection("evenementen").doc(index).update({
-  //       evenement: this.evenement,
-  //       //....
-  //     });
-  // setting: is volledig overschrijven van het object
-  // gewoon set gebruiken ipv update
 }
 </script>
 

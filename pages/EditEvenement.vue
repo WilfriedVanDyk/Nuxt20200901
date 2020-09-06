@@ -183,27 +183,30 @@ export default {
   created () {
     // eslint-disable-next-line no-console
     console.log(this.$route.params.id)
-    const docRef = db.collection('evenementen').doc(this.$route.params.id)
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
+    if (this.$route.params.id) {
+      const stringId = (this.$route.params.id).toString()
+      const docRef = db.collection('evenementen').doc(stringId)
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
           // eslint-disable-next-line no-console
-          console.log('Document data:', doc.data())
-          this.evenementToUpdate = doc.data()
-          this.evenementToUpdate.id = doc.id
-          // eslint-disable-next-line no-console
-          console.log('evenementToUpdate:', this.evenementToUpdate)
-        } else {
+            console.log('Document data:', doc.data())
+            this.evenementToUpdate = doc.data()
+            this.evenementToUpdate.id = doc.id
+            // eslint-disable-next-line no-console
+            console.log('evenementToUpdate:', this.evenementToUpdate)
+          } else {
           // doc.data() will be undefined in this case
           // eslint-disable-next-line no-console
-          console.log('No such document!')
-        }
-      })
-      .catch(function (error) {
+            console.log('No such document!')
+          }
+        })
+        .catch(function (error) {
         // eslint-disable-next-line no-console
-        console.log('Error getting document:', error)
-      })
+          console.log('Error getting document:', error)
+        })
+    }
   },
   methods: {
     editEvenement () {
@@ -227,6 +230,8 @@ export default {
           status: this.evenementToUpdate.status,
           beschrijving: this.evenementToUpdate.beschrijving
         }
+
+        // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
 
         // hier put van het evenement naar uitdatabank
         // axios
@@ -256,16 +261,16 @@ export default {
           .then(() => {
             this.loading = false
             // this.$refs.form.reset();
-            this.router.push({ name: '/dashboard' })
           })
           .catch((error) => {
             // eslint-disable-next-line no-console
             console.log('Error getting document:', error)
           })
+        this.$router.push({ name: 'Dashboard' })
       }
     },
     cancel () {
-      this.router.push({ name: '/' })
+      this.$router.push({ name: 'Dashboard' })
     }
   }
 }

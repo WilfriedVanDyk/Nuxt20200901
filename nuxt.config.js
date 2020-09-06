@@ -1,6 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  // router: {
+  //   base: '/app/',
+  //   routeNameSplitter: '/'
+  // },
+  //
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
@@ -31,6 +36,7 @@ export default {
   ** Global CSS
   */
   css: [
+    '~/assets/styles/main.css'
   ],
   /*
   ** Plugins to load before mounting the App
