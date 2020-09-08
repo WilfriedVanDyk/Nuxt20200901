@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
+// import db from '~/plugins/fb'
 const express = require('express')
 const app = express()
 
 // const axios = require('axios')
-
 // welke key is dit: van expres of van uitdatabank ?
 // const APIKEY = '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64'
-
 app.use(express.json()) // support json encoded bodies
-
+module.exports = { path: '/api', handler: app }
 // Sta externe communicatie toe
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
@@ -17,8 +16,22 @@ app.use((req, res, next) => {
   next()
 })
 
-// Sanity endpoint
+// Sanity endpoint works!!!
 app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/hello', (req, res) => {
+  console.log('hello nuxt in text')
+  res.send('world')
+})
+app.get('/deleteEvenement', (req, res) => {
+  console.log(`id van het evenement is :  ${req}`)
+  // db.collection('evenementen')
+  //   .doc(req.params.id)
+  //   .delete()
+  //   .catch((err) => {
+  //     // eslint-disable-next-line no-console
+  //     console.log(err)
+  //   })
+})
 
 // // Voorbeeld van een html response met Express (ter illustratie)
 // app.get('/', function (req, res) {

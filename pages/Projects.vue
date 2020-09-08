@@ -4,8 +4,8 @@
       Mijn evenementen
     </h1>
     <v-container class="my-5">
-      <v-expansion-panels popout multiple>
-        <v-expansion-panel v-for="evenementItem in evenementen" :key="evenementItem.evenement">
+      <v-expansion-panels id="expan" popout multiple>
+        <v-expansion-panel v-for="evenementItem in evenementen" :key="evenementItem.evenement" class="my-3">
           <v-expansion-panel-header>{{ evenementItem.evenement }}</v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-card flat>
@@ -22,12 +22,12 @@
                   >
                     <div class="caption grey--text">
                       start uur:
-                      <span class="black--text">{{ evenementItem.startUur }}</span>
+                      <span class="white--text">{{ evenementItem.startUur }}</span>
                     </div>
 
                     <div class="caption grey--text">
                       eind uur:
-                      <span class="black--text">{{ evenementItem.eindUur }}</span>
+                      <span class="white--text">{{ evenementItem.eindUur }}</span>
                     </div>
 
                     <div>{{ evenementItem.status }}</div>
