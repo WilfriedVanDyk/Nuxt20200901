@@ -65,7 +65,7 @@
               color="black"
               class="my-1"
               small
-              router
+              nuxt
               :to="{name:'EditEvenement', params:{id:item.id}}"
             >
               <span>wijzigen</span>
@@ -188,7 +188,7 @@ export default {
         // fetch('api/hello')
         // fetch('api/deleteEvenement').then(() => console.log('then is gelukt in api/delete')).finally(() => console.log('fetch met deleteEvenement is gebeurd'))
         axios.get('api/hello')
-        axios.get('api/deleteEvenement', { data: id })
+        axios.get(`api/deleteEvenement?id=${id}`).then(console.log(`het id dat gedelte wordt is ${id}`)).catch(e => console.error(e)).finally(() => (console.log('delete is gestopt')))
         this.dialog = false
       }
     },
