@@ -108,7 +108,7 @@
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-import axios from 'axios'
+// import axios from 'axios'
 // import vuexProbeersel from "@/components/vuexProbeersel";
 
 export default {
@@ -186,9 +186,13 @@ export default {
         //     console.log(err)
         //   })
         // fetch('api/hello')
-        // fetch('api/deleteEvenement').then(() => console.log('then is gelukt in api/delete')).finally(() => console.log('fetch met deleteEvenement is gebeurd'))
-        axios.get('api/hello')
-        axios.get(`api/deleteEvenement?id=${id}`).then(console.log(`het id dat gedelte wordt is ${id}`)).catch(e => console.error(e)).finally(() => (console.log('delete is gestopt')))
+        fetch(`api/deleteEvenement?id=${id}`)
+          .then(console.log(`dashboard: id is ${id})`))
+          .catch(error => console.log(error))
+          .finally(console.log('fetch met deleteEvenement is gebeurd'))
+        // axios does not work here
+        // axios.get('api/hello')
+        // axios.get(`api/deleteEvenement?id=${id}`).then(console.log(`dashboard: het id dat gedelete wordt is ${id}`)).catch(e => console.error(e)).finally(() => (console.log('delete is gestopt')))
         this.dialog = false
       }
     },
