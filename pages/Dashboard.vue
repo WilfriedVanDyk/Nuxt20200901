@@ -11,7 +11,7 @@
         <v-card-title>
           Evenementen
           <v-spacer />
-          <v-col cols="12">
+          <v-col>
             <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
@@ -59,14 +59,14 @@
             </td>
           </template>
           <!-- item delete of update -->
+          <!-- :to="{name:'EditEvenement', params:{id:item.id}}" -->
           <template v-slot:item.actions="{ item }">
             <v-chip
               text
               color="black"
               class="my-1"
               small
-              nuxt
-              :to="{name:'EditEvenement', params:{id:item.id}}"
+              @click="EditEvenement(item.id)"
             >
               <span>wijzigen</span>
               <v-icon right small>
@@ -177,7 +177,6 @@ export default {
         //   })
         //   .finally(() => console.log('delete met axios complete'))
 
-        // hier de express index DELETE aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
         // db.collection('evenementen')
         //   .doc(id)
         //   .delete()
@@ -195,6 +194,10 @@ export default {
         // axios.get(`api/deleteEvenement?id=${id}`).then(console.log(`dashboard: het id dat gedelete wordt is ${id}`)).catch(e => console.error(e)).finally(() => (console.log('delete is gestopt')))
         this.dialog = false
       }
+    },
+    EditEvenement (id) {
+      console.log(id)
+      this.$router.push({ path: `/EditEvenement/${id}` })
     },
     formattedDate (dat) {
       return dat ? format(parseISO(dat), 'dd MMMM yyyy', { locale: nl }) : ''

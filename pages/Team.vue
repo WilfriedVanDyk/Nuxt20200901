@@ -100,3 +100,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+/* .theme--dark {
+  background-color: antiquewhite;
+} */
+</style>

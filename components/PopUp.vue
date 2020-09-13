@@ -245,6 +245,26 @@ export default {
         : ''
     }
   },
+  // watch: {
+  //   search () {
+  //     // Items have already been loaded
+  //     if (this.venues.length > 0) { return }
+
+  //     // Items have already been requested
+  //     if (this.isLoading) { return }
+
+  //     this.isLoading = true
+  //     // Lazily load input items
+  //     fetch('/api/venues')
+  //       .then(res => res.json())
+  //       .then((res) => {
+  //         const { totalItems, member } = res
+  //         this.count = totalItems
+  //         this.venues = member.map(location => location.name.nl)
+  //       })
+  //       .finally(() => (this.isLoading = false))
+  //   }
+  // },
   methods: {
     async submit () {
       if (this.$refs.form.validate()) {

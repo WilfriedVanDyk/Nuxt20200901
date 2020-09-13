@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
-import db from 'plugins/fb.js'
+// import db from '@/plugins/fb.js'
+
 const express = require('express')
 const app = express()
+const axios = require('axios')
+// const firebaseInstance = require('@/plugins/fb')
+// const db = firebaseInstance.db
 
-// const axios = require('axios')
 // welke key is dit: van expres of van uitdatabank ?
-// const APIKEY = '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64'
+const APIKEY = '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64'
 app.use(express.json()) // support json encoded bodies
 
 // Sanity endpoint works!!!
@@ -18,11 +21,24 @@ app.get('/hello', (req, res) => {
 // delete in firestore
 app.get('/deleteEvenement', (req, res) => {
   console.log(`api/index: id van het evenement is :  ${req.query.id}`)
-  db.collection('evenementen')
-    .doc(req.params.id)
-    .delete()
+  // db.collection('evenementen')
+  //   .doc(req.params.id)
+  //   .delete()
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
+})
+
+app.get('/getVenues', (req, res) => {
+  console.log('in getVenues')
+  axios
+    .get(
+      `https://search.uitdatabank.be/places/?embed=true&q=terms.label:Bioscoop&apiKey=${APIKEY}&limit=200`
+    )
+    .then((response) => {
+      res.json(response.data)
+    })
     .catch((err) => {
-      // eslint-disable-next-line no-console
       console.log(err)
     })
 })

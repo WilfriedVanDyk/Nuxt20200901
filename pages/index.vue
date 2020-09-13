@@ -1,11 +1,26 @@
 <template>
-  <div>home page</div>
+  <div class="container">
+    <h1>home page</h1>
+    <ul>
+      <li>
+        <nuxt-link to="/EditEvenement/">
+          EditEvenement
+        </nuxt-link>
+      </li>
+      <li>
+        <nuxt-link to="/EditEvenement/2mc8wTTrp4ntNuUQxLPk">
+          editeEvenment met id
+        </nuxt-link>
+      </li>
+    </ul>
   <!-- <Dashboard /> -->
+  </div>
 </template>
 
 <script>
 // import Dashboard from '~/components/Dashboard'
 export default {
+  layout: 'home',
   components: {}, // {Dashboard }
   head () {
     return {
@@ -17,3 +32,14 @@ export default {
   }
 }
 </script>
+<style scoped>
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+</style>

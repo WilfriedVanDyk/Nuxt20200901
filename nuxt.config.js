@@ -29,7 +29,10 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      // hier kan je de google fonts toevoegen... maar niet als je met vuetify werkt
+      { rel: 'style', href: 'https://fonts.googleapis.com/css2?family=Grandstander:wght@100&display=swap' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Oswald|Libre+Baskerville&display=swap' }
     ]
   },
   /*
@@ -77,6 +80,7 @@ export default {
   */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     theme: {
       dark: true,
       themes: {
