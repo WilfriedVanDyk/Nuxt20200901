@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import db from 'plugins/fb.js'
+// import db from '@/plugins/fb.js'
 const express = require('express')
 const app = express()
 
@@ -13,18 +13,6 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/hello', (req, res) => {
   console.log('hello nuxt in text')
   res.send('world')
-})
-
-// delete in firestore
-app.get('/deleteEvenement', (req, res) => {
-  console.log(`api/index: id van het evenement is :  ${req.query.id}`)
-  db.collection('evenementen')
-    .doc(req.params.id)
-    .delete()
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.log(err)
-    })
 })
 
 module.exports = { path: '/api/', handler: app }
