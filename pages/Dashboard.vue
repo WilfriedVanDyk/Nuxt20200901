@@ -166,34 +166,8 @@ export default {
       // console.log("het deleted item id is:  " + id);
       // hier deleten van het evenement in uitdatabank via express
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-        // axios
-        //   .delete('https://jsonplaceholder.typicode.com/posts/1')
-        //   .then((response) => {
-        //     console.log(response.data)
-        //     console.log('delete met axios succesfull')
-        //   })
-        //   .catch((error) => {
-        //     console.log(`${error} delete met axios met errors`)
-        //   })
-        //   .finally(() => console.log('delete met axios complete'))
-
-        // hier de express index DELETE aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
-        // db.collection('evenementen')
-        //   .doc(id)
-        //   .delete()
-        //   .catch((err) => {
-        //   // eslint-disable-next-line no-console
-        //     console.log(err)
-        //   })
-        // fetch('api/hello')
-        fetch(`api/deleteEvenement?id=${id}`)
-          .then(console.log(`dashboard: id is ${id})`))
-          .catch(error => console.log(error))
-          .finally(console.log('fetch met deleteEvenement is gebeurd'))
-        // axios does not work here
-        // axios.get('api/hello')
-        // axios.get(`api/deleteEvenement?id=${id}`).then(console.log(`dashboard: het id dat gedelete wordt is ${id}`)).catch(e => console.error(e)).finally(() => (console.log('delete is gestopt')))
-        this.dialog = false
+        // remove via firebase
+        this.$store.dispatch('deleteEvent', id)
       }
     },
     formattedDate (dat) {
