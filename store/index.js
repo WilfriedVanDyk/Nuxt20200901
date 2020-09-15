@@ -18,5 +18,11 @@ export const actions = {
     bindEvenementen: firestoreAction(({ bindFirestoreRef }) => {
         // return the promise returned by `bindFirestoreRef`
         return bindFirestoreRef('evenementen', db.collection('evenementen'))
+    }),
+    deleteEvent: firestoreAction((context, id) => {
+      console.log('id', id)
+      db.collection('evenementen')
+        .doc(id)
+        .delete()
     })
 }

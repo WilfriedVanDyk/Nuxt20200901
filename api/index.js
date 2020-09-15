@@ -1,14 +1,11 @@
 /* eslint-disable no-console */
-// import db from '~@/plugins/fb.js'
-// import firebase from '../plugins/fb'
-// const db = firebase.firestore()
-
+// import db from '@/plugins/fb.js'
 const express = require('express')
 const app = express()
-const axios = require('axios')
+// const axios = require('axios')
 
 // welke key is dit: van expres of van uitdatabank ?
-const APIKEY = '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64'
+// const APIKEY = '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64'
 app.use(express.json()) // support json encoded bodies
 
 // Sanity endpoint works!!!
@@ -16,35 +13,6 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/hello', (req, res) => {
   console.log('hello nuxt in text')
   res.send('world')
-})
-
-// delete in firestore
-app.get('/deleteEvenement', (req, res) => {
-  console.log(`api/index: id van het evenement is :  ${req.query.id}`)
-  axios
-    .delete('https://jsonplaceholder.typicode.com/posts/1')
-    .then((response) => {
-      console.log(response.data)
-      console.log('delete met axios succesfull')
-    })
-    .catch((error) => {
-      console.log(`${error} delete met axios met errors`)
-    })
-    .finally(() => console.log('delete met axios complete'))
-})
-
-app.get('/getVenues', (req, res) => {
-  console.log('in getVenues')
-  axios
-    .get(
-      `https://search.uitdatabank.be/places/?embed=true&q=terms.label:Bioscoop&apiKey=${APIKEY}&limit=200`
-    )
-    .then((response) => {
-      res.json(response.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
 })
 
 module.exports = { path: '/api/', handler: app }

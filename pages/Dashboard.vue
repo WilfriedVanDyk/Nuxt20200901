@@ -166,20 +166,8 @@ export default {
       // console.log("het deleted item id is:  " + id);
       // hier deleten van het evenement in uitdatabank via express
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-        // db.collection('evenementen')
-        //   .doc(id)
-        //   .delete()
-        //   .catch((err) => {
-        //     console.log(err)
-        //   })
-        fetch(`api/deleteEvenement?id=${id}`)
-          .then(console.log(`dashboard: id is ${id})`))
-          .catch(error => console.log(error))
-          .finally(console.log('fetch met deleteEvenement is gebeurd'))
-        // axios does not work here
-        // axios.get('api/hello')
-        // axios.get(`api/deleteEvenement?id=${id}`).then(console.log(`dashboard: het id dat gedelete wordt is ${id}`)).catch(e => console.error(e)).finally(() => (console.log('delete is gestopt')))
-        this.dialog = false
+        // remove via firebase
+        this.$store.dispatch('deleteEvent', id)
       }
     },
     EditEvenement (id) {
