@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="{ 'background-image' : 'url(' + require('../assets/pictures/mensen.jpg') + ')'}">
     <h1>home page</h1>
     <ul>
       <li>

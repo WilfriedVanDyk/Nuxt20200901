@@ -12,8 +12,6 @@
 
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-// const firebase = require('firebase/app')
-// require('firebase/firestore')
 
 if (!firebase.apps.length) {
     // eslint-disable-next-line no-var
@@ -33,9 +31,8 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore()
 export default db
-// module.exports = db
 
-const { TimeStamp, GeoPoint } = firebase.firestore
-export { TimeStamp, GeoPoint }
+// const { TimeStamp, GeoPoint } = firebase.firestore
+// export { TimeStamp, GeoPoint }
 
 // </script>

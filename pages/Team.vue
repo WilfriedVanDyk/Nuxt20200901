@@ -50,12 +50,9 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-import image1 from '../assets/pictures/VanDykWilfried.jpg'
-import image2 from '../assets/pictures/Corneel.jpg'
-import image3 from '../assets/pictures/Bram.jpg'
-import image4 from '../assets/pictures/Jelke.jpg'
+import image4 from '@/assets/pictures/Jelke.jpg'
+import image3 from '@/assets/pictures/Bram.jpg'
+import image2 from '@/assets/pictures/Corneel.jpg'
 
 export default {
   name: 'Team',
@@ -66,28 +63,27 @@ export default {
         {
           name: 'Wilfried',
           role: 'Web developer',
-          // picture: "@/assets/pictures/VanDykWilfried.jpg",
-          picture: image1
+          picture: '/_nuxt/assets/pictures/VanDykWilfried.jpg'
         },
 
         {
           name: 'Corneel',
           role: 'project leader',
-          // picture: "@/assets/pictures/Corneel.jpg",
+          // picture: '/_nuxt/assets/pictures/mensen.jpg'
           picture: image2
         },
 
         {
           name: 'Bram',
           role: 'Web zen master',
-          // picture: "@/assets/pictures/Bram.jpg"
+          // picture: '@/assets/pictures/Bram.jpg'
           picture: image3
         },
 
         {
           name: 'Jelke',
           role: 'Sales guru',
-          // picture: "@/assets/pictures/Jelke.jpg"
+          // picture: '/_nuxt/assets/pictures/Jelke.jpg'
           picture: image4
         }
       ]

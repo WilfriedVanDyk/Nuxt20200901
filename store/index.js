@@ -1,6 +1,8 @@
 /* eslint-disable indent */
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import db from '~/plugins/fb'
+// import firebase from '~/plugins/fb'
+// const db = firebase.firestore()
 
 export const state = () => ({ evenementen: [] })
 export const mutations = { ...vuexfireMutations }

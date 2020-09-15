@@ -104,6 +104,7 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 // import db from '@/plugins/fb'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
@@ -161,30 +162,16 @@ export default {
     // als ik wil werken met parameters:  this.$store.dispatch('evenementen', { id: this.$route.params.assetId });
   },
   methods: {
-    /* eslint-disable no-console */
     deleteItem (id) {
       // console.log("het deleted item id is:  " + id);
       // hier deleten van het evenement in uitdatabank via express
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-        // axios
-        //   .delete('https://jsonplaceholder.typicode.com/posts/1')
-        //   .then((response) => {
-        //     console.log(response.data)
-        //     console.log('delete met axios succesfull')
-        //   })
-        //   .catch((error) => {
-        //     console.log(`${error} delete met axios met errors`)
-        //   })
-        //   .finally(() => console.log('delete met axios complete'))
-
         // db.collection('evenementen')
         //   .doc(id)
         //   .delete()
         //   .catch((err) => {
-        //   // eslint-disable-next-line no-console
         //     console.log(err)
         //   })
-        // fetch('api/hello')
         fetch(`api/deleteEvenement?id=${id}`)
           .then(console.log(`dashboard: id is ${id})`))
           .catch(error => console.log(error))
