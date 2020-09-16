@@ -27,6 +27,13 @@ export const actions = {
         db.collection('evenementen')
             .doc(id)
             .delete()
+            .then(() => {
+                console.log('in de delete event')
+                // this.$refs.form.reset();
+            })
+            .catch((error) => {
+                console.log('Error getting document in index.store delete event:', error)
+            })
     }),
 
     // updating an event
@@ -44,17 +51,20 @@ export const actions = {
                 // this.$refs.form.reset();
             })
             .catch((error) => {
-                console.log('Error getting document in index.store:', error)
+                console.log('Error getting document in index.store put event:', error)
             })
-    })
+    }),
 
     // posting an event
-    //    postEvent: firestoreAction((context, evenement) => {
-    //     // return the promise so we can await the write
-    //     return db.collection('evenementen').add({
-    //         name: 'Fuengirola',
-    //         slogan: 'Un sol de ciudad',
-    //     })
-    // })
+    postEvent: firestoreAction((context, evenement) => {
+        // return the promise so we can await the write
+        return db.collection('evenementen').add(evenement)
+            .then(() => {
+                console.log('in de post event')
+            })
+            .catch((error) => {
+                console.log('Error getting document in index.store post event:', error)
+            })
+    })
 
 }

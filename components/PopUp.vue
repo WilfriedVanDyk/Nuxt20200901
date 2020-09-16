@@ -154,10 +154,11 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-import db from '@/plugins/fb'
+// import db from '@/plugins/fb'
 
 // import axios from "axios";
 // const axios = require('axios').default
@@ -282,8 +283,9 @@ export default {
         }
         try {
           // hier de express index POST aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
-          await db.collection('evenementen')
-            .add(evenement)
+          await this.$store.dispatch('postEvent', evenement)
+          // await db.collection('evenementen')
+          //   .add(evenement)
             .then(() => {
               this.loading = false
               this.dialog = false
@@ -291,7 +293,6 @@ export default {
               this.$refs.form.reset()
             })
         } catch (e) {
-          // eslint-disable-next-line no-console
           console.log(e)
         }
         this.$router.push({ name: 'Dashboard' })
