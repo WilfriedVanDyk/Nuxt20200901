@@ -222,6 +222,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true
         const evenement = {
+          id: this.evenementToUpdate.id,
           evenement: this.evenementToUpdate.evenement,
           type: this.evenementToUpdate.type,
           organisator: this.evenementToUpdate.organisator,
@@ -232,6 +233,16 @@ export default {
           status: this.evenementToUpdate.status,
           beschrijving: this.evenementToUpdate.beschrijving
         }
+
+        this.$store.dispatch('putEvent', evenement)
+          .then(() => {
+            this.loading = false
+            // this.$refs.form.reset();
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log('Error getting document in dispatch van _id.editEvenement:', error)
+          })
 
         // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
 
@@ -257,17 +268,7 @@ export default {
         //   // eslint-disable-next-line no-console
         //   .finally(() => console.log('put met axios complete'))
         //
-        db.collection('evenementen')
-          .doc(this.evenementToUpdate.id)
-          .update(evenement)
-          .then(() => {
-            this.loading = false
-            // this.$refs.form.reset();
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log('Error getting document:', error)
-          })
+
         this.$router.push({ name: 'Dashboard' })
       }
     },

@@ -8,14 +8,14 @@ const axios = require('axios')
 const APIKEY = 'ed024fbf-2596-4b20-8393-2aac31525cbd'
 app.use(express.json()) // support json encoded bodies
 
+module.exports = { path: '/api/', handler: app }
+
 // Sanity endpoint works!!!
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/hello', (req, res) => {
   console.log('hello nuxt in text')
   res.send('world')
 })
-
-module.exports = { path: '/api/', handler: app }
 
 // Offer endpoint
 app.get('/offer', (req, res) => {
