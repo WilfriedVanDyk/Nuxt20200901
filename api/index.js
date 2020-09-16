@@ -2,10 +2,10 @@
 // import db from '@/plugins/fb.js'
 const express = require('express')
 const app = express()
-// const axios = require('axios')
+const axios = require('axios')
 
 // welke key is dit: van expres of van uitdatabank ?
-// const APIKEY = '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64'
+const APIKEY = 'ed024fbf-2596-4b20-8393-2aac31525cbd'
 app.use(express.json()) // support json encoded bodies
 
 // Sanity endpoint works!!!
@@ -16,6 +16,24 @@ app.get('/hello', (req, res) => {
 })
 
 module.exports = { path: '/api/', handler: app }
+
+// Offer endpoint
+app.get('/offer', (req, res) => {
+  const id = req.query.id
+  console.log(id)
+  axios
+    .get(
+      // `https://io.uitdatabank.be/offers/?disableDefaultFilters=true&embed=true&q=id:${id}&apiKey=${APIKEY}`
+      // `https://io.uitdatabank.be/offers/?disableDefaultFilters=true&embed=true&q=id:${id}&start=0&workflowStatus=READY_FOR_VALIDATION,APPROVED&apiKey=ed024fbf-2596-4b20-8393-2aac31525cbd`
+      `https://io.uitdatabank.be/offers/?disableDefaultFilters=true&embed=true&q=id:${id}&start=0&workflowStatus=READY_FOR_VALIDATION,APPROVED&apiKey=${APIKEY}`
+    )
+    .then((response) => {
+      res.json(response.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
 
 // // Voorbeeld van een html response met Express (ter illustratie)
 // app.get('/', function (req, res) {
@@ -44,21 +62,6 @@ module.exports = { path: '/api/', handler: app }
 //     })
 //     .catch((err) => {
 //       console.log('err', err)
-//     })
-// })
-
-// // Offer endpoint
-// app.get('/offer', (req, res) => {
-//   const id = req.params.id
-//   axios
-//     .get(
-//       `https://search.uitdatabank.be/offers/?embed=true&q=id:${id}&apiKey=${APIKEY}`
-//     )
-//     .then((response) => {
-//       res.json(response.data)
-//     })
-//     .catch((err) => {
-//       console.log(err)
 //     })
 // })
 

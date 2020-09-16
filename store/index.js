@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable indent */
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import db from '~/plugins/fb'
@@ -20,9 +21,9 @@ export const actions = {
         return bindFirestoreRef('evenementen', db.collection('evenementen'))
     }),
     deleteEvent: firestoreAction((context, id) => {
-      console.log('id', id)
-      db.collection('evenementen')
-        .doc(id)
-        .delete()
+        console.log('id', id)
+        db.collection('evenementen')
+            .doc(id)
+            .delete()
     })
 }
