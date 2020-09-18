@@ -25,14 +25,13 @@ app.get('/offer', (req, res) => {
     .get(
       // error
       // `https://io.uitdatabank.be/offers/?disableDefaultFilters=true&embed=true&q=id:${id}&start=0&workflowStatus=READY_FOR_VALIDATION,APPROVED&apiKey=0`
-
       // `https://io.uitdatabank.be/offers/?disableDefaultFilters=true&embed=true&q=id:${id}&apiKey=${APIKEY}`
       // `https://io.uitdatabank.be/offers/?disableDefaultFilters=true&embed=true&q=id:${id}&start=0&workflowStatus=READY_FOR_VALIDATION,APPROVED&apiKey=ed024fbf-2596-4b20-8393-2aac31525cbd`
       `https://io.uitdatabank.be/offers/?disableDefaultFilters=true&embed=true&q=id:${id}&start=0&workflowStatus=READY_FOR_VALIDATION,APPROVED&apiKey=${APIKEY}`
     )
     .then((response) => {
       res.json(response.data)
-      // const data = res.json(response.data)
+      // const data = res.json(response)
       // console.log(data)
     })
     .catch((err) => {

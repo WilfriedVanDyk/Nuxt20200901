@@ -1,5 +1,6 @@
 <template>
-  <v-app dark class="app-container" :style="{ 'background-image' : 'url(' + require('../assets/pictures/mensen.jpg') + ')'}">
+  <!-- <v-app dark class="app-container" :style="{ 'background-image' : 'url(' + require('../assets/pictures/mensen.jpg') + ')'}"> -->
+  <v-app dark class="app-container">
     <p>message from customised layout page: home</p>
     <h1>this is the homepage of this app: needs to be devellopped further</h1>
     <NavBar />

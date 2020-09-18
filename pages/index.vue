@@ -19,7 +19,8 @@
       </li>
     </ul>
     <!-- <Dashboard /> -->
-    <UitEvenement />
+    <!-- <UitEvenement v-show="uitEvenementObject" v-bind="uitEvenementObject" />/ -->
+    <UitEvenement :propperke="uitEvenementObject" />
   </div>
 </template>
 
@@ -32,33 +33,35 @@ export default {
   components: { UitEvenement },
   data () {
     return {
-      title: '',
-      description: '',
-      location: '',
-      startDate: '',
-      prijs: ''
-
+      uitEvenementObject:
+       {
+         title: '',
+         description: '',
+         location: '',
+         startDate: '',
+         price: ''
+       }
     }
   },
   methods: {
     getEventUitDataBank () {
-      console.log('button works')
+      // console.log('button works')
       fetch('http://localhost:3000/api/offer/?id=3ddf6a0b-76f8-40a9-b7aa-848a09db32f0')
         .then(res => res.json())
         .then((res) => {
           console.log(res)
           const member = res.member
-          this.title = member[0].name.nl
-          this.description = member[0].description.nl
-          this.startDate = member[0].startDate
-          this.prijs = member[0].priceInfo[0].price
-          this.location = member[0].location.name.nl
+          this.uitEvenementObject.title = member[0].name.nl
+          this.uitEvenementObject.description = member[0].description.nl
+          this.uitEvenementObject.location = member[0].location.name.nl
+          this.uitEvenementObject.startDate = member[0].startDate
+          this.uitEvenementObject.price = member[0].priceInfo[0].price
 
-          console.log(`titel : ${this.title}`)
-          console.log(`titel : ${this.description}`)
-          console.log(`titel : ${this.startDate}`)
-          console.log(`titel : ${this.prijs}`)
-          console.log(`titel : ${this.location}`)
+          console.log(`titel : ${this.uitEvenementObject.title}`)
+          console.log(`description : ${this.uitEvenementObject.description}`)
+          console.log(`location : ${this.uitEvenementObject.startDate}`)
+          console.log(`startDate : ${this.uitEvenementObject.prijs}`)
+          console.log(`prijs : ${this.uitEvenementObject.location}`)
         })
     }
   } // {Dashboard }
@@ -76,9 +79,10 @@ export default {
 .container {
   margin: 0 auto;
   min-height: 100vh;
-  display: grid;
+  min-width: 200vh;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: center; */
 }
 </style>

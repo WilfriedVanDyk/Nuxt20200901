@@ -8,34 +8,29 @@
         <v-card-text>
           <v-form ref="form" class="px-3">
             <v-text-field
-              v-model="evenement"
+              v-model="propperke.title"
               label="Naam Evenement"
               prepend-icon="title"
               required
-              :rules="inputValidation"
             />
             <v-text-field
-              v-model="type"
-              label="Type Evenement"
-              prepend-icon="event"
-              required
-              :rules="inputValidation"
-            />
-            <v-text-field
-              v-model="organisator"
-              label="Organisator"
-              prepend-icon="people_alt"
-              required
-              :rules="inputValidation"
-            />
-            <v-text-field
-              v-model="locatie"
+              v-model="propperke.location"
               label="Locatie"
-              prepend-icon="house"
+              prepend-icon="mdi-home"
               required
-              :rules="inputValidation"
             />
-
+            <v-text-field
+              v-model="propperke.price"
+              label="Prijs in euro"
+              prepend-icon="mdi-currency-eur"
+              required
+            />
+            <v-text-field
+              v-model="propperke.description"
+              label="beschrijving"
+              prepend-icon="mdi-book-open"
+              required
+            />
             <v-menu>
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
@@ -43,101 +38,11 @@
                   prepend-icon="date_range"
                   label="Datum evenement"
                   v-bind="attrs"
-                  :rules="inputValidation"
                   v-on="on"
                 />
               </template>
-              <v-date-picker v-model="datum" locale="nl" />
+              <v-date-picker v-model="propperke.startDate" locale="nl" />
             </v-menu>
-            <!-- voeg het begin uur en eind uur toe met time picker -->
-            <!-- voeg het begin uur toe met time picker -->
-            <v-row>
-              <v-col cols="11" sm="5">
-                <v-menu
-                  ref="menu1"
-                  v-model="timePicker1"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  :return-value.sync="startUur"
-                  transition="scale-transition"
-                  offset-y
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="startUur"
-                      label="start uur"
-                      prepend-icon="access_time"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    />
-                  </template>
-                  <v-time-picker
-                    v-if="timePicker1"
-                    v-model="startUur"
-                    full-width
-                    @click:minute="$refs.menu1.save(startUur)"
-                  />
-                </v-menu>
-              </v-col>
-              <v-spacer />
-
-              <!-- voeg het eind uur toe met time picker -->
-              <v-col cols="11" sm="5">
-                <v-menu
-                  ref="menu2"
-                  v-model="timePicker2"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  :return-value.sync="eindUur"
-                  transition="scale-transition"
-                  offset-y
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="eindUur"
-                      label="eind uur"
-                      prepend-icon="access_time"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    />
-                  </template>
-                  <v-time-picker
-                    v-if="timePicker2"
-                    v-model="eindUur"
-                    full-width
-                    @click:minute="$refs.menu2.save(eindUur)"
-                  />
-                </v-menu>
-              </v-col>
-            </v-row>
-            <!-- einde begin uur en eind uur toevoegen met time picker -->
-
-            <v-overflow-btn
-              v-model="status"
-              class="my-2 mx-2"
-              prepend-icon="help"
-              :items="statusArray"
-              label="status ?"
-            />
-
-            <v-textarea
-              v-model="beschrijving"
-              label="Beschrijving evenement"
-              prepend-icon="edit"
-              :rules="inputValidation"
-            />
-            <v-btn :loading="loading" class="primary mx-2 mt-3" @click="submit">
-              Voeg evenement toe
-            </v-btn>
-            <v-btn class="primary mx-2 mt-3" @click="cancel">
-              cancel
-            </v-btn>
           </v-form>
         </v-card-text>
       </v-card>
@@ -146,8 +51,60 @@
 </template>
 
 <script>
-export default {
+/* eslint-disable no-console */
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
+import { nl } from 'date-fns/locale'
 
+// import axios from "axios";
+export default {
+  props: {
+    propperke: {
+    // uitEvenementObject: {
+      type: Object,
+      default: null,
+      required: true
+    }
+  },
+  data () {
+    return {
+      datum: new Date(this.propperke.startDate).toLocaleDateString()
+      //   uitEvenement: this.uitEvenementObject
+
+    //   timePicker1: false,
+    //   timePicker2: false,
+    //   dialog: false,
+    //   evenement: '',
+    //   type: '',
+    //   organisator: '',
+    //   locatie: '',
+    //   datum: null,
+    //   startUur: null,
+    //   eindUur: null,
+    //   status: '',
+    //   beschrijving: '',
+    //   inputValidation: [
+    //     v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
+    //     v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
+    //   ],
+    //   loading: false,
+    //   statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd']
+    }
+  },
+  computed: {
+    formattedDate () {
+      return this.propperke.startDate
+        ? format(parseISO(this.propperke.startDate), 'do MMMM yyyy', { locale: nl })
+        : ''
+    }
+  },
+  methods: {
+    // cancel () {
+    //   this.dialog = false
+    //   this.$refs.form.reset()
+    //   this.$router.push({ name: 'Dashboard' })
+    // }
+  }
 }
 </script>
 
