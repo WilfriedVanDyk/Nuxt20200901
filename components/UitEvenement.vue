@@ -8,25 +8,25 @@
         <v-card-text>
           <v-form ref="form" class="px-3">
             <v-text-field
-              v-model="propperke.title"
+              v-model="eventprop.title"
               label="Naam Evenement"
               prepend-icon="title"
               required
             />
             <v-text-field
-              v-model="propperke.location"
+              v-model="eventprop.location"
               label="Locatie"
               prepend-icon="mdi-home"
               required
             />
             <v-text-field
-              v-model="propperke.price"
+              v-model="eventprop.price"
               label="Prijs in euro"
               prepend-icon="mdi-currency-eur"
               required
             />
             <v-text-field
-              v-model="propperke.description"
+              v-model="eventprop.description"
               label="beschrijving"
               prepend-icon="mdi-book-open"
               required
@@ -41,7 +41,7 @@
                   v-on="on"
                 />
               </template>
-              <v-date-picker v-model="propperke.startDate" locale="nl" />
+              <v-date-picker v-model="eventprop.startDate" locale="nl" />
             </v-menu>
           </v-form>
         </v-card-text>
@@ -59,8 +59,7 @@ import { nl } from 'date-fns/locale'
 // import axios from "axios";
 export default {
   props: {
-    propperke: {
-    // uitEvenementObject: {
+    eventprop: {
       type: Object,
       default: null,
       required: true
@@ -68,43 +67,18 @@ export default {
   },
   data () {
     return {
-      datum: new Date(this.propperke.startDate).toLocaleDateString()
+      datum: new Date(this.eventprop.startDate).toLocaleDateString()
       //   uitEvenement: this.uitEvenementObject
-
-    //   timePicker1: false,
-    //   timePicker2: false,
-    //   dialog: false,
-    //   evenement: '',
-    //   type: '',
-    //   organisator: '',
-    //   locatie: '',
-    //   datum: null,
-    //   startUur: null,
-    //   eindUur: null,
-    //   status: '',
-    //   beschrijving: '',
-    //   inputValidation: [
-    //     v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
-    //     v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
-    //   ],
-    //   loading: false,
-    //   statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd']
     }
   },
   computed: {
     formattedDate () {
-      return this.propperke.startDate
-        ? format(parseISO(this.propperke.startDate), 'do MMMM yyyy', { locale: nl })
+      return this.eventprop.startDate
+        ? format(parseISO(this.eventprop.startDate), 'do MMMM yyyy', { locale: nl })
         : ''
     }
   },
-  methods: {
-    // cancel () {
-    //   this.dialog = false
-    //   this.$refs.form.reset()
-    //   this.$router.push({ name: 'Dashboard' })
-    // }
-  }
+  methods: { }
 }
 </script>
 

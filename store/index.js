@@ -46,10 +46,10 @@ export const actions = {
         return db.collection('evenementen')
             .doc(id)
             .update(evenementNoId)
-            .then(() => {
-                console.log('in de put event')
-                // this.$refs.form.reset();
-            })
+            // .then(() => {
+            //     console.log('in de put event')
+            //     // this.$refs.form.reset();
+            // })
             .catch((error) => {
                 console.log('Error getting document in index.store put event:', error)
             })

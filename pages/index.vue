@@ -17,10 +17,15 @@
           get Event UitdataBank
         </v-btn>
       </li>
+      <li>
+        <v-btn @click="getEventTESTUitDataBank">
+          get Event TEST UitdataBank
+        </v-btn>
+      </li>
     </ul>
     <!-- <Dashboard /> -->
     <!-- <UitEvenement v-show="uitEvenementObject" v-bind="uitEvenementObject" />/ -->
-    <UitEvenement :propperke="uitEvenementObject" />
+    <UitEvenement :eventprop="uitEvenementObject" />
   </div>
 </template>
 
@@ -62,6 +67,27 @@ export default {
           console.log(`location : ${this.uitEvenementObject.startDate}`)
           console.log(`startDate : ${this.uitEvenementObject.prijs}`)
           console.log(`prijs : ${this.uitEvenementObject.location}`)
+        })
+    },
+    getEventTESTUitDataBank () {
+      fetch('http://localhost:3000/api/getEventUitDataBank/?id=687ae349-8a64-4d54-b1a4-d86151adb7ce')
+        .then(res => res.json())
+        .then((res) => {
+          console.log('in de index pagina met test')
+          // console.log(res)
+          console.log(res.description.nl)
+          // const member = res.member
+          // this.uitEvenementObject.title = member[0].name.nl
+          // this.uitEvenementObject.description = member[0].description.nl
+          // this.uitEvenementObject.location = member[0].location.name.nl
+          // this.uitEvenementObject.startDate = member[0].startDate
+          // this.uitEvenementObject.price = member[0].priceInfo[0].price
+
+          // console.log(`titel : ${this.uitEvenementObject.title}`)
+          // console.log(`description : ${this.uitEvenementObject.description}`)
+          // console.log(`location : ${this.uitEvenementObject.startDate}`)
+          // console.log(`startDate : ${this.uitEvenementObject.prijs}`)
+          // console.log(`prijs : ${this.uitEvenementObject.location}`)
         })
     }
   } // {Dashboard }

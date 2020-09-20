@@ -155,8 +155,8 @@ import db from '@/plugins/fb'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-
 // import axios from 'axios'
+
 export default {
   name: 'EditEvenement',
   data () {
@@ -174,8 +174,8 @@ export default {
   },
   // if you want to validate anything
   validate (data) {
-    console.log(data)
-    console.log(data.params.id)
+    // console.log(data)
+    console.log('in validate voorlopig: ' + data.params.id)
     return true
     // /^\d+$/.test(data.params.id) // vb van Reguliere Expressies: het mag alleen een nummer zijn
   },
@@ -189,7 +189,7 @@ export default {
     }
   },
   created () {
-    console.log(this.$route.params.id)
+    // console.log(this.$route.params.id)
     if (this.$route.params.id) {
       const stringId = (this.$route.params.id).toString()
       const docRef = db.collection('evenementen').doc(stringId)
@@ -197,10 +197,10 @@ export default {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            console.log('Document data:', doc.data())
+            // console.log('Document data:', doc.data())
             this.evenementToUpdate = doc.data()
             this.evenementToUpdate.id = doc.id
-            console.log('evenementToUpdate:', this.evenementToUpdate)
+            // console.log('evenementToUpdate:', this.evenementToUpdate)
           } else {
           // doc.data() will be undefined in this case
             console.log('No such document to edit!')
@@ -213,11 +213,11 @@ export default {
   },
   methods: {
     editEvenement () {
-      console.log(
-        'het gewijzigd evenement is: ',
-        this.evenementToUpdate.evenement,
-        this.evenementToUpdate
-      )
+      // console.log(
+      //   'het gewijzigd evenement is: ',
+      //   this.evenementToUpdate.evenement,
+      //   this.evenementToUpdate
+      // )
 
       if (this.$refs.form.validate()) {
         this.loading = true
@@ -240,34 +240,35 @@ export default {
             // this.$refs.form.reset();
           })
           .catch((error) => {
-            // eslint-disable-next-line no-console
             console.log('Error getting document in dispatch van _id.editEvenement:', error)
           })
 
         // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
-
-        // hier put van het evenement naar uitdatabank
+        // geupdate evenement meegeven in de body MEEGEVEN IN DE BODY
+        fetch(`http://localhost:3000/api/putEvent/?id=${evenement.id}`) // dit niet
+        // fetch('http://localhost:3000/api/putEvent/')
+          .then((res) => {
+            // geraak niet in deze then...
+            console.log(`http://localhost:3000/api/putEvent/?id=${evenement.id}`)
+            console.log('response of fetch pages.editevenement.index.vue:' + res)
+            console.log('put met fetch in index EditEvenement._id.index is succesfull')
+          })
         // axios
-        //   .put('https://jsonplaceholder.typicode.com/posts/1', {
-        //     body: JSON.stringify({
-        //       title: 'foo',
-        //       body: 'bar',
-        //       userId: 2
-        //     })
+        // .put('https://jsonplaceholder.typicode.com/posts/1', {
+        //   body: JSON.stringify({
+        //     title: 'foo',
+        //     body: 'bar',
+        //     userId: 2
         //   })
-        //   .then((response) => {
-        //     // eslint-disable-next-line no-console
-        //     console.log(response.data)
-        //     // eslint-disable-next-line no-console
-        //     console.log('put met axios succesfull')
-        //   })
-        //   .catch((error) => {
-        //     // eslint-disable-next-line no-console
-        //     console.log(`${error} + put met axios met errors`)
-        //   })
-        //   // eslint-disable-next-line no-console
-        //   .finally(() => console.log('put met axios complete'))
-        //
+        // })
+        // .then((response) => {
+        //   console.log(response.data)
+        //   console.log('put met axios succesfull')
+        // })
+          .catch((error) => {
+            console.log(`${error} + put met fetch in index EditEvenement._id.index  met errors`)
+          })
+          .finally(() => console.log('put met fetch in index EditEvenement._id.index is complete'))
 
         this.$router.push({ name: 'Dashboard' })
       }
