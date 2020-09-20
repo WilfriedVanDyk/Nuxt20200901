@@ -23,12 +23,12 @@ export const actions = {
 
     // delete an evenement (works)
     deleteEvent: firestoreAction((context, id) => {
-        console.log('id', id)
+        // console.log('id', id)
         db.collection('evenementen')
             .doc(id)
             .delete()
             .then(() => {
-                console.log('in de delete event')
+                // console.log('in de delete event')
                 // this.$refs.form.reset();
             })
             .catch((error) => {

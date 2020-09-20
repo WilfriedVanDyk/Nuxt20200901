@@ -45,12 +45,34 @@ app.get('/getEventUitDataBank', (req, res) => {
 })
 
 // Put event in uitDataBank : maar app.put doesn't work
-app.get('/putEvent', (req, res) => {
-  // app.get('/putEvent/:id', (req, res) => {  //also doens't work
+app.get('/putEventAPI', (req, res) => {
+  // app.get('/putEventAPI/:id', (req, res) => {
   const id = req.query.id
-  console.log(`de id GEKREGEN VIA req.query.id in api.putEvent is :${id}`)
-  // console.log(res)
-  console.log(' params id van putEvent  in api.index is  : ' + req.params.id)
+  console.log(`de id GEKREGEN VIA req.query.id in api.putEvent is :${id}`) // via de req.query.id als in de http request ?id=... staat
+  // console.log(res.headers.host)
+  // console.log(res.body)
+  // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
+})
+
+// post event in uitDataBank : maar app.post doesn't work
+app.get('/postEventAPI', (req, res) => {
+  // app.get('/putEventAPI/:id', (req, res) => {
+  // const id = req.query.id
+  // console.log(`de id GEKREGEN VIA req.query.id in api.putEvent is :${id}`) // via de req.query.id als in de http request ?id=... staat
+  // console.log(res.headers.host)
+  // console.log(res.body)
+  // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
+  console.log('in de postEvenAPI express method')
+})
+
+// delete event in uitDataBank : maar app.delelte doesn't work
+app.get('/deleteEventAPI', (req, res) => {
+  // app.get('/putEventAPI/:id', (req, res) => {
+  const id = req.query.id
+  console.log(`de id GEKREGEN VIA req.query.id in api.deleteEvent is :${id}`) // via de req.query.id als in de http request ?id=... staat
+  // console.log(res.headers.host)
+  // console.log(res.body)
+  // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
 })
 
 // Offer endpoint Bram
@@ -76,16 +98,6 @@ app.get('/offer', (req, res) => {
 // // Voorbeeld van een html response met Express (ter illustratie)
 // app.get('/', function (req, res) {
 //   res.sendFile(path.join(__dirname + '/index.html'))
-// })
-// // Antwoord met een lijst van alle gebruikers uit angular
-// app.get('/users', (req, res) => {
-//   db.all('SELECT * from Users', (err, rows) => {
-//     if (err) {
-//       res.send({ error: err })
-//       return
-//     }
-//     res.send(JSON.stringify(rows))
-//   })
 // })
 
 // Movie endpoint

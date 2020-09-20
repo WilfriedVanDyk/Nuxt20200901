@@ -245,8 +245,10 @@ export default {
 
         // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
         // geupdate evenement meegeven in de body MEEGEVEN IN DE BODY
-        fetch(`http://localhost:3000/api/putEvent/?id=${evenement.id}`) // dit niet
-        // fetch('http://localhost:3000/api/putEvent/')
+        fetch(`http://localhost:3000/api/putEventAPI/?id=${evenement.id}`) // via req.query.id in api index
+        // fetch(`http://localhost:3000/api/putEventAPI/${evenement.id}`) // via req.params.id in api.index
+        // fetch('http://localhost:3000/api/putEvent')
+          // .then(res => res.json())
           .then((res) => {
             // geraak niet in deze then...
             console.log(`http://localhost:3000/api/putEvent/?id=${evenement.id}`)

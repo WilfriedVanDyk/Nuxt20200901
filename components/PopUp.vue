@@ -287,6 +287,19 @@ export default {
           // await db.collection('evenementen')
           //   .add(evenement)
             .then(() => {
+              // hoe de id van firebase ophalen !!
+              // fetch(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`) // via req.query.id in api index
+              // fetch(`http://localhost:3000/api/postEventAPI/${evenement.id}`) // via req.params.id in api.index
+              fetch('http://localhost:3000/api/postEventAPI')
+              // .then(res => res.json())
+                .then((res) => {
+                  // geraak niet in deze then...
+                  console.log(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`)
+                  console.log('post response of fetch popup.vue:' + res)
+                  console.log('post met fetch in popup.vue is succesfull')
+                })
+            })
+            .then(() => {
               this.loading = false
               this.dialog = false
               this.$emit('eventAdded')
