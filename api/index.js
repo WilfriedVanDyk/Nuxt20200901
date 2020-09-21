@@ -16,6 +16,11 @@ const APIKEY = 'ed024fbf-2596-4b20-8393-2aac31525cbd'
 // const APIKEYWilfried = '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64'
 // const Authorisation = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9jdWx1ZGItand0LXByb3ZpZGVyLmRldiIsInVpZCI6IjMzOWQxYmNiLTJiYTYtNDQ1NS04N2UzLTA2MjhiZWNhODE2ZSIsIm5pY2siOiJ3aWxmcmllZHZhbmR5ayIsImVtYWlsIjoid2lsZnJpZWR2YW5keWtAZ21haWwuY29tIiwiaWF0IjoxNTk2NjI1OTg2LCJleHAiOjE5MTE5ODU5ODYsIm5iZiI6MTU5NjYyNTk4Nn0.zEqjZsOh9nHlaby33kPrYbB2WA9HtvODRGx3QoJpplBPpmVEKq5GcgGPd_uxp1R3sxca_JW_fdPt4ODWyUbqACoNdcuBiielQv7uAnYC0pp6rsutR3iQg9-nRr5bbxYmHft32dHBjuRA43usMoHZ78LqvaqpMmFoqaI4sSxs-ny6yBAIN8NsyXO30qzkHah-UQs1x739NXwknGvPn5_e-YAOQD4-xvpyW7DuNpGpixAUZWufZwN3KxjNVtpo2FJLha7voLX4tCI9SBSTh-5HZ74FuqP-Zh9BJeZQEXSEh0TOaFqQw65XHuyi6ag3Xhn6LHubObXnoY6uVZyQzqq-jw'
 
+// routing in expres...
+// routing: Route path: /users/:userId/books/:bookId
+// Request URL: http://localhost:3000/users/34/books/8989
+// req.params: { "userId": "34", "bookId": "8989" }
+
 app.use(express.json()) // support json encoded bodies
 module.exports = { path: '/api/', handler: app }
 
@@ -44,18 +49,17 @@ app.get('/getEventUitDataBank', (req, res) => {
     })
 })
 
-// Put event in uitDataBank : maar app.put doesn't work
-app.get('/putEventAPI', (req, res) => {
+// Put event in uitDataBank : app.put works with axios.put in EditEvenement.index._id
+app.put('/putEventAPI', (req, res) => {
   // app.get('/putEventAPI/:id', (req, res) => {
   const id = req.query.id
   console.log(`de id GEKREGEN VIA req.query.id in api.putEvent is :${id}`) // via de req.query.id als in de http request ?id=... staat
-  // console.log(res.headers.host)
-  // console.log(res.body)
+  console.log(req.body) // geeft de juiste body mee!!!
   // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
 })
 
 // post event in uitDataBank : maar app.post doesn't work
-app.get('/postEventAPI', (req, res) => {
+app.post('/postEventAPI', (req, res) => {
   // app.get('/putEventAPI/:id', (req, res) => {
   // const id = req.query.id
   // console.log(`de id GEKREGEN VIA req.query.id in api.putEvent is :${id}`) // via de req.query.id als in de http request ?id=... staat
@@ -66,7 +70,7 @@ app.get('/postEventAPI', (req, res) => {
 })
 
 // delete event in uitDataBank : maar app.delelte doesn't work
-app.get('/deleteEventAPI', (req, res) => {
+app.delete('/deleteEventAPI', (req, res) => {
   // app.get('/putEventAPI/:id', (req, res) => {
   const id = req.query.id
   console.log(`de id GEKREGEN VIA req.query.id in api.deleteEvent is :${id}`) // via de req.query.id als in de http request ?id=... staat

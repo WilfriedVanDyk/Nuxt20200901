@@ -155,7 +155,7 @@ import db from '@/plugins/fb'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'EditEvenement',
@@ -245,16 +245,10 @@ export default {
 
         // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
         // geupdate evenement meegeven in de body MEEGEVEN IN DE BODY
-        fetch(`http://localhost:3000/api/putEventAPI/?id=${evenement.id}`) // via req.query.id in api index
-        // fetch(`http://localhost:3000/api/putEventAPI/${evenement.id}`) // via req.params.id in api.index
-        // fetch('http://localhost:3000/api/putEvent')
-          // .then(res => res.json())
-          .then((res) => {
-            // geraak niet in deze then...
-            console.log(`http://localhost:3000/api/putEvent/?id=${evenement.id}`)
-            console.log('response of fetch pages.editevenement.index.vue:' + res)
-            console.log('put met fetch in index EditEvenement._id.index is succesfull')
-          })
+        axios
+          // .put(`http://localhost:3000/api/putEventAPI/?id=${evenement.id}`, { evenement })
+          .put(`/api/putEventAPI/?id=${evenement.id}`, { evenement })
+          .then(response => (console.log('response is : ' + response))) // deze response gebeurt niet
         // axios
         // .put('https://jsonplaceholder.typicode.com/posts/1', {
         //   body: JSON.stringify({

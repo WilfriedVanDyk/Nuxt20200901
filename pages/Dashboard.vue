@@ -109,7 +109,7 @@
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-// import axios from 'axios'
+import axios from 'axios'
 // import vuexProbeersel from "@/components/vuexProbeersel";
 
 export default {
@@ -168,17 +168,13 @@ export default {
         // remove via firebase
         this.$store.dispatch('deleteEvent', id)
         // hier deleten van het evenement in uitdatabank via express
-        fetch(`http://localhost:3000/api/deleteEventAPI/?id=${id}`) // via req.query.id in api index
-          .then((res) => {
-            // geraak niet in deze then...
-            console.log(`http://localhost:3000/api/putEvent/?id=${id}`)
-            console.log('response of fetch pages.editevenement.index.vue:' + res)
-            console.log('put met fetch in index EditEvenement._id.index is succesfull')
-          })
+        axios
+          .delete(`/api/deleteEventAPI/?id=${id}`)
+          .then(res => (console.log('delete response in dashboard is : ' + res))) // deze response gebeurt niet
           .catch((error) => {
-            console.log(`${error} + delete met fetch in dashboard met errors`)
+            console.log(`${error} + delete met axios in dashboard  met errors`)
           })
-          .finally(() => console.log('put met fetch in dashboard is complete'))
+          .finally(() => console.log('delete met axios in dashboard is complete'))
       }
     },
     EditEvenement (id) {
