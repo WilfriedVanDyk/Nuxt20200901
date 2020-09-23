@@ -26,6 +26,11 @@
     <!-- <Dashboard /> -->
     <!-- <UitEvenement v-show="uitEvenementObject" v-bind="uitEvenementObject" />/ -->
     <UitEvenement :eventprop="uitEvenementObject" />
+
+    <h2 class="mb-5">
+      1. Kies een bioscoop
+    </h2>
+    <VenuePicker class="mb-10" />
   </div>
 </template>
 
@@ -51,7 +56,7 @@ export default {
   methods: {
     getEventUitDataBank () {
       // console.log('button works')
-      fetch('http://localhost:3000/api/offer/?id=3ddf6a0b-76f8-40a9-b7aa-848a09db32f0')
+      fetch('/api/offer/?id=3ddf6a0b-76f8-40a9-b7aa-848a09db32f0')
         .then(res => res.json())
         .then((res) => {
           console.log(res)
@@ -70,7 +75,7 @@ export default {
         })
     },
     getEventTESTUitDataBank () {
-      fetch('http://localhost:3000/api/getEventUitDataBank/?id=687ae349-8a64-4d54-b1a4-d86151adb7ce')
+      fetch('/api/getEventUitDataBank/?id=687ae349-8a64-4d54-b1a4-d86151adb7ce')
         .then(res => res.json())
         .then((res) => {
           console.log('in de index pagina met test')

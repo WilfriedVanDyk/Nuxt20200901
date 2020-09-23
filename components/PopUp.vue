@@ -42,7 +42,7 @@
                 required
                 :rules="inputValidation"
               />
-
+              <!-- <VenuePicker class="mb-10" @naamVanVenue="locatie=$event" /> -->
               <v-menu>
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -183,60 +183,7 @@ export default {
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
       loading: false,
-      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
-      config: {
-        name: 'https://io-test.uitdatabank.be/imports/events/',
-        request: {
-          method: 'POST',
-          header: [
-            {
-              // "Access-Control-Allow-Origin": true of * ???,
-              key: 'Content-Type',
-              name: 'Content-Type',
-              value: 'application/json',
-              type: 'text'
-            },
-            {
-              key: 'Authorization',
-              value:
-                'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9jdWx1ZGItand0LXByb3ZpZGVyLmRldiIsInVpZCI6IjMzOWQxYmNiLTJiYTYtNDQ1NS04N2UzLTA2MjhiZWNhODE2ZSIsIm5pY2siOiJ3aWxmcmllZHZhbmR5ayIsImVtYWlsIjoid2lsZnJpZWR2YW5keWtAZ21haWwuY29tIiwiaWF0IjoxNTk2NjI1OTg2LCJleHAiOjE5MTE5ODU5ODYsIm5iZiI6MTU5NjYyNTk4Nn0.zEqjZsOh9nHlaby33kPrYbB2WA9HtvODRGx3QoJpplBPpmVEKq5GcgGPd_uxp1R3sxca_JW_fdPt4ODWyUbqACoNdcuBiielQv7uAnYC0pp6rsutR3iQg9-nRr5bbxYmHft32dHBjuRA43usMoHZ78LqvaqpMmFoqaI4sSxs-ny6yBAIN8NsyXO30qzkHah-UQs1x739NXwknGvPn5_e-YAOQD4-xvpyW7DuNpGpixAUZWufZwN3KxjNVtpo2FJLha7voLX4tCI9SBSTh-5HZ74FuqP-Zh9BJeZQEXSEh0TOaFqQw65XHuyi6ag3Xhn6LHubObXnoY6uVZyQzqq-jw',
-              type: 'text'
-            },
-            {
-              key: 'x-api-key',
-              value: '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64',
-              type: 'text'
-            },
-            {
-              key: 'domain-model',
-              value: '',
-              type: 'text',
-              disabled: true
-            }
-          ],
-          body: {
-            mode: 'raw',
-            raw:
-              '{\n  "mainLanguage": "nl",\n  "name": {\n  "nl": "Postman collection event Wilfried"\n  },\n  "calendarType": "single",\n  "startDate": "2023-04-01T14:45:00+01:00",\n  "endDate": "2022-04-02T18:45:00+01:00",\n  "terms": [\n    {\n      "id": "0.50.4.0.0"\n    }\n  ],\n  "location": {\n    "@id": "https://io-test.uitdatabank.be/place/b974e083-442a-4b6c-877c-b5e35c9d14f1"\n  }\n}'
-          },
-          url: {
-            raw: 'https://io-test.uitdatabank.be/imports/events/',
-            protocol: 'https',
-            host: ['io-test', 'uitdatabank', 'be'],
-            path: ['imports', 'events', ''],
-            query: [
-              {
-                key: 'domain-model',
-                value: 'Publish',
-                disabled: true
-              }
-            ]
-          },
-          description:
-            ' Wilfried: Create event with only mandatory fields:\n- mainLanguage (nl)\n- name\n- calendar (single, no subevents)\n- terms (eventtype, no theme)\n- location\n\nDocumentation:\nhttps://documentatie.uitdatabank.be/content/json-ld-crud-api/latest/events.html'
-        },
-        response: []
-      }
+      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd']
     }
   },
   computed: {
@@ -288,23 +235,16 @@ export default {
           //   .add(evenement)
             .then(() => {
               axios
-                .post('/api/postEventAPI')
+                .post('/api/postEventAPI') // hier een object evenement meegeven als body { evenement }
                 .then(res => (console.log('post met axios response in dashboard is : ' + res))) // deze response gebeurt niet
                 .catch((error) => {
                   console.log(`${error} + post met axios in dashboard  met errors`)
                 })
                 .finally(() => console.log('post met axios in dashboard is complete'))
-              // // hoe de id van firebase ophalen !!
-              // // fetch(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`) // via req.query.id in api index
-              // // fetch(`http://localhost:3000/api/postEventAPI/${evenement.id}`) // via req.params.id in api.index
+              // hoe de id van firebase ophalen !!
+              // fetch(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`) // via req.query.id in api index
+              // fetch(`http://localhost:3000/api/postEventAPI/${evenement.id}`) // via req.params.id in api.index
               // fetch('http://localhost:3000/api/postEventAPI')
-              // // .then(res => res.json())
-              //   .then((res) => {
-              //     // geraak niet in deze then...
-              //     console.log(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`)
-              //     console.log('post response of fetch popup.vue:' + res)
-              //     console.log('post met fetch in popup.vue is succesfull')
-              //   })
             })
             .then(() => {
               this.loading = false
@@ -335,21 +275,14 @@ export default {
         // axios(this.config)
         //   // op deze manier de volgende error: can't acces property 'protocol' parsed is undefined (zie screenshot)
         //   .then((response) => {
-        //     // eslint-disable-next-line no-console
         //     console.log(response)
-        //     // eslint-disable-next-line no-console
         //     console.log('post met axios succesfull')
         //   })
-        //   // eslint-disable-next-line handle-callback-err
         //   .catch((error) => {
-        //     // eslint-disable-next-line no-console
         //     console.log(error)
-        //     // eslint-disable-next-line no-console
         //     console.log('post met axios errors')
         //   })
-        //   // eslint-disable-next-line no-console
         //   .finally(() => console.log('post met axios complete'))
-        // hier toevoegen aan firestoreDB
       }
     },
     cancel () {
