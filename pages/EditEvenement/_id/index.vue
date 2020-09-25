@@ -34,7 +34,7 @@
             required
             :rules="inputValidation"
           /> -->
-          <VenuePicker class="mb-10" :locatie="evenementToUpdate.locatie" @naamVanVenue="evenementToUpdate.locatie=$event" />
+          <VenuePicker class="mb-10" :locatieprop="evenementToUpdate.locatie" @naamVanVenue="evenementToUpdate.locatie=$event" />
           <v-menu>
             <template v-slot:activator="{ on, attrs }">
               <v-text-field

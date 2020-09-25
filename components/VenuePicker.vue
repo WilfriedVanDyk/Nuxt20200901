@@ -1,10 +1,12 @@
 <template>
   <v-card dark>
     <v-card-text>
-      <span
-        v-if="locatie"
-      >Je selecteerde: <strong>{{ locatie }}</strong></span>
-      <span v-else>'je hebt nog geen locatie geselecteerd'</span>
+      <h2
+        v-if="locatieprop"
+      >
+        Je selecteerde: <strong>{{ locatieprop }}</strong>
+      </h2>
+      <span v-if="!locatie">selecteer een locatie</span>
       <v-autocomplete
         v-model="locatie"
         :items="venues"
@@ -45,7 +47,7 @@
 /* eslint-disable no-console */
 export default {
   props: {
-    locatie: {
+    locatieprop: {
       type: String,
       default: null,
       required: false
@@ -55,7 +57,7 @@ export default {
     descriptionLimit: 60,
     venues: [],
     isLoading: false,
-    // locatie: null,
+    locatie: null,
     search: null
   }),
   watch: {
