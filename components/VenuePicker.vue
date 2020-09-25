@@ -1,43 +1,61 @@
 <template>
   <v-card dark>
     <v-card-text>
+      <span
+        v-if="locatie"
+      >Je selecteerde: <strong>{{ locatie }}</strong></span>
+      <span v-else>'je hebt nog geen locatie geselecteerd'</span>
       <v-autocomplete
-        v-model="model"
+        v-model="locatie"
         :items="venues"
         :loading="isLoading"
         :search-input.sync="search"
+        :value="this.$store.state.evenementToUpdate.locatie"
         color="white"
         hide-no-data
         hide-selected
         item-text="Description"
         item-value="API"
-        label="Bioscoop"
+        label="Locatie ?"
         placeholder="Start typing to Search"
+        prepend-icon="mdi-theater"
         return-object
+        @input="venueEmmit"
       />
-      <span
-        v-if="model"
-      >Je selecteerde: <strong>{{ model }}</strong></span>
+      <!-- <v-select :value="$store.myValue" @input="venueEmmit" /> als ik met vuex store wil werken -->
     </v-card-text>
-    <v-card-actions>
+    <!-- <v-card-actions>
       <v-spacer />
-      <v-btn v-show="model" @click="model = null">
+      <v-btn v-show="locatie" @click="venueEmmit">
+        bevestig selectie
+        <v-icon color="accent" right>
+          mdi-close-circle
+        </v-icon>
+      </v-btn>
+      <v-btn v-show="locatie" @click="locatie = null">
         Verwijder selectie
         <v-icon color="accent" right>
           mdi-close-circle
         </v-icon>
       </v-btn>
-    </v-card-actions>
+    </v-card-actions> -->
   </v-card>
 </template>
 <script>
 /* eslint-disable no-console */
 export default {
+  props: {
+    locatie: {
+      type: String,
+      default: null,
+      required: false
+    }
+  },
   data: () => ({
     descriptionLimit: 60,
     venues: [],
     isLoading: false,
-    model: null,
+    // locatie: null,
     search: null
   }),
   watch: {
@@ -63,8 +81,8 @@ export default {
     }
   },
   methods: {
-    probeersel () {
-      this.$emmit('naamVanVenue', this.model)
+    venueEmmit () {
+      this.$emit('naamVanVenue', this.locatie)
     }
 
   }

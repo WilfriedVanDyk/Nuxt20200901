@@ -110,6 +110,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
+import { mapState } from 'vuex'
 // import vuexProbeersel from "@/components/vuexProbeersel";
 
 export default {
@@ -152,11 +153,16 @@ export default {
       ]
     }
   },
-  computed: {
-    evenementen () {
-      return this.$store.state.evenementen // return this.$store.dispatch("bindEvenementen");
-    }
-  },
+  //   computed: {
+  //   localComputed () { /* ... */ },
+  //   // mix this into the outer object with the object spread operator
+  //   ...mapState({
+  //     // ...
+  //   })
+  // }
+  computed: mapState({
+    evenementen: state => state.evenementen
+  }),
   created () {
     this.$store.dispatch('bindEvenementen')
     // als ik wil werken met parameters:  this.$store.dispatch('evenementen', { id: this.$route.params.assetId });

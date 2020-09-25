@@ -35,14 +35,15 @@
                 required
                 :rules="inputValidation"
               />
-              <v-text-field
+              <!-- <v-text-field
                 v-model="locatie"
                 label="Locatie"
                 prepend-icon="house"
                 required
                 :rules="inputValidation"
-              />
-              <!-- <VenuePicker class="mb-10" @naamVanVenue="locatie=$event" /> -->
+              /> -->
+              <VenuePicker class="mb-10" @naamVanVenue="locatie=$event" />
+              <!-- <VenuePicker class="mb-10" /> -->
               <v-menu>
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field

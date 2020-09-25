@@ -26,11 +26,6 @@
     <!-- <Dashboard /> -->
     <!-- <UitEvenement v-show="uitEvenementObject" v-bind="uitEvenementObject" />/ -->
     <UitEvenement :eventprop="uitEvenementObject" />
-
-    <h2 class="mb-5">
-      1. Kies een bioscoop
-    </h2>
-    <VenuePicker class="mb-10" />
   </div>
 </template>
 

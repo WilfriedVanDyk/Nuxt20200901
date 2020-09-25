@@ -5,21 +5,23 @@ import db from '~/plugins/fb'
 // import firebase from '~/plugins/fb'
 // const db = firebase.firestore()
 
-export const state = () => ({ evenementen: [] })
+export const state = () => ({
+    evenementen: [],
+    evenementToPost: {},
+    evenementToUpdate: {}
+})
 export const mutations = { ...vuexfireMutations }
 export const actions = {
-    // eslint-disable-next-line space-before-function-paren
-    // nuxtServerInit(vuexContext, context) {
-    //     // of ({ commit }, { req })
-    //     if (!process.client) {
-    //         // eslint-disable-next-line no-console
-    //         console.log(context.req.session)
-    //     }
-    // },
+
+    // get all evenementen from fb and inserts the objects into evenementen state (array)
     bindEvenementen: firestoreAction(({ bindFirestoreRef }) => {
         // return the promise returned by `bindFirestoreRef`
         return bindFirestoreRef('evenementen', db.collection('evenementen'))
     }),
+
+    // get one evenement
+    // getEvenement: firestoreAction((context, id) => {
+    // }),
 
     // delete an evenement (works)
     deleteEvent: firestoreAction((context, id) => {

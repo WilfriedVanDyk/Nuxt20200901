@@ -23,18 +23,18 @@
           <v-text-field
             v-model="evenementToUpdate.organisator"
             label="Organisator"
-            prepend-icon="people_alt"
+            prepend-icon="mdi-account"
             required
             :rules="inputValidation"
           />
-          <v-text-field
+          <!-- <v-text-field
             v-model="evenementToUpdate.locatie"
             label="Locatie"
             prepend-icon="house"
             required
             :rules="inputValidation"
-          />
-
+          /> -->
+          <VenuePicker class="mb-10" :locatie="evenementToUpdate.locatie" @naamVanVenue="evenementToUpdate.locatie=$event" />
           <v-menu>
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
