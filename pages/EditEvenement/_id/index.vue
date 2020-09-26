@@ -248,7 +248,7 @@ export default {
         axios
           // .put(`http://localhost:3000/api/putEventAPI/?id=${evenement.id}`, { evenement })
           .put(`/api/putEventAPI/?id=${evenement.id}`, { evenement })
-          .then(response => (console.log('response is : ' + response))) // deze response gebeurt niet
+          .then(res => (console.log('response in editEvenement.index._id. axiosPutEvent is : ' + res.data.json))) // deze response gebeurt niet
         // axios
         // .put('https://jsonplaceholder.typicode.com/posts/1', {
         //   body: JSON.stringify({

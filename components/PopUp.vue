@@ -184,7 +184,24 @@ export default {
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
       loading: false,
-      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd']
+      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
+      jsonLdCorneel: {
+        mainLanguage: 'nl',
+        name: {
+          nl: 'Postman collection event'
+        },
+        calendarType: 'single',
+        startDate: '2022-04-01T14:45:00+01:00',
+        endDate: '2022-04-02T18:45:00+01:00',
+        terms: [
+          {
+            id: '0.50.4.0.0'
+          }
+        ],
+        location: {
+          '@id': 'https://io-test.uitdatabank.be/place/b974e083-442a-4b6c-877c-b5e35c9d14f1'
+        }
+      }
     }
   },
   computed: {
@@ -236,16 +253,18 @@ export default {
           //   .add(evenement)
             .then(() => {
               axios
-                .post('/api/postEventAPI') // hier een object evenement meegeven als body { evenement }
-                .then(res => (console.log('post met axios response in dashboard is : ' + res))) // deze response gebeurt niet
+                // .post('/api/postEventAPI', { evenement }) // hier een object evenement meegeven als body { evenement }
+                .post('/api/postEventAPI', this.jsonLdCorneel) // hier een object evenement meegeven als body { evenement }
+                .then(console.log('een respons'))
+                .then(res => (console.log(res.data))) // deze response gebeurt niet
                 .catch((error) => {
-                  console.log(`${error} + post met axios in dashboard  met errors`)
+                  console.log(`${error} + post met axios in popUp  met errors`)
                 })
-                .finally(() => console.log('post met axios in dashboard is complete'))
-              // hoe de id van firebase ophalen !!
+                .finally(() => console.log('post met axios in PopUp is complete'))
+
+              // hoe de id van firebase ophalen !! en id van UitDataBank opslaan in Firebase
               // fetch(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`) // via req.query.id in api index
               // fetch(`http://localhost:3000/api/postEventAPI/${evenement.id}`) // via req.params.id in api.index
-              // fetch('http://localhost:3000/api/postEventAPI')
             })
             .then(() => {
               this.loading = false
@@ -268,22 +287,6 @@ export default {
         //     userId: 1,
         //   },
         // })
-
-        // hier posten van het evenement naar uitdatabank
-        // op deze manier de volgende error: CORS header 'Access-Control-Allow-Origin' does not match 'null'(zie screenshot)
-        // axios
-        // .post("https://io-test.uitdatabank.be/imports/events/", this.config)
-        // axios(this.config)
-        //   // op deze manier de volgende error: can't acces property 'protocol' parsed is undefined (zie screenshot)
-        //   .then((response) => {
-        //     console.log(response)
-        //     console.log('post met axios succesfull')
-        //   })
-        //   .catch((error) => {
-        //     console.log(error)
-        //     console.log('post met axios errors')
-        //   })
-        //   .finally(() => console.log('post met axios complete'))
       }
     },
     cancel () {
