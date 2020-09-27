@@ -159,9 +159,7 @@
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-// import db from '@/plugins/fb'
 import axios from 'axios'
-// const axios = require('axios').default
 
 export default {
   name: 'PopUp',
@@ -184,24 +182,24 @@ export default {
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
       loading: false,
-      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
-      jsonLdCorneel: {
-        mainLanguage: 'nl',
-        name: {
-          nl: 'Postman collection event'
-        },
-        calendarType: 'single',
-        startDate: '2022-04-01T14:45:00+01:00',
-        endDate: '2022-04-02T18:45:00+01:00',
-        terms: [
-          {
-            id: '0.50.4.0.0'
-          }
-        ],
-        location: {
-          '@id': 'https://io-test.uitdatabank.be/place/b974e083-442a-4b6c-877c-b5e35c9d14f1'
-        }
-      }
+      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd']
+      // jsonLdCorneel: {
+      //   mainLanguage: 'nl',
+      //   name: {
+      //     nl: 'Postman collection event'
+      //   },
+      //   calendarType: 'single',
+      //   startDate: '2022-04-01T14:45:00+01:00',
+      //   endDate: '2022-04-02T18:45:00+01:00',
+      //   terms: [
+      //     {
+      //       id: '0.50.4.0.0'
+      //     }
+      //   ],
+      //   location: {
+      //     '@id': 'https://io-test.uitdatabank.be/place/b99cda5f-9101-402b-83e4-109299b7aaee'
+      //   }
+      // }
     }
   },
   computed: {
@@ -254,7 +252,7 @@ export default {
             .then(() => {
               axios
                 // .post('/api/postEventAPI', { evenement }) // hier een object evenement meegeven als body { evenement }
-                .post('/api/postEventAPI', this.jsonLdCorneel) // hier een object evenement meegeven als body { evenement }
+                .post('/api/postEventAPI', evenement) // hier een object evenement meegeven als body { evenement }
                 .then(console.log('een respons'))
                 .then(res => (console.log(res.data))) // deze response gebeurt niet
                 .catch((error) => {

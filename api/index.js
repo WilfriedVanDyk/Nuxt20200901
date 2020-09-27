@@ -4,7 +4,6 @@ const express = require('express')
 const app = express()
 const axios = require('axios')
 
-// welke key is dit: van expres of van uitdatabank ?
 const APIKEY = 'ed024fbf-2596-4b20-8393-2aac31525cbd'
 const APIKEYWilfried = '62c5b61b-46e8-4bc4-8975-d9e06cc5bc64'
 const JWT = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9jdWx1ZGItand0LXByb3ZpZGVyLmRldiIsInVpZCI6IjMzOWQxYmNiLTJiYTYtNDQ1NS04N2UzLTA2MjhiZWNhODE2ZSIsIm5pY2siOiJ3aWxmcmllZHZhbmR5ayIsImVtYWlsIjoid2lsZnJpZWR2YW5keWtAZ21haWwuY29tIiwiaWF0IjoxNTk2NjI1OTg2LCJleHAiOjE5MTE5ODU5ODYsIm5iZiI6MTU5NjYyNTk4Nn0.zEqjZsOh9nHlaby33kPrYbB2WA9HtvODRGx3QoJpplBPpmVEKq5GcgGPd_uxp1R3sxca_JW_fdPt4ODWyUbqACoNdcuBiielQv7uAnYC0pp6rsutR3iQg9-nRr5bbxYmHft32dHBjuRA43usMoHZ78LqvaqpMmFoqaI4sSxs-ny6yBAIN8NsyXO30qzkHah-UQs1x739NXwknGvPn5_e-YAOQD4-xvpyW7DuNpGpixAUZWufZwN3KxjNVtpo2FJLha7voLX4tCI9SBSTh-5HZ74FuqP-Zh9BJeZQEXSEh0TOaFqQw65XHuyi6ag3Xhn6LHubObXnoY6uVZyQzqq-jw'
@@ -29,11 +28,46 @@ app.post('/postEventAPI', (req, res) => {
   // req.header('naamVanHeader') // toevoegen van een header
   console.log('in de postEventAPI: body ?')
   console.log(req.body)
-  console.log('in de postEvenAPI express method')
-  const evenementVoorUitDatabank = req.body
+  // console.log(req.body.startUur)
+
+  // const evenementVoorUitDatabank = req.body
+
+  // const evenement = {
+  //   evenement: this.evenement,
+  //   type: this.type,
+  //   organisator: this.organisator,
+  //   locatie: this.locatie,
+  //   datum: this.datum, // format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
+  //   startUur: this.startUur,
+  //   eindUur: this.eindUur,
+  //   status: this.status,
+  //   beschrijving: this.beschrijving
+  // }
+  console.log('datum met uur en min ?: ')
+  console.log(req.body.datum)
+  const jsonLdCorneel = {
+    mainLanguage: 'nl',
+    name: {
+      nl: req.body.evenement
+    },
+    calendarType: 'single',
+    startDate: '2022-04-01T14:45:00+01:00',
+    endDate: '2022-04-02T18:45:00+01:00',
+    terms: [
+      {
+        id: '0.50.4.0.0'
+      }
+    ],
+    location: {
+      '@id': 'https://io-test.uitdatabank.be/place/b99cda5f-9101-402b-83e4-109299b7aaee'
+    }
+  }
+  // eslint-disable-next-line quotes
+  console.log('jsonLdCorneel: ')
+  console.log(jsonLdCorneel)
   axios
     .post(
-      'https://io-test.uitdatabank.be/imports/events/', evenementVoorUitDatabank, {
+      'https://io-test.uitdatabank.be/imports/events/', jsonLdCorneel, {
       headers: {
         'x-api-key': APIKEYWilfried,
         Authorization: `${JWT}`

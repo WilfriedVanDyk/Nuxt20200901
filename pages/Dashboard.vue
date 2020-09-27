@@ -46,7 +46,7 @@
             </h3>
           </template>
           <template v-slot:item.datum="{ item }">
-            {{ formattedDate(item.datum) }}
+            {{ item.datum }}
           </template>
           <template v-slot:item.status="{ item }">
             <v-chip small :class="`${item.status} white--text caption`">
@@ -106,9 +106,10 @@
 <script>
 /* eslint-disable no-console */
 // import db from '@/plugins/fb'
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
-import { nl } from 'date-fns/locale'
+// import { format, parseISO } from 'date-fns'
+// import format from 'date-fns/format'
+// import parseISO from 'date-fns/parseISO'
+// import { nl } from 'date-fns/locale'
 import axios from 'axios'
 import { mapState } from 'vuex'
 // import vuexProbeersel from "@/components/vuexProbeersel";
@@ -155,6 +156,11 @@ export default {
   },
   //   computed: {
   //   localComputed () { /* ... */ },
+
+  // formattedDate (dat) {
+  //   return dat ? format(parseISO(dat), 'dd MMMM yyyy', { locale: nl }) : ''
+  // }
+
   //   // mix this into the outer object with the object spread operator
   //   ...mapState({
   //     // ...
@@ -186,9 +192,6 @@ export default {
     EditEvenement (id) {
       // console.log(id)
       this.$router.push({ path: `/EditEvenement/${id}` })
-    },
-    formattedDate (dat) {
-      return dat ? format(parseISO(dat), 'dd MMMM yyyy', { locale: nl }) : ''
     }
   }
 }
