@@ -23,36 +23,48 @@ app.get('/hello', (req, res) => {
   res.send('world')
 })
 
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // post event in uitDataBank : app.post works with axios.post in popup.vue component
 app.post('/postEventAPI', (req, res) => {
-  // req.header('naamVanHeader') // toevoegen van een header
   console.log('in de postEventAPI: body ?')
-  console.log(req.body)
-  // console.log(req.body.startUur)
-
-  // const evenementVoorUitDatabank = req.body
+  // console.log(req.body)
+  console.log(req.body.locatie)
+  axios
+    .get(
+      `https://io-test.uitdatabank.be/places/?embed=true&q=name.nl:("Hogeschool Gent KASK - Campus Bijloke")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9000`
+      // `https://search.uitdatabank.be/places/?embed=true&q=location.name:"${req.body.locatie}&apiKey=${APIKEY}"`
+    )
+    .then((response) => {
+      console.log('dit is de id van de locatie: ')
+      console.log(response.data.id)
+    })
+    .catch((err) => {
+      console.log('error in search voor id van locatie: ')
+      console.log('err', err)
+    })
 
   // const evenement = {
   //   evenement: this.evenement,
   //   type: this.type,
   //   organisator: this.organisator,
   //   locatie: this.locatie,
-  //   datum: this.datum, // format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
+  //   datum: this.datum,
   //   startUur: this.startUur,
   //   eindUur: this.eindUur,
   //   status: this.status,
   //   beschrijving: this.beschrijving
   // }
-  console.log('datum met uur en min ?: ')
-  console.log(req.body.datum)
+  const startDateTime = `${req.body.datum}T${req.body.startUur}:00+01:00`
+  const eindDateTime = `${req.body.datum}T${req.body.eindUur}:00+01:00`
   const jsonLdCorneel = {
     mainLanguage: 'nl',
     name: {
       nl: req.body.evenement
     },
     calendarType: 'single',
-    startDate: '2022-04-01T14:45:00+01:00',
-    endDate: '2022-04-02T18:45:00+01:00',
+    // startDate: '2022-04-01T14:45:00+01:00',
+    startDate: startDateTime,
+    endDate: eindDateTime,
     terms: [
       {
         id: '0.50.4.0.0'
@@ -63,8 +75,8 @@ app.post('/postEventAPI', (req, res) => {
     }
   }
   // eslint-disable-next-line quotes
-  console.log('jsonLdCorneel: ')
-  console.log(jsonLdCorneel)
+  // console.log('jsonLdCorneel: ')
+  // console.log(jsonLdCorneel)
   axios
     .post(
       'https://io-test.uitdatabank.be/imports/events/', jsonLdCorneel, {
@@ -90,6 +102,7 @@ app.post('/postEventAPI', (req, res) => {
   // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
 })
 
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Put event in uitDataBank : app.put works with axios.put in EditEvenement.index._id
 app.put('/putEventAPI', (req, res) => {
   // req.header('User-Agent') // toevoegen van een header
@@ -113,6 +126,7 @@ app.put('/putEventAPI', (req, res) => {
   //   })
 })
 
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // delete event in uitDataBank: app.delete works with axios.delete in dashboard
 app.delete('/deleteEventAPI', (req, res) => {
   // req.header('User-Agent') // toevoegen van een header

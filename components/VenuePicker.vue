@@ -26,21 +26,6 @@
       />
       <!-- <v-select :value="$store.myValue" @input="venueEmmit" /> als ik met vuex store wil werken -->
     </v-card-text>
-    <!-- <v-card-actions>
-      <v-spacer />
-      <v-btn v-show="locatie" @click="venueEmmit">
-        bevestig selectie
-        <v-icon color="accent" right>
-          mdi-close-circle
-        </v-icon>
-      </v-btn>
-      <v-btn v-show="locatie" @click="locatie = null">
-        Verwijder selectie
-        <v-icon color="accent" right>
-          mdi-close-circle
-        </v-icon>
-      </v-btn>
-    </v-card-actions> -->
   </v-card>
 </template>
 <script>

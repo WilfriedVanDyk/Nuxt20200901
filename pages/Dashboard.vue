@@ -107,9 +107,9 @@
 /* eslint-disable no-console */
 // import db from '@/plugins/fb'
 // import { format, parseISO } from 'date-fns'
-// import format from 'date-fns/format'
-// import parseISO from 'date-fns/parseISO'
-// import { nl } from 'date-fns/locale'
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
+import { nl } from 'date-fns/locale'
 import axios from 'axios'
 import { mapState } from 'vuex'
 // import vuexProbeersel from "@/components/vuexProbeersel";
@@ -119,6 +119,7 @@ export default {
 
   data () {
     return {
+      // format,
       dialog: false,
       search: '',
       headers: [
@@ -128,6 +129,7 @@ export default {
           value: 'evenement',
           groupable: false
         },
+        { text: 'Wat?', value: 'type' },
         { text: 'Organisator', value: 'organisator' },
         { text: 'Datum', value: 'datum', align: 'left' },
         {
@@ -166,9 +168,18 @@ export default {
   //     // ...
   //   })
   // }
-  computed: mapState({
-    evenementen: state => state.evenementen
-  }),
+
+  // computed: mapState({
+  //   evenementen: state => state.evenementen
+  // })
+  computed: {
+    formattedDate (dat) {
+      return dat ? format(parseISO(dat), 'dd MMMM yyyy', { locale: nl }) : ''
+    },
+    ...mapState({
+      evenementen: state => state.evenementen
+    })
+  },
   created () {
     this.$store.dispatch('bindEvenementen')
     // als ik wil werken met parameters:  this.$store.dispatch('evenementen', { id: this.$route.params.assetId });
