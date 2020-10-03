@@ -26,22 +26,25 @@ app.get('/hello', (req, res) => {
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // post event in uitDataBank : app.post works with axios.post in popup.vue component
 app.post('/postEventAPI', (req, res) => {
-  console.log('in de postEventAPI: body ?')
+  // console.log('in de postEventAPI: body ?')
   // console.log(req.body)
-  console.log(req.body.locatie)
-  axios
-    .get(
-      `https://io-test.uitdatabank.be/places/?embed=true&q=name.nl:("Hogeschool Gent KASK - Campus Bijloke")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9000`
-      // `https://search.uitdatabank.be/places/?embed=true&q=location.name:"${req.body.locatie}&apiKey=${APIKEY}"`
-    )
-    .then((response) => {
-      console.log('dit is de id van de locatie: ')
-      console.log(response.data.id)
-    })
-    .catch((err) => {
-      console.log('error in search voor id van locatie: ')
-      console.log('err', err)
-    })
+
+  // hier het zoeken naar de id van de locatie
+  // console.log(req.body.locatie)
+  // axios
+  //   .get(
+  //     // `https://io-test.uitdatabank.be/places/?embed=true&q=name.nl:("Hogeschool Gent KASK - Campus Bijloke")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9000`
+  //     `https://search-test.uitdatabank.be/places/?embed=true&q=name.nl:("Hogeschool Gent KASK - Campus Bijloke")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9000`
+  //     // `https://search.uitdatabank.be/places/?embed=true&q=location.name:"${req.body.locatie}&apiKey=${APIKEY}"`
+  //   )
+  //   .then((response) => {
+  //     console.log('dit is de id van de locatie: ')
+  //     console.log(response.data)
+  //   })
+  //   .catch((err) => {
+  //     console.log('error in search voor id van locatie: ')
+  //     console.log('err', err)
+  //   })
 
   // const evenement = {
   //   evenement: this.evenement,
@@ -74,9 +77,7 @@ app.post('/postEventAPI', (req, res) => {
       '@id': 'https://io-test.uitdatabank.be/place/b99cda5f-9101-402b-83e4-109299b7aaee'
     }
   }
-  // eslint-disable-next-line quotes
-  // console.log('jsonLdCorneel: ')
-  // console.log(jsonLdCorneel)
+
   axios
     .post(
       'https://io-test.uitdatabank.be/imports/events/', jsonLdCorneel, {
@@ -86,6 +87,7 @@ app.post('/postEventAPI', (req, res) => {
       }
     }
     )
+    // .then(console.log('in de axios post van Uitdb'))
     .then((response) => {
       res.json(response.data)
       // const data = res.json(response)
@@ -129,11 +131,14 @@ app.put('/putEventAPI', (req, res) => {
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // delete event in uitDataBank: app.delete works with axios.delete in dashboard
 app.delete('/deleteEventAPI', (req, res) => {
-  // req.header('User-Agent') // toevoegen van een header
-  const id = req.query.id
-  console.log(`de id GEKREGEN VIA req.query.id in api.deleteEvent is :${id}`) // via de req.query.id als in de http request ?id=... staat
-  // console.log(res.headers.host)
-  // console.log(res.body)
+  const idUiTdatabank = req.query.idUiTdatabank
+  // console.log(`de id GEKREGEN VIA req.query.idUiTdatabank in api.deleteEvent is :${idUiTdatabank}`) // via de req.query.id als in de http request ?id=... staat
+  axios.delete(`https://io-test.uitdatabank.be/events/${idUiTdatabank}`, {
+    headers: {
+      'x-api-key': APIKEYWilfried,
+      Authorization: `${JWT}`
+    }
+  })
   // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
 })
 /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

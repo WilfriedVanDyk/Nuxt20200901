@@ -43,6 +43,8 @@ export const actions = {
         // we first create a copy that excludes `id`
         // this exclusion is automatic because `id` is non-enumerable
         const id = evenement.id
+        console.log(id)
+        console.log(evenement.idUiTdatabank)
         const evenementNoId = { ...evenement }
         // return the promise so we can await this action
         return db.collection('evenementen')
@@ -59,6 +61,8 @@ export const actions = {
 
     // posting an event
     postEvent: firestoreAction((context, evenement) => {
+        console.log('posteventIdUitdb is: ')
+        console.log(evenement)
         // return the promise so we can await the write
         return db.collection('evenementen').add(evenement)
             .then(() => {

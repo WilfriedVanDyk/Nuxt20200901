@@ -73,7 +73,7 @@
                 mdi-pencil
               </v-icon>
             </v-chip>
-            <v-chip color="black" class="my-1" small @click="deleteItem(item.id)">
+            <v-chip color="black" class="my-1" small @click="deleteItem(item.id, item.idUiTdatabank)">
               <span>verwijderen</span>
               <v-icon right small>
                 mdi-delete
@@ -185,19 +185,21 @@ export default {
     // als ik wil werken met parameters:  this.$store.dispatch('evenementen', { id: this.$route.params.assetId });
   },
   methods: {
-    deleteItem (id) {
-      // console.log("het deleted item id is:  " + id);
+    deleteItem (id, idUiTdatabank) {
+      // console.log('het deleted item id is:  ' + id)
+      // console.log('het deleted item id is:  ' + idUiTdatabank)
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-        // remove via firebase
-        this.$store.dispatch('deleteEvent', id)
         // hier deleten van het evenement in uitdatabank via express
         axios
-          .delete(`/api/deleteEventAPI/?id=${id}`)
-          .then(res => (console.log('delete response in dashboard is : ' + res))) // deze response gebeurt niet
+          .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
+          // .then(res => (console.log('delete response in dashboard is : ' + res)))
           .catch((error) => {
             console.log(`${error} + delete met axios in dashboard  met errors`)
           })
           .finally(() => console.log('delete met axios in dashboard is complete'))
+
+        // remove via firebase
+        this.$store.dispatch('deleteEvent', id)
       }
     },
     EditEvenement (id) {

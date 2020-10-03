@@ -192,28 +192,8 @@ export default {
         : ''
     }
   },
-  // watch: {
-  //   search () {
-  //     // Items have already been loaded
-  //     if (this.venues.length > 0) { return }
-
-  //     // Items have already been requested
-  //     if (this.isLoading) { return }
-
-  //     this.isLoading = true
-  //     // Lazily load input items
-  //     fetch('/api/venues')
-  //       .then(res => res.json())
-  //       .then((res) => {
-  //         const { totalItems, member } = res
-  //         this.count = totalItems
-  //         this.venues = member.map(location => location.name.nl)
-  //       })
-  //       .finally(() => (this.isLoading = false))
-  //   }
-  // },
   methods: {
-    async submit () {
+    submit () {
       if (this.$refs.form.validate()) {
         this.loading = true
         const evenement = {
@@ -221,52 +201,41 @@ export default {
           type: this.type,
           organisator: this.organisator,
           locatie: this.locatie,
-          datum: this.datum, // format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
+          datum: this.datum,
           startUur: this.startUur,
           eindUur: this.eindUur,
           status: this.status,
-          beschrijving: this.beschrijving
+          beschrijving: this.beschrijving,
+          idUiTdatabank: ''
         }
-        try {
-          // hier de express index POST aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
-          await this.$store.dispatch('postEvent', evenement)
-          // await db.collection('evenementen')
-          //   .add(evenement)
-            .then(() => {
-              axios
-                .post('/api/postEventAPI', evenement) // hier een object evenement meegeven als body { evenement }
-                .then(console.log('een respons'))
-                .then(res => (console.log(res.data))) // deze response gebeurt niet
-                .catch((error) => {
-                  console.log(`${error} + post met axios in popUp  met errors`)
-                })
-                .finally(() => console.log('post met axios in PopUp is complete'))
+        axios
+          .post('/api/postEventAPI', evenement) // hier een object evenement meegeven als body { evenement }
+          .then(console.log('een respons'))
+          .then((res) => {
+            evenement.idUiTdatabank = res.data.id
+            console.log('voor de dispatch in het postevent')
+            this.$store.dispatch('postEvent', evenement)
+            console.log('na de dispatch in het postevent')
+            // console.log(res.data.id)
+            // console.log(evenement)
+          })
+          .then(() => {
+            this.loading = false
+            this.dialog = false
+            this.$emit('eventAdded')
+            this.$refs.form.reset()
+            this.$router.push({ name: 'Dashboard' })
+          })
+          .catch((error) => {
+            console.log(`${error} + post met axios in popUp  met errors`)
+          })
+          .finally(() => console.log('post met axios in PopUp is complete'))
 
-              // hoe de id van firebase ophalen !! en id van UitDataBank opslaan in Firebase
-              // fetch(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`) // via req.query.id in api index
-              // fetch(`http://localhost:3000/api/postEventAPI/${evenement.id}`) // via req.params.id in api.index
-            })
-            .then(() => {
-              this.loading = false
-              this.dialog = false
-              this.$emit('eventAdded')
-              this.$refs.form.reset()
-            })
-        } catch (e) {
-          console.log(e)
-        }
-        this.$router.push({ name: 'Dashboard' })
+        // hoe de id van firebase ophalen !! en id van UitDataBank opslaan in Firebase
+        // fetch(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`) // via req.query.id in api index
+        // fetch(`http://localhost:3000/api/postEventAPI/${evenement.id}`) // via req.params.id in api.index
 
-        // deze post werkt wel naar jsonplaceholder
-        // axios({
-        //   method: "post",
-        //   url: "https://jsonplaceholder.typicode.com/posts",
-        //   data: {
-        //     title: "foo",
-        //     body: "bar",
-        //     userId: 1,
-        //   },
-        // })
+        // this.$router.push({ name: 'Dashboard' })
       }
     },
     cancel () {
