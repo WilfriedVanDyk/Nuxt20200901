@@ -6,9 +6,7 @@ import db from '~/plugins/fb'
 // const db = firebase.firestore()
 
 export const state = () => ({
-    evenementen: [],
-    evenementToPost: {},
-    evenementToUpdate: {}
+    evenementen: []
 })
 export const mutations = { ...vuexfireMutations }
 export const actions = {

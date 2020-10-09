@@ -31,20 +31,6 @@ app.post('/postEventAPI', (req, res) => {
 
   // hier het zoeken naar de id van de locatie
   // console.log(req.body.locatie)
-  // axios
-  //   .get(
-  //     // `https://io-test.uitdatabank.be/places/?embed=true&q=name.nl:("Hogeschool Gent KASK - Campus Bijloke")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9000`
-  //     `https://search-test.uitdatabank.be/places/?embed=true&q=name.nl:("Hogeschool Gent KASK - Campus Bijloke")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9000`
-  //     // `https://search.uitdatabank.be/places/?embed=true&q=location.name:"${req.body.locatie}&apiKey=${APIKEY}"`
-  //   )
-  //   .then((response) => {
-  //     console.log('dit is de id van de locatie: ')
-  //     console.log(response.data)
-  //   })
-  //   .catch((err) => {
-  //     console.log('error in search voor id van locatie: ')
-  //     console.log('err', err)
-  //   })
 
   // const evenement = {
   //   evenement: this.evenement,

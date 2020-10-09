@@ -156,19 +156,6 @@ export default {
       ]
     }
   },
-  //   computed: {
-  //   localComputed () { /* ... */ },
-
-  // formattedDate (dat) {
-  //   return dat ? format(parseISO(dat), 'dd MMMM yyyy', { locale: nl }) : ''
-  // }
-
-  //   // mix this into the outer object with the object spread operator
-  //   ...mapState({
-  //     // ...
-  //   })
-  // }
-
   // computed: mapState({
   //   evenementen: state => state.evenementen
   // })
