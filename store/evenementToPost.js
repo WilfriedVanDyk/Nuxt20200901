@@ -23,7 +23,7 @@ export const state = () => ({
             '@id': ''
         }
     },
-    IdUiTdbEvenement: '', // waar wordt dit gebruikt ?????
+    IdUiTdbEvenement: '', // dit wordt op dit moment niet gebruikt !!!!
     venueNaam: ''
 })
 export const getters = {

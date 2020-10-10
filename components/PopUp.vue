@@ -205,7 +205,6 @@ export default {
           evenement: this.evenement,
           type: this.type,
           organisator: this.organisator,
-          // locatie: this.getVenueNaam,
           locatie: this.locatie,
           datum: this.datum,
           startUur: this.startUur,
@@ -215,6 +214,7 @@ export default {
           idUiTdatabank: ''
         }
 
+        // console.log('evenement in popUp.vue: ', evenement)
         this.addName(evenement)
         this.addStartDate(evenement)
         this.addEndDate(evenement)
@@ -225,12 +225,12 @@ export default {
           .then(console.log('een respons'))
           .then((res) => {
             evenement.idUiTdatabank = res.data.id
+            this.postEvenementToUiTdatabank(evenement.idUiTdatabank)
             evenement.locatie = this.getVenueNaam
-            console.log('voor de dispatch in het postevent')
+            // console.log('voor de dispatch in het postevent')
             this.$store.dispatch('postEvent', evenement)
-            console.log('na de dispatch in het postevent')
+            // console.log('na de dispatch in het postevent')
             // console.log(res.data.id)
-            // console.log(evenement)
           })
           .then(() => {
             this.loading = false
@@ -243,12 +243,8 @@ export default {
             console.log(`${error} + post met axios in popUp  met errors`)
           })
           .finally(() => console.log('post met axios in PopUp is complete'))
-
-        // hoe de id van firebase ophalen !! en id van UitDataBank opslaan in Firebase
         // fetch(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`) // via req.query.id in api index
         // fetch(`http://localhost:3000/api/postEventAPI/${evenement.id}`) // via req.params.id in api.index
-
-        // this.$router.push({ name: 'Dashboard' })
       }
     },
     cancel () {
