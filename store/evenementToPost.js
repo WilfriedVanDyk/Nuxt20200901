@@ -12,7 +12,6 @@ export const state = () => ({
             nl: ''
         },
         calendarType: 'single',
-        // startDate: '2022-04-01T14:45:00+01:00',
         startDate: '',
         endDate: '',
         terms: [
@@ -24,12 +23,20 @@ export const state = () => ({
             '@id': ''
         }
     },
-    IdUiTdbEvenement: ''
+    IdUiTdbEvenement: '', // waar wordt dit gebruikt ?????
+    venueNaam: ''
 })
-export const getters = {}
+export const getters = {
+    getEvenementToPost(state) {
+        return state.evenementToPost
+    },
+    getVenueNaam(state) {
+        return state.venueNaam
+    }
+}
 export const mutations = {
-    addVenue(state, venue) {
-        state.evenementToPost.location['@id'] = venue
+    addVenue(state, venueId) {
+        state.evenementToPost.location['@id'] = venueId
         console.log('evenenemtToPost in mutation:', state.evenementToPost)
     },
     addName(state, evenement) {
@@ -42,11 +49,16 @@ export const mutations = {
     addEndDate(state, evenement) {
         const eindDateTime = `${evenement.datum}T${evenement.eindUur}:00+01:00`
         state.evenementToPost.endDate = eindDateTime
+    },
+    addVenueName(state, locatieNaam) {
+        state.venueNaam = locatieNaam
     }
 }
 export const actions = {
     findVenueId(context, venue) {
         console.log('venue uit de findVenueId store action: ', venue)
+        context.commit('addVenueName', venue)
+
         axios
             .get(
                 `https://search-test.uitdatabank.be/places/?embed=true&q=name.nl:("${venue}")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9000`
@@ -62,7 +74,8 @@ export const actions = {
     },
     // hier de post naar UiTdatabank maken.... ?
     postEvenementToUiTdatabank() {
-        console.log('store evenementToPost state is: ', state) // hier gaat het fout
+        console.log('store evenementToPost state is: ', state.evenementToPost)
+        console.log(state.evenementToPost)
         axios
             .post(
                 'https://io-test.uitdatabank.be/imports/events/', state.evenementToPost, {

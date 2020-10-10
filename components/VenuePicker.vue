@@ -22,7 +22,7 @@
         placeholder="Start typing to Search"
         prepend-icon="mdi-theater"
         return-object
-        @input="venueEmmit"
+        @input="venueToStore"
       />
       <!-- <v-select :value="$store.myValue" @input="venueEmmit" /> als ik met vuex store wil werken -->
     </v-card-text>
@@ -70,8 +70,13 @@ export default {
   methods: {
     venueEmmit () {
       this.$emit('naamVanVenue', this.locatie)
+    },
+    venueToStore () {
+      if (this.locatie !== undefined) {
+        console.log('in de venueStore van de venuePicker: ', this.locatie)
+        this.$store.dispatch('evenementToPost/findVenueId', this.locatie)
+      }
     }
-
   }
 }
 </script>

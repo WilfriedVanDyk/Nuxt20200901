@@ -42,8 +42,8 @@
                 required
                 :rules="inputValidation"
               /> -->
-              <VenuePicker class="mb-10" @naamVanVenue="locatie=$event" />
-              <!-- <VenuePicker class="mb-10" /> -->
+              <!-- <VenuePicker class="mb-10" @naamVanVenue="locatie=$event" /> -->
+              <VenuePicker class="mb-10" />
               <v-menu>
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -160,6 +160,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'PopUp',
@@ -190,7 +191,11 @@ export default {
       return this.datum
         ? format(parseISO(this.datum), 'do MMMM yyyy', { locale: nl })
         : ''
-    }
+    },
+    ...mapGetters({
+      getEvenementToPost: 'evenementToPost/getEvenementToPost',
+      getVenueNaam: 'evenementToPost/getVenueNaam'
+    })
   },
   methods: {
     submit () {
@@ -200,6 +205,7 @@ export default {
           evenement: this.evenement,
           type: this.type,
           organisator: this.organisator,
+          // locatie: this.getVenueNaam,
           locatie: this.locatie,
           datum: this.datum,
           startUur: this.startUur,
@@ -208,11 +214,18 @@ export default {
           beschrijving: this.beschrijving,
           idUiTdatabank: ''
         }
+
+        this.addName(evenement)
+        this.addStartDate(evenement)
+        this.addEndDate(evenement)
+        console.log('in popup method submit: de jsonld opgeslaan in store evenementToPost: ', this.getEvenementToPost)
+
         axios
-          .post('/api/postEventAPI', evenement) // hier een object evenement meegeven als body { evenement }
+          .post('/api/postEventAPI', this.getEvenementToPost) // hier een object evenement meegeven als body { evenement }
           .then(console.log('een respons'))
           .then((res) => {
             evenement.idUiTdatabank = res.data.id
+            evenement.locatie = this.getVenueNaam
             console.log('voor de dispatch in het postevent')
             this.$store.dispatch('postEvent', evenement)
             console.log('na de dispatch in het postevent')
@@ -242,7 +255,15 @@ export default {
       this.dialog = false
       this.$refs.form.reset()
       this.$router.push({ name: 'Dashboard' })
-    }
+    },
+    ...mapMutations({
+      addName: 'evenementToPost/addName',
+      addStartDate: 'evenementToPost/addStartDate',
+      addEndDate: 'evenementToPost/addEndDate'
+    }),
+    ...mapActions({
+      postEvenementToUiTdatabank: 'evenementToPost/postEvenementToUiTdatabank' // deze actie wordt voorlopig niet gebruikt ....
+    })
   }
 }
 </script>

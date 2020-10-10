@@ -27,7 +27,7 @@ app.get('/hello', (req, res) => {
 // post event in uitDataBank : app.post works with axios.post in popup.vue component
 app.post('/postEventAPI', (req, res) => {
   // console.log('in de postEventAPI: body ?')
-  // console.log(req.body)
+  console.log('in de api index app.post postEventAPI', req.body)
 
   // hier het zoeken naar de id van de locatie
   // console.log(req.body.locatie)
@@ -43,30 +43,31 @@ app.post('/postEventAPI', (req, res) => {
   //   status: this.status,
   //   beschrijving: this.beschrijving
   // }
-  const startDateTime = `${req.body.datum}T${req.body.startUur}:00+01:00`
-  const eindDateTime = `${req.body.datum}T${req.body.eindUur}:00+01:00`
-  const jsonLdCorneel = {
-    mainLanguage: 'nl',
-    name: {
-      nl: req.body.evenement
-    },
-    calendarType: 'single',
-    // startDate: '2022-04-01T14:45:00+01:00',
-    startDate: startDateTime,
-    endDate: eindDateTime,
-    terms: [
-      {
-        id: '0.50.4.0.0'
-      }
-    ],
-    location: {
-      '@id': 'https://io-test.uitdatabank.be/place/b99cda5f-9101-402b-83e4-109299b7aaee'
-    }
-  }
+
+  // const startDateTime = `${req.body.datum}T${req.body.startUur}:00+01:00`
+  // const eindDateTime = `${req.body.datum}T${req.body.eindUur}:00+01:00`
+  // const jsonLdCorneel = {
+  //   mainLanguage: 'nl',
+  //   name: {
+  //     nl: req.body.evenement
+  //   },
+  //   calendarType: 'single',
+  //   // startDate: '2022-04-01T14:45:00+01:00',
+  //   startDate: startDateTime,
+  //   endDate: eindDateTime,
+  //   terms: [
+  //     {
+  //       id: '0.50.4.0.0'
+  //     }
+  //   ],
+  //   location: {
+  //     '@id': 'https://io-test.uitdatabank.be/place/b99cda5f-9101-402b-83e4-109299b7aaee'
+  //   }
+  // }
 
   axios
     .post(
-      'https://io-test.uitdatabank.be/imports/events/', jsonLdCorneel, {
+      'https://io-test.uitdatabank.be/imports/events/', req.body, {
       headers: {
         'x-api-key': APIKEYWilfried,
         Authorization: `${JWT}`
