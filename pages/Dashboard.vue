@@ -156,9 +156,6 @@ export default {
       ]
     }
   },
-  // computed: mapState({
-  //   evenementen: state => state.evenementen
-  // })
   computed: {
     formattedDate (dat) {
       return dat ? format(parseISO(dat), 'dd MMMM yyyy', { locale: nl }) : ''

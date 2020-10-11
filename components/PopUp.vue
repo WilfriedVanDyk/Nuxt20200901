@@ -160,7 +160,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
-import { mapMutations, mapGetters, mapActions } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex' // , mapActions
 
 export default {
   name: 'PopUp',
@@ -218,6 +218,7 @@ export default {
         this.addName(evenement)
         this.addStartDate(evenement)
         this.addEndDate(evenement)
+        this.addDescription(evenement)
         console.log('in popup method submit: de jsonld opgeslaan in store evenementToPost: ', this.getEvenementToPost)
 
         axios
@@ -225,7 +226,7 @@ export default {
           .then(console.log('een respons'))
           .then((res) => {
             evenement.idUiTdatabank = res.data.id
-            this.postEvenementToUiTdatabank(evenement.idUiTdatabank)
+            // this.postEvenementToUiTdatabank(evenement.idUiTdatabank)
             evenement.locatie = this.getVenueNaam
             // console.log('voor de dispatch in het postevent')
             this.$store.dispatch('postEvent', evenement)
@@ -255,11 +256,12 @@ export default {
     ...mapMutations({
       addName: 'evenementToPost/addName',
       addStartDate: 'evenementToPost/addStartDate',
-      addEndDate: 'evenementToPost/addEndDate'
-    }),
-    ...mapActions({
-      postEvenementToUiTdatabank: 'evenementToPost/postEvenementToUiTdatabank' // deze actie wordt voorlopig niet gebruikt ....
+      addEndDate: 'evenementToPost/addEndDate',
+      addDescription: 'evenementToPost/addDescription'
     })
+    // ...mapActions({
+    //   postEvenementToUiTdatabank: 'evenementToPost/postEvenementToUiTdatabank' // deze actie wordt voorlopig niet gebruikt ....
+    // })
   }
 }
 </script>

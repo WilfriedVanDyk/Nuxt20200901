@@ -26,7 +26,7 @@ app.get('/hello', (req, res) => {
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // post event in uitDataBank : app.post works with axios.post in popup.vue component
 app.post('/postEventAPI', (req, res) => {
-  // console.log('in de api index app.post postEventAPI', req.body)
+  // console.log('in de api index app.post postEventAPI: ', req.body)
 
   axios
     .post(
@@ -98,7 +98,7 @@ app.get('/venues', (req, res) => {
   axios
     .get(
       // `https://search.uitdatabank.be/places/?embed=true&q=terms.label:Bioscoop&apiKey=${APIKEY}&limit=200` // Bram
-      `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=200&addressCountry=BE&postalCode=9000`
+      `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=200&addressCountry=BE&postalCode=9880`
     )
     .then((response) => {
       res.json(response.data)
