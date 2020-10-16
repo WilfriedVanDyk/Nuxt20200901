@@ -151,37 +151,3 @@ app.get('/getEventUitDataBank', (req, res) => {
       console.log('error offer', err)
     })
 })
-
-// // Voorbeeld van een html response met Express (ter illustratie)
-// app.get('/', function (req, res) {
-//   res.sendFile(path.join(__dirname + '/index.html'))
-// })
-
-// Movie endpoint
-// app.get('/movie', (req, res) => {
-//   const movieName = req.query.name
-//   axios
-//     .get(
-//       `https://search.uitdatabank.be/offers/?embed=true&q=terms.label:Film AND name.nl:(${movieName})&apiKey=${APIKEY}&limit=200`
-//     )
-//     .then((response) => {
-//       res.json(response.data)
-//     })
-//     .catch((err) => {
-//       console.log('err', err)
-//     })
-// })
-
-// // Movies endpoint
-// app.get('/movies', (req, res) => {
-//   axios
-//     .get(
-//       `https://search.uitdatabank.be/offers/?embed=true&q=terms.label:Film AND workflowStatus:APPROVED&apiKey=${APIKEY}&limit=200`
-//     )
-//     .then((response) => {
-//       res.json(response.data)
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-// })

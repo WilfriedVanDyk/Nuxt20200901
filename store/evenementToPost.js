@@ -78,7 +78,7 @@ export const actions = {
                 console.log('error in evenementToStore findVenueId: ', err)
             })
     }
-    // hier de post naar UiTdatabank maken....  maar deze actie wordt op dit moment niet gebruikt.... hoe kan die dan een fout meegeven dat de json-ld niet meegegeven wordt ???
+    // hier de post naar UiTdatabank maken....  maar deze actie wordt op dit moment niet gebruikt....
     // postEvenementToUiTdatabank() {
     //     console.log('store evenementToPost state is: ', state.evenementToPost)
     //     console.log(state.evenementToPost)
