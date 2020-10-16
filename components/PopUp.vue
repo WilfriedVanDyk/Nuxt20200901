@@ -21,28 +21,23 @@
                 required
                 :rules="inputValidation"
               />
-              <v-text-field
+              <!-- hier het type vinden om dan later in de UiTdb het type ID te plaatsen -->
+              <v-overflow-btn
                 v-model="type"
-                label="Type Evenement"
+                label="Type Evenement?"
                 prepend-icon="event"
                 required
+                class="my-2 mx-2"
+                :items="getTypeAanbodLabel"
                 :rules="inputValidation"
               />
               <v-text-field
                 v-model="organisator"
                 label="Organisator"
-                prepend-icon="people_alt"
+                prepend-icon="mdi-account-circle"
                 required
                 :rules="inputValidation"
               />
-              <!-- <v-text-field
-                v-model="locatie"
-                label="Locatie"
-                prepend-icon="house"
-                required
-                :rules="inputValidation"
-              /> -->
-              <!-- <VenuePicker class="mb-10" @naamVanVenue="locatie=$event" /> -->
               <VenuePicker class="mb-10" />
               <v-menu>
                 <template v-slot:activator="{ on, attrs }">
@@ -160,7 +155,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
-import { mapMutations, mapGetters } from 'vuex' // , mapActions
+import { mapMutations, mapGetters } from 'vuex' // , mapActions, mapState
 
 export default {
   name: 'PopUp',
@@ -183,7 +178,8 @@ export default {
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
       loading: false,
-      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd']
+      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
+      typeId: ''
     }
   },
   computed: {
@@ -192,12 +188,30 @@ export default {
         ? format(parseISO(this.datum), 'do MMMM yyyy', { locale: nl })
         : ''
     },
+    // ...mapState([
+    //   'typeAanbod'
+    // ]),
     ...mapGetters({
       getEvenementToPost: 'evenementToPost/getEvenementToPost',
-      getVenueNaam: 'evenementToPost/getVenueNaam'
+      getVenueNaam: 'evenementToPost/getVenueNaam',
+      getTypeAanbod: 'data/getTypeAanbod',
+      getTypeAanbodLabel: 'data/getTypeAanbodLabel',
+      getStatusArray: 'data/getStatusArray',
+      // getTypeId: 'data/getTypeId',
+      findTypeId: 'data/findTypeId'
     })
   },
   methods: {
+    ...mapMutations({
+      addName: 'evenementToPost/addName',
+      addStartDate: 'evenementToPost/addStartDate',
+      addEndDate: 'evenementToPost/addEndDate',
+      addDescription: 'evenementToPost/addDescription',
+      addType: 'evenementToPost/addType'
+    }),
+    // ...mapActions({
+    //   postEvenementToUiTdatabank: 'evenementToPost/postEvenementToUiTdatabank' // deze actie wordt voorlopig niet gebruikt ....
+    // })
     submit () {
       if (this.$refs.form.validate()) {
         this.loading = true
@@ -219,6 +233,10 @@ export default {
         this.addStartDate(evenement)
         this.addEndDate(evenement)
         this.addDescription(evenement)
+        console.log('geselecteerde type-naam in popupvue is: ', this.type)
+        const id = this.findTypeId(this.type)
+        // console.log(id)
+        this.addType(id)
         console.log('in popup method submit: de jsonld opgeslaan in store evenementToPost: ', this.getEvenementToPost)
 
         axios
@@ -252,16 +270,7 @@ export default {
       this.dialog = false
       this.$refs.form.reset()
       this.$router.push({ name: 'Dashboard' })
-    },
-    ...mapMutations({
-      addName: 'evenementToPost/addName',
-      addStartDate: 'evenementToPost/addStartDate',
-      addEndDate: 'evenementToPost/addEndDate',
-      addDescription: 'evenementToPost/addDescription'
-    })
-    // ...mapActions({
-    //   postEvenementToUiTdatabank: 'evenementToPost/postEvenementToUiTdatabank' // deze actie wordt voorlopig niet gebruikt ....
-    // })
+    }
   }
 }
 </script>

@@ -73,7 +73,7 @@ export default {
     // this.$store.dispatch('bindEvenementen')
     db.collection('evenementen')
       .orderBy('evenement')
-      .where('organisator', '==', 'Wilfried') // hier in where clause met ingelogde gebruiker
+      .where('organisator', '==', 'vzw fatima') // hier in where clause met ingelogde gebruiker
       .onSnapshot((res) => {
         const changes = res.docChanges()
         changes.forEach((change) => {

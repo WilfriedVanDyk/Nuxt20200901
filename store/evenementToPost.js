@@ -15,9 +15,9 @@ export const state = () => ({
         startDate: '',
         endDate: '',
         terms: [
-            {
-                id: '0.50.4.0.0'
-            }
+            // {
+            //     id: '0.50.4.0.0'
+            // }
         ],
         location: {
             '@id': ''
@@ -27,7 +27,8 @@ export const state = () => ({
         }
     },
     IdUiTdbEvenement: '', // dit wordt op dit moment niet gebruikt !!!!
-    venueNaam: ''
+    venueNaam: '',
+    type: '' // hier de naam van het type plaatsen, waarna de id wordt toegevoegd door een mutatie te maken die via de naam (uit de date.typeaanbod) de id haalt en opslaat in het EVenementToPost
 })
 export const getters = {
     getEvenementToPost(state) {
@@ -40,7 +41,7 @@ export const getters = {
 export const mutations = {
     addVenue(state, venueId) {
         state.evenementToPost.location['@id'] = venueId
-        console.log('evenenemtToPost in mutation:', state.evenementToPost)
+        console.log('evenenemtToPost in mutation na addVenue :', state.evenementToPost)
     },
     addName(state, evenement) {
         state.evenementToPost.name.nl = evenement.evenement
@@ -58,7 +59,17 @@ export const mutations = {
     },
     addVenueName(state, locatieNaam) {
         state.venueNaam = locatieNaam
+    },
+    addType(state, id) {
+        console.log('typid in evenementToPost in addType mutation:', id)
+        state.type = { id }
+        console.log('state.type in evenementToPost is: ', state.type)
+        state.evenementToPost.terms.length = 0
+        state.evenementToPost.terms.push({ id })
     }
+    // getTodoById: (state) => (id) => {
+    //        return state.todos.find(todo => todo.id === id)
+    //    }
 }
 export const actions = {
     findVenueId(context, venue) {
