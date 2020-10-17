@@ -64,18 +64,23 @@ app.put('/putEventAPI', (req, res) => {
   // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
 
   // / imports / events / { cdbid }
-  // axios
-  //   .get(
-  //     `https://io-test.uitdatabank.be/import/events/?${id}&jwt=${JWT}&apiKey=${APIKEYWilfried}`
-  //   )
-  //   .then((response) => {
-  //     res.json(response.data)
-  //     // const data = res.json(response)
-  //     // console.log(data)
-  //   })
-  //   .catch((err) => {
-  //     console.log('error put offer', err)
-  //   })
+  axios
+    .put(
+      `https://io-test.uitdatabank.be/imports/events/${id}`, req.body, {
+      headers: {
+        'x-api-key': APIKEYWilfried,
+        Authorization: `${JWT}`
+      }
+    }
+    )
+    .then((response) => {
+      res.json(response.data)
+      // const data = res.json(response)
+      // console.log(data)
+    })
+    .catch((err) => {
+      console.log('error put offer in api.index om update te doen in de UiTdb: ', err)
+    })
 })
 
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

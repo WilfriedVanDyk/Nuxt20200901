@@ -6,7 +6,7 @@
       >
         Je selecteerde: <strong>{{ locatieprop }}</strong>
       </h2>
-      <span v-if="!locatie">selecteer een locatie</span>
+      <span v-if="!locatie">selecteer een andere locatie indien nodig</span>
       <v-autocomplete
         v-model="locatie"
         :items="venues"

@@ -13,11 +13,26 @@
             required
             :rules="inputValidation"
           />
-          <v-text-field
+          <!-- <v-text-field
             v-model="evenementToUpdate.type"
             label="Type Evenement"
             prepend-icon="event"
             required
+            :rules="inputValidation"
+          /> -->
+          <div>
+            Je selecteerde het evenement type
+            <a class="headline grey--text">
+              {{ evenementToUpdate.type }} </a>
+            <p>kies je een ander type?</p>
+          </div>
+          <v-overflow-btn
+            v-model="evenementToUpdate.type"
+            label="Type Evenement?"
+            prepend-icon="event"
+            required
+            class="my-2 mx-2"
+            :items="getTypeAanbodLabel"
             :rules="inputValidation"
           />
           <v-text-field
@@ -156,6 +171,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
+import { mapGetters, mapMutations } from 'vuex' // , mapActions, mapState
 
 export default {
   name: 'EditEvenement',
@@ -186,7 +202,15 @@ export default {
           locale: nl
         })
         : ''
-    }
+    },
+    ...mapGetters({
+      getEvenementToPost: 'evenementToPost/getEvenementToPost',
+      getVenueNaam: 'evenementToPost/getVenueNaam',
+      getTypeAanbod: 'data/getTypeAanbod',
+      getTypeAanbodLabel: 'data/getTypeAanbodLabel',
+      getStatusArray: 'data/getStatusArray',
+      findTypeId: 'data/findTypeId'
+    })
   },
   created () {
     // console.log(this.$route.params.id)
@@ -212,9 +236,16 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      addName: 'evenementToPost/addName',
+      addStartDate: 'evenementToPost/addStartDate',
+      addEndDate: 'evenementToPost/addEndDate',
+      addDescription: 'evenementToPost/addDescription',
+      addType: 'evenementToPost/addType'
+    }),
     editEvenement () {
       // console.log(
-      //   'het gewijzigd evenement is: ',
+      //   'het gewijzigd evenement in editEvenement._id is: ',
       //   this.evenementToUpdate.evenement,
       //   this.evenementToUpdate
       // )
@@ -226,45 +257,52 @@ export default {
           evenement: this.evenementToUpdate.evenement,
           type: this.evenementToUpdate.type,
           organisator: this.evenementToUpdate.organisator,
-          locatie: this.evenementToUpdate.locatie,
+          locatie: this.getVenueNaam,
           datum: this.evenementToUpdate.datum, // format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
           startUur: this.evenementToUpdate.startUur,
           eindUur: this.evenementToUpdate.eindUur,
           status: this.evenementToUpdate.status,
-          beschrijving: this.evenementToUpdate.beschrijving
+          beschrijving: this.evenementToUpdate.beschrijving,
+          idUiTdatabank: this.evenementToUpdate.idUiTdatabank
         }
 
-        this.$store.dispatch('putEvent', evenement)
+        this.addName(evenement)
+        this.addStartDate(evenement)
+        this.addEndDate(evenement)
+        this.addDescription(evenement)
+        // console.log('geselecteerde type-naam in editEvenement._id is: ', evenement.type)
+        const id = this.findTypeId(evenement.type)
+        // console.log('id van type in editEvenement', id)
+        this.addType(id)
+        // console.log('in editEvenement method: de jsonld opgeslaan in store evenementToPost: ', this.getEvenementToPost)
+        // console.log('id uit databank is:', evenement.idUiTdatabank)
+        // this.$store.dispatch('putEvent', evenement)
+        //   .then(() => {
+        //     this.loading = false
+        //     // this.$refs.form.reset();
+        //   })
+        //   .catch((error) => {
+        //     console.log('Error getting document in dispatch van _id.editEvenement:', error)
+        //   })
+
+        // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
+        // geupdate evenement meegeven in de body MEEGEVEN IN DE BODY // tot hier lukt het HIER............................................................................
+        axios
+          .put(`/api/putEventAPI/?id=${evenement.idUiTdatabank}`, this.getEvenementToPost)
+          .then(res => (console.log('response in editEvenement.index._id. axiosPutEvent is : ' + res.status)))
+          .then(
+            this.$store.dispatch('putEvent', evenement)
+              .catch((error) => {
+                console.log('Error getting document in dispatch van _id.editEvenement:', error)
+              }))
           .then(() => {
             this.loading = false
             // this.$refs.form.reset();
           })
           .catch((error) => {
-            console.log('Error getting document in dispatch van _id.editEvenement:', error)
+            console.log(`${error} + put in index EditEvenement._id.index  met errors`)
           })
-
-        // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
-        // geupdate evenement meegeven in de body MEEGEVEN IN DE BODY
-        axios
-          // .put(`http://localhost:3000/api/putEventAPI/?id=${evenement.id}`, { evenement })
-          .put(`/api/putEventAPI/?id=${evenement.id}`, { evenement })
-          .then(res => (console.log('response in editEvenement.index._id. axiosPutEvent is : ' + res.data.json))) // deze response gebeurt niet
-        // axios
-        // .put('https://jsonplaceholder.typicode.com/posts/1', {
-        //   body: JSON.stringify({
-        //     title: 'foo',
-        //     body: 'bar',
-        //     userId: 2
-        //   })
-        // })
-        // .then((response) => {
-        //   console.log(response.data)
-        //   console.log('put met axios succesfull')
-        // })
-          .catch((error) => {
-            console.log(`${error} + put met fetch in index EditEvenement._id.index  met errors`)
-          })
-          .finally(() => console.log('put met fetch in index EditEvenement._id.index is complete'))
+          .finally(() => console.log('put in index EditEvenement._id.index is complete'))
 
         this.$router.push({ name: 'Dashboard' })
       }
