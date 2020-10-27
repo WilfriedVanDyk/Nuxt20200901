@@ -96,8 +96,9 @@ export default {
     // link: "",
     drawer: true,
     links: [
+      { icon: 'event', text: 'Evenementen', route: '/' },
       { icon: 'dashboard', text: 'Dashboard', route: '/dashboard' },
-      { icon: 'folder', text: 'Mijn evenementen', route: '/projects' },
+      // { icon: 'folder', text: 'Mijn evenementen', route: '/projects' },
       { icon: 'person', text: 'Team', route: '/Team' }
     ]
   })
