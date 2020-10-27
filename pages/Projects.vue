@@ -49,20 +49,22 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import db from '@/plugins/fb'
+// import db from '@/plugins/fb'
 
 export default {
   name: 'Projects',
   components: {},
   data () {
     return {
-      evenementen: []
+      // evenementen: []
     }
   },
   computed: {
-    // evenementen () {
-    //   return this.$store.state.evenementen
-    // }
+    evenementen () {
+      let evenementen = this.$store.state.evenementen
+      evenementen = evenementen.filter(evenement => evenement.organisator === 'abracourix')
+      return evenementen
+    }
     // MijnEvenementen() {
     //   return this.evenementen.filter((evenementItem) => {
     //     return evenementItem.organisator === "Wilfried";
@@ -71,20 +73,21 @@ export default {
   },
   created () {
     // this.$store.dispatch('bindEvenementen')
-    db.collection('evenementen')
-      .orderBy('evenement')
-      .where('organisator', '==', 'vzw fatima') // hier in where clause met ingelogde gebruiker
-      .onSnapshot((res) => {
-        const changes = res.docChanges()
-        changes.forEach((change) => {
-          if (change.type === 'added') {
-            this.evenementen.push({
-              ...change.doc.data(),
-              id: change.doc.id
-            })
-          }
-        })
-      })
+  //   db.collection('evenementen')
+  //     .orderBy('evenement')
+  //     .where('organisator', '==', 'vzw fatima') // hier in where clause met ingelogde gebruiker
+  //     .onSnapshot((res) => {
+  //       const changes = res.docChanges()
+  //       changes.forEach((change) => {
+  //         if (change.type === 'added') {
+  //           this.evenementen.push({
+  //             ...change.doc.data(),
+  //             id: change.doc.id
+  //           })
+  //         }
+  //       })
+  //     })
+  // }
   }
 }
 </script>

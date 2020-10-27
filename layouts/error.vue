@@ -7,9 +7,10 @@
       {{ otherError }}
     </h1>
     <h1>there is an error!!!</h1>
-    <NuxtLink to="/">
+    <!-- <NuxtLink to="/">
       Home page
-    </NuxtLink>
+    </NuxtLink> -->
+    <p>Terug naar de <a href="/"> HomePagina</a>!</p>
   </v-app>
 </template>
 

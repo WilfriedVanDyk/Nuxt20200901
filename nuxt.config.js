@@ -1,7 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  // router: {
+  // router: { // does not work
+  //   linkActiveClass: 'active,'
   //   base: '/app/',
   //   routeNameSplitter: '/'
   // },
@@ -40,7 +41,8 @@ export default {
   ** Global CSS
   */
   css: [
-    '~/assets/styles/main.css'
+    '~/assets/styles/main.css',
+    '~/assets/styles/fade.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -48,6 +50,8 @@ export default {
   */
   plugins: [
     '~/plugins/fb.js'
+    // date filter in max: 6.62 datefilter maken
+    // register global components in a file in the plugin folder: zie max filmkes 6.62 vb ... ? navbar misschien of venuePicker
   ],
   /*
   ** Auto import components
@@ -103,5 +107,9 @@ export default {
   */
   build: {
   },
-  serverMiddleware: ['~/api/index.js']
+  serverMiddleware: ['~/api/index.js'],
+  transition: {
+    name: 'fade',
+    mode: 'out-in'
+  }
 }

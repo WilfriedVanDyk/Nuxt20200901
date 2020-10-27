@@ -1,3 +1,4 @@
+/* eslint-disable space-before-function-paren */
 /* eslint-disable no-console */
 /* eslint-disable indent */
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
@@ -11,10 +12,15 @@ export const state = () => ({
 export const mutations = { ...vuexfireMutations }
 export const actions = {
 
+    async nuxtServerInit({ dispatch }) {
+        if (!process.client) { await dispatch('bindEvenementen') }
+        // kan beter... zie later...
+    },
+
     // get all evenementen from fb and inserts the objects into evenementen state (array)
     bindEvenementen: firestoreAction(({ bindFirestoreRef }) => {
         // return the promise returned by `bindFirestoreRef`
-        return bindFirestoreRef('evenementen', db.collection('evenementen'))
+        return bindFirestoreRef('evenementen', db.collection('evenementen')).then(res => console.log('respons in bindEvenementen van Fb in index.store: ', res)).catch(error => console.log('error in bindEvenementen van Fb in index.store: ', error))
     }),
 
     // get one evenement
@@ -48,10 +54,10 @@ export const actions = {
         return db.collection('evenementen')
             .doc(id)
             .update(evenementNoId)
-            // .then(() => {
-            //     console.log('in de put event')
-            //     // this.$refs.form.reset();
-            // })
+            .then((res) => {
+                console.log('in de put event met als respons: ', res)
+                // this.$refs.form.reset();
+            })
             .catch((error) => {
                 console.log('Error getting document in index.store put event:', error)
             })
@@ -63,8 +69,8 @@ export const actions = {
         console.log(evenement)
         // return the promise so we can await the write
         return db.collection('evenementen').add(evenement)
-            .then(() => {
-                console.log('in de post event')
+            .then((res) => {
+                console.log('in de post event met respons: ', res)
             })
             .catch((error) => {
                 console.log('Error getting document in index.store post event:', error)
