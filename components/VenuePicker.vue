@@ -12,7 +12,6 @@
         :items="venues"
         :loading="isLoading"
         :search-input.sync="search"
-        :value="this.$store.state.evenementToUpdate.locatie"
         color="white"
         hide-no-data
         hide-selected
@@ -24,7 +23,6 @@
         return-object
         @input="venueToStore"
       />
-      <!-- <v-select :value="$store.myValue" @input="venueEmmit" /> als ik met vuex store wil werken -->
     </v-card-text>
   </v-card>
 </template>
