@@ -136,7 +136,7 @@
             v-model="evenementToUpdate.status"
             class="my-2 mx-2"
             prepend-icon="help"
-            :items="statusArray"
+            :items="getStatusArray"
             label="status ?"
           />
 

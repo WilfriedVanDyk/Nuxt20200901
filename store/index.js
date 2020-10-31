@@ -65,8 +65,8 @@ export const actions = {
 
     // posting an event
     postEvent: firestoreAction((context, evenement) => {
-        console.log('posteventIdUitdb is: ')
-        console.log(evenement)
+        console.log('posteventIdUitdb is: ', evenement)
+        // console.log(evenement)
         // return the promise so we can await the write
         return db.collection('evenementen').add(evenement)
             .then((res) => {

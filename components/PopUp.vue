@@ -125,7 +125,7 @@
                 v-model="status"
                 class="my-2 mx-2"
                 prepend-icon="help"
-                :items="statusArray"
+                :items="getStatusArray"
                 label="status ?"
               />
 
@@ -163,8 +163,7 @@ export default {
     return {
       timePicker1: false,
       timePicker2: false,
-      dialog: false,
-      evenement: '',
+      // evenement: '',
       type: '',
       organisator: '',
       locatie: '',
@@ -172,17 +171,44 @@ export default {
       startUur: null,
       eindUur: null,
       status: '',
-      beschrijving: '',
+      // beschrijving: '',
       inputValidation: [
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
       loading: false,
-      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
+      dialog: false,
       typeId: ''
     }
   },
   computed: {
+    evenement: {
+      get () {
+        return this.$store.state.evenement.evenementToPostFireBase.evenement
+      },
+      set (value) {
+        console.log('evenement.evenement is: ', value)
+        this.$store.commit('evenement/updateEvenementTitle', value)
+      }
+    },
+    // type: {
+    //   get () {
+    //     return this.$store.state.evenement.evenementToPostFireBase.type
+    //   },
+    //   set (value) {
+    //     console.log('evenement.type is: ', value)
+    //     this.$store.commit('evenement/updateEvenementType', value)
+    //   }
+    // },
+    beschrijving: {
+      get () {
+        return this.$store.state.evenement.evenementToPostFireBase.beschrijving
+      },
+      set (value) {
+        console.log('evenement.evenement is: ', value)
+        this.$store.commit('evenement/updateEvenementBeschrijving', value)
+      }
+    },
     formattedDate () {
       return this.datum
         ? format(parseISO(this.datum), 'do MMMM yyyy', { locale: nl })
@@ -197,7 +223,6 @@ export default {
       getTypeAanbod: 'typeAanbod/getTypeAanbod',
       getTypeAanbodLabel: 'typeAanbod/getTypeAanbodLabel',
       getStatusArray: 'typeAanbod/getStatusArray',
-      // getTypeId: 'data/getTypeId',
       findTypeId: 'typeAanbod/findTypeId'
     })
   },
@@ -208,6 +233,7 @@ export default {
       addEndDate: 'evenementToPost/addEndDate',
       addDescription: 'evenementToPost/addDescription',
       addType: 'evenementToPost/addType'
+      // updateEvenementTitle: 'evenement/updateEvenementTitle'
     }),
     // ...mapActions({
     //   postEvenementToUiTdatabank: 'evenementToPost/postEvenementToUiTdatabank' // deze actie wordt voorlopig niet gebruikt ....
@@ -216,7 +242,8 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true
         const evenement = {
-          evenement: this.evenement,
+          evenement: this.$store.state.evenement.evenementToPostFireBase.evenement,
+          // type: this.$store.state.evenement.evenementToPostFireBase.type,
           type: this.type,
           organisator: this.organisator,
           locatie: this.locatie,
@@ -224,31 +251,31 @@ export default {
           startUur: this.startUur,
           eindUur: this.eindUur,
           status: this.status,
-          beschrijving: this.beschrijving,
+          beschrijving: this.$store.state.evenement.evenementToPostFireBase.beschrijving,
           idUiTdatabank: ''
         }
 
-        // console.log('evenement in popUp.vue: ', evenement)
+        console.log('evenement in popUp.vue!!!!!!!!!!!: ', evenement)
         this.addName(evenement)
         this.addStartDate(evenement)
         this.addEndDate(evenement)
         this.addDescription(evenement)
-        console.log('geselecteerde type-naam in popupvue is: ', this.type)
-        const id = this.findTypeId(this.type)
-        // console.log(id)
+        console.log('geselecteerde type-naam in popupvue is: ', evenement.type)
+        const id = this.findTypeId(evenement.type)
+        // const id = this.$store.state.evenement.evenementToPostUiTdb
+        console.log(id)
         this.addType(id)
         console.log('in popup method submit: de jsonld opgeslaan in store evenementToPost: ', this.getEvenementToPost)
 
         axios
           .post('/api/postEventAPI', this.getEvenementToPost) // hier een object evenement meegeven als body { evenement }
-          .then(console.log('een respons'))
           .then((res) => {
             evenement.idUiTdatabank = res.data.id
             // this.postEvenementToUiTdatabank(evenement.idUiTdatabank)
             evenement.locatie = this.getVenueNaam
-            // console.log('voor de dispatch in het postevent')
+            console.log('voor de dispatch in het postevent: evenement is ', evenement)
             this.$store.dispatch('postEvent', evenement)
-            // console.log('na de dispatch in het postevent')
+            console.log('na de dispatch in het postevent')
             // console.log(res.data.id)
           })
           .then(() => {

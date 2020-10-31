@@ -14,11 +14,7 @@ export const state = () => ({
         calendarType: 'single',
         startDate: '',
         endDate: '',
-        terms: [
-            // {
-            //     id: '0.50.4.0.0'
-            // }
-        ],
+        terms: [],
         location: {
             '@id': ''
         },
@@ -28,7 +24,7 @@ export const state = () => ({
     },
     IdUiTdbEvenement: '', // dit wordt op dit moment niet gebruikt !!!!
     venueNaam: '',
-    type: '' // hier de naam van het type plaatsen, waarna de id wordt toegevoegd door een mutatie te maken die via de naam (uit de date.typeaanbod) de id haalt en opslaat in het EVenementToPost
+    type: '' // hier de naam van het type plaatsen, waarna de id wordt toegevoegd door een mutatie te maken die via de naam (uit de typeaanbod.data.typeAanbod) de id haalt en opslaat in het EVenementToPost
 })
 export const getters = {
     getEvenementToPost(state) {
@@ -62,8 +58,8 @@ export const mutations = {
     },
     addType(state, id) {
         console.log('typid in evenementToPost in addType mutation:', id)
-        state.type = { id }
-        console.log('state.type in evenementToPost is: ', state.type)
+        // state.type = { id }
+        // console.log('state.type in evenementToPost is: ', state.type)
         state.evenementToPost.terms.length = 0
         state.evenementToPost.terms.push({ id })
     }

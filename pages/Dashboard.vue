@@ -195,28 +195,42 @@ export default {
 </script>
 
 <style scoped>
-.voorbereiding {
+.DRAFT {
   border-right: 4px solid orange;
 }
 
-.afgewerkt {
+.READY_FOR_VALIDATION {
   border-right: 4px solid lightgreen;
 }
-.gepasseerd {
+.APPROVED {
   border-right: 4px solid red;
 }
+.REJECTED {
+  border-right: 4px solid grey;
+}
+.DELETED {
+  border-right: 4px solid grey;
+}
 
-.v-chip.voorbereiding {
+.v-chip.DRAFT {
   background: orange !important;
   width: 10em;
 }
 
-.v-chip.afgewerkt {
+.v-chip.READY_FOR_VALIDATION {
   background: lightgreen !important;
   width: 10em;
 }
-.v-chip.gepasseerd {
+.v-chip.APPROVED {
   background: red !important;
+  width: 10em;
+}
+.v-chip.REJECTED {
+  background: grey !important;
+  width: 10em;
+}
+.v-chip.DELETED {
+  background: grey !important;
   width: 10em;
 }
 </style>

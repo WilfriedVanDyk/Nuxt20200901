@@ -26,25 +26,24 @@ app.get('/hello', (req, res) => {
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // post event in uitDataBank : app.post works with axios.post in popup.vue component
 app.post('/postEventAPI', (req, res) => {
-  // console.log('in de api index app.post postEventAPI: ', req.body)
-
+  const evenementVoorUitDatabank = req.body
+  console.log('api post: ', evenementVoorUitDatabank)
   axios
     .post(
-      'https://io-test.uitdatabank.be/imports/events/', req.body, {
+      'https://io-test.uitdatabank.be/imports/events/', evenementVoorUitDatabank, {
       headers: {
         'x-api-key': APIKEYWilfried,
         Authorization: `${JWT}`
       }
     }
     )
-    // .then(console.log('in de axios post van Uitdb'))
     .then((response) => {
       res.json(response.data)
       // const data = res.json(response)
       // console.log(data)
     })
     .catch((err) => {
-      console.log('error post offer in store index app.post postEventAPI: ', err)
+      console.log('error post offer', err)
     })
   // app.get('/putEventAPI/:id', (req, res) => {
   // const id = req.query.id
