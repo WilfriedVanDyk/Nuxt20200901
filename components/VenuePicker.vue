@@ -21,12 +21,12 @@
         placeholder="Start typing to Search"
         prepend-icon="mdi-theater"
         return-object
-        @input="venueToStore"
       />
     </v-card-text>
   </v-card>
 </template>
 <script>
+// attribute bij v-autocomplete kan zijn  @input="venueToStore" om de method venueToStore aan te spreken
 /* eslint-disable no-console */
 export default {
   props: {
@@ -40,9 +40,22 @@ export default {
     descriptionLimit: 60,
     venues: [],
     isLoading: false,
-    locatie: null,
+    // locatie: null,
     search: null
   }),
+  computed: {
+    locatie: {
+      get () {
+        return this.$store.state.evenement.evenementToPostFireBase.locatie
+      },
+      set (value) {
+        console.log('VenuePicker locatie is:1 ', value)
+        this.$store.commit('evenement/updateEvenementLocatie', value)
+        // this.$store.dispatch('evenementToPost/findVenueId', value)
+        this.$store.dispatch('evenement/findVenueId', value)
+      }
+    }
+  },
   watch: {
     search () {
       // Items have already been loaded
@@ -66,15 +79,15 @@ export default {
     }
   },
   methods: {
-    venueEmmit () {
-      this.$emit('naamVanVenue', this.locatie)
-    },
-    venueToStore () {
-      if (this.locatie !== undefined) {
-        console.log('in de venueStore van de venuePicker: ', this.locatie)
-        this.$store.dispatch('evenementToPost/findVenueId', this.locatie)
-      }
-    }
+    // venueEmmit () {
+    //   this.$emit('naamVanVenue', this.locatie)
+    // },
+    // venueToStore () {
+    //   if (this.locatie !== undefined) {
+    //     console.log('in de venueStore van de venuePicker: ', this.locatie)
+    //     this.$store.dispatch('evenementToPost/findVenueId', this.locatie)
+    //   }
+    // }
   }
 }
 </script>

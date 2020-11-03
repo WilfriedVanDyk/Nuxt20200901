@@ -128,7 +128,7 @@
                 :items="getStatusArray"
                 label="status ?"
               />
-
+              <ImageInput class="mb-10" />
               <v-textarea
                 v-model="beschrijving"
                 label="Beschrijving evenement"
@@ -163,15 +163,10 @@ export default {
     return {
       timePicker1: false,
       timePicker2: false,
-      // evenement: '',
       type: '',
-      organisator: '',
-      locatie: '',
       datum: null,
       startUur: null,
       eindUur: null,
-      status: '',
-      // beschrijving: '',
       inputValidation: [
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
@@ -187,10 +182,11 @@ export default {
         return this.$store.state.evenement.evenementToPostFireBase.evenement
       },
       set (value) {
-        console.log('evenement.evenement is: ', value)
+        // console.log('evenement.evenement is: ', value)
         this.$store.commit('evenement/updateEvenementTitle', value)
       }
     },
+    // werkt niet
     // type: {
     //   get () {
     //     return this.$store.state.evenement.evenementToPostFireBase.type
@@ -205,35 +201,69 @@ export default {
         return this.$store.state.evenement.evenementToPostFireBase.beschrijving
       },
       set (value) {
-        console.log('evenement.evenement is: ', value)
+        // console.log('evenement.beschrijving is: ', value)
         this.$store.commit('evenement/updateEvenementBeschrijving', value)
       }
     },
+    organisator: {
+      get () {
+        // console.log('get evenement.organisator is: ', this.$store.state.evenement.evenementToPostFireBase.organisator)
+        return this.$store.state.evenement.evenementToPostFireBase.organisator
+      },
+      set (value) {
+        // console.log('set evenement.organisator is: ', this.$store.state.evenement.evenementToPostFireBase.organisator)
+        this.$store.commit('evenement/updateEvenementOrganisator', value)
+      }
+    },
+    // werkt niet: datum wordt niet getoond ....
+    // datum: {
+    //   get () {
+    //     console.log('get evenement.datum is: ', this.$store.state.evenement.evenementToPostFireBase.datum)
+    //     return this.$store.state.evenement.evenementToPostFireBase.datum
+    //   },
+    //   set (value) {
+    //     console.log('set evenement.datum is: ', value)
+    //     this.$store.commit('evenement/updateEvenementDatum', value)
+    //   }
+    // },
     formattedDate () {
+      // console.log('datum in formatted date popup.vue: ', this.datum)
       return this.datum
         ? format(parseISO(this.datum), 'do MMMM yyyy', { locale: nl })
         : ''
+    },
+    status: {
+      get () {
+        return this.$store.state.evenement.evenementToPostFireBase.status
+      },
+      set (value) {
+        // console.log('set evenement.status is: ', this.$store.state.evenement.evenementToPostFireBase.status)
+        this.$store.commit('evenement/updateEvenementStatus', value)
+      }
+
     },
     // ...mapState([
     //   'typeAanbod'
     // ]),
     ...mapGetters({
-      getEvenementToPost: 'evenementToPost/getEvenementToPost',
+      // getEvenementToPost: 'evenement/getevenementToPostUiTdb',
       getVenueNaam: 'evenementToPost/getVenueNaam',
-      getTypeAanbod: 'typeAanbod/getTypeAanbod',
-      getTypeAanbodLabel: 'typeAanbod/getTypeAanbodLabel',
+      getTypeAanbod: 'evenement/getTypeAanbod',
+      getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
       getStatusArray: 'typeAanbod/getStatusArray',
-      findTypeId: 'typeAanbod/findTypeId'
+      findTypeId: 'evenement/findTypeId'
     })
   },
   methods: {
     ...mapMutations({
-      addName: 'evenementToPost/addName',
-      addStartDate: 'evenementToPost/addStartDate',
-      addEndDate: 'evenementToPost/addEndDate',
-      addDescription: 'evenementToPost/addDescription',
-      addType: 'evenementToPost/addType'
-      // updateEvenementTitle: 'evenement/updateEvenementTitle'
+      updateEvenementType: 'evenement/updateEvenementType',
+      updateEvenementDatum: 'evenement/updateEvenementDatum',
+      updateEvenementStartUur: 'evenement/updateEvenementStartUur',
+      updateEvenementEindUur: 'evenement/updateEvenementEindUur',
+      updateEvenementIdUiTdatabank: 'evenement/updateEvenementIdUiTdatabank',
+      addStartDateToEvenementToPostUiTdb: 'evenement/addStartDateToEvenementToPostUiTdb',
+      addEndDateToEvenementToPostUiTdb: 'evenement/addEndDateToEvenementToPostUiTdb',
+      addTypeToEvenementToPostUiTdb: 'evenement/addTypeToEvenementToPostUiTdb'
     }),
     // ...mapActions({
     //   postEvenementToUiTdatabank: 'evenementToPost/postEvenementToUiTdatabank' // deze actie wordt voorlopig niet gebruikt ....
@@ -241,42 +271,26 @@ export default {
     submit () {
       if (this.$refs.form.validate()) {
         this.loading = true
-        const evenement = {
-          evenement: this.$store.state.evenement.evenementToPostFireBase.evenement,
-          // type: this.$store.state.evenement.evenementToPostFireBase.type,
-          type: this.type,
-          organisator: this.organisator,
-          locatie: this.locatie,
-          datum: this.datum,
-          startUur: this.startUur,
-          eindUur: this.eindUur,
-          status: this.status,
-          beschrijving: this.$store.state.evenement.evenementToPostFireBase.beschrijving,
-          idUiTdatabank: ''
-        }
-
-        console.log('evenement in popUp.vue!!!!!!!!!!!: ', evenement)
-        this.addName(evenement)
-        this.addStartDate(evenement)
-        this.addEndDate(evenement)
-        this.addDescription(evenement)
-        console.log('geselecteerde type-naam in popupvue is: ', evenement.type)
-        const id = this.findTypeId(evenement.type)
-        // const id = this.$store.state.evenement.evenementToPostUiTdb
-        console.log(id)
-        this.addType(id)
-        console.log('in popup method submit: de jsonld opgeslaan in store evenementToPost: ', this.getEvenementToPost)
+        // console.log('type in evenement is : ', this.type)
+        this.updateEvenementType(this.type)
+        this.updateEvenementDatum(this.datum)
+        this.updateEvenementStartUur(this.startUur)
+        this.updateEvenementEindUur(this.eindUur)
+        this.addStartDateToEvenementToPostUiTdb() // werkt
+        this.addEndDateToEvenementToPostUiTdb() // werkt
+        this.addTypeToEvenementToPostUiTdb(this.findTypeId) // werkt
+        console.log('in popup method submit: de jsonld opgeslaan in store.evenement.evenementToPostUiTdb: OK!!', this.$store.state.evenement.evenementToPostUiTdb)
 
         axios
-          .post('/api/postEventAPI', this.getEvenementToPost) // hier een object evenement meegeven als body { evenement }
+          .post('/api/postEventAPI', this.$store.state.evenement.evenementToPostUiTdb)
           .then((res) => {
-            evenement.idUiTdatabank = res.data.id
-            // this.postEvenementToUiTdatabank(evenement.idUiTdatabank)
-            evenement.locatie = this.getVenueNaam
-            console.log('voor de dispatch in het postevent: evenement is ', evenement)
-            this.$store.dispatch('postEvent', evenement)
-            console.log('na de dispatch in het postevent')
-            // console.log(res.data.id)
+            // hier controle invoeren: als de vorige post naar UiTdb werkte, maar die naar Fb niet: Moet ik de UitDb entry weer verwijderen!!!!!
+            console.log('respons id na post naar UitDb: 6', res.data.id)
+            this.updateEvenementIdUiTdatabank(res.data.id)
+            const eventStore = this.$store.state.evenement.evenementToPostFireBase
+            console.log('voor de dispatch in het postevent naar fb: evenement is 7 ', eventStore)
+            this.$store.dispatch('postEvent', eventStore)
+            console.log('na de dispatch in het postevent 8')
           })
           .then(() => {
             this.loading = false
@@ -289,8 +303,6 @@ export default {
             console.log(`${error} + post met axios in popUp  met errors`)
           })
           .finally(() => console.log('post met axios in PopUp is complete'))
-        // fetch(`http://localhost:3000/api/postEventAPI/?id=${evenement.id}`) // via req.query.id in api index
-        // fetch(`http://localhost:3000/api/postEventAPI/${evenement.id}`) // via req.params.id in api.index
       }
     },
     cancel () {

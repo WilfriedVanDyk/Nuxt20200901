@@ -27,7 +27,7 @@ app.get('/hello', (req, res) => {
 // post event in uitDataBank : app.post works with axios.post in popup.vue component
 app.post('/postEventAPI', (req, res) => {
   const evenementVoorUitDatabank = req.body
-  console.log('api post: ', evenementVoorUitDatabank)
+  console.log('api post: ok ', evenementVoorUitDatabank)
   axios
     .post(
       'https://io-test.uitdatabank.be/imports/events/', evenementVoorUitDatabank, {
@@ -96,7 +96,54 @@ app.delete('/deleteEventAPI', (req, res) => {
   // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
 })
 /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// app.post image to UiTdb
+app.post('/imageToUiTdb', (req, res) => {
+  const image = req.body
+  console.log('imageToUiTdb req.body: ', image)
+  const imageToUiTdb = {
+    file: image,
+    description: 'een foto bij een evenement',
+    language: 'nl',
+    copyrightHolder: 'pixabay'
 
+    //   //   - F file =@"Screenshot 2017-11-28 12.37.19.png"
+    //   // -F description = Example description
+    //   //   - F copyrightHolder = example copyrightHolder
+    //   //     - F language = nl
+  }
+  console.log('api.index in post ImageToUUiTdb is Joson imageToUitDatabank: ', imageToUiTdb)
+
+  axios.post('https://io-test.uitdatabank.be/images/', imageToUiTdb, {
+    headers: {
+      'x-api-key': APIKEYWilfried,
+      Authorization: `${JWT}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+    .then((response) => {
+      res.json(response.data)
+      // const data = res.json(response)
+      // console.log(data)
+    })
+    .catch((err) => {
+      console.log('error post offer', err)
+    })
+})
+
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// app.post image to event
+app.post('/imageToEvent', (req, res) => {
+  console.log('body bij imageToEvent: ', req.body)
+  const idEvent = ''
+  const idFoto = ''
+  axios.post(`https://io-test.uitdatabank.be/events/${idEvent}4dc2bd3b-1971-4487-96a6-5fc43129f0d2/images/${idFoto}`, {
+    headers: {
+      'x-api-key': APIKEYWilfried,
+      Authorization: `${JWT}`
+    }
+  })
+})
+//  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // app.get offer locatie/venues
 app.get('/venues', (req, res) => {
   axios

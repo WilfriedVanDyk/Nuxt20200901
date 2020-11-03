@@ -206,10 +206,10 @@ export default {
     ...mapGetters({
       getEvenementToPost: 'evenementToPost/getEvenementToPost',
       getVenueNaam: 'evenementToPost/getVenueNaam',
-      getTypeAanbod: 'typeAanbod/getTypeAanbod',
-      getTypeAanbodLabel: 'typeAanbod/getTypeAanbodLabel',
+      getTypeAanbod: 'evenement/getTypeAanbod',
+      getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
       getStatusArray: 'typeAanbod/getStatusArray',
-      findTypeId: 'typeAanbod/findTypeId'
+      findTypeId: 'evenement/findTypeId'
     })
   },
   created () {

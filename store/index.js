@@ -20,7 +20,7 @@ export const actions = {
     // get all evenementen from fb and inserts the objects into evenementen state (array)
     bindEvenementen: firestoreAction(({ bindFirestoreRef }) => {
         // return the promise returned by `bindFirestoreRef`
-        return bindFirestoreRef('evenementen', db.collection('evenementen')).then(res => console.log('respons in bindEvenementen van Fb in index.store: ', res)).catch(error => console.log('error in bindEvenementen van Fb in index.store: ', error))
+        return bindFirestoreRef('evenementen', db.collection('evenementen')).then(res => console.log('respons in bindEvenementen van Fb in index.store: 200')).catch(error => console.log('error in bindEvenementen van Fb in index.store: ', error))
     }),
 
     // get one evenement
