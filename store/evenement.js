@@ -46,11 +46,22 @@ export const getters = {
     getTypeAanbodLabel(state) {
         return state.typeAanbod.map(object => object.label).sort()
     },
-    findTypeId(state) {
+    // findTypeId(state) {
+    //     // hier het type Id halen uit de data.state.typeAanbod ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //     // console.log('in de findTypeId: typeObject is :', typeEvenement)
+    //     // typeId = (state.typeAanbod.map(object => object.label === type)).id // context.rootState.data.typeAanbod;     this.$store.data of/en   state.typeAanbod is undefined.....
+    //     const gekozenType = state.typeAanbod.find(object => object.label === state.evenementToPostFireBase.type) // console.log('in de findTypeId: gekozen type is: ', gekozenType)
+    //     const typeId = gekozenType.id
+    //     // console.log('in findTypeId in mutation van data.js, de gevonden id is:', typeId) // dit werkt tot  en met hier ik weet nog niet zeker of het iets returned... dat gebeurt dus niet....
+    //     // state.typeId = typeId
+    //     // console.log('data state.typeId is: ', state.typeId)
+    //     return typeId
+    // },
+    findTypeId: state => (typeEvenement) => {
         // hier het type Id halen uit de data.state.typeAanbod ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // console.log('in de findTypeId: typeObject is :', typeEvenement)
         // typeId = (state.typeAanbod.map(object => object.label === type)).id // context.rootState.data.typeAanbod;     this.$store.data of/en   state.typeAanbod is undefined.....
-        const gekozenType = state.typeAanbod.find(object => object.label === state.evenementToPostFireBase.type)
+        const gekozenType = state.typeAanbod.find(object => object.label === typeEvenement)
         // console.log('in de findTypeId: gekozen type is: ', gekozenType)
         const typeId = gekozenType.id
         // console.log('in findTypeId in mutation van data.js, de gevonden id is:', typeId) // dit werkt tot  en met hier ik weet nog niet zeker of het iets returned... dat gebeurt dus niet....

@@ -204,8 +204,8 @@ export default {
         : ''
     },
     ...mapGetters({
-      getEvenementToPost: 'evenementToPost/getEvenementToPost',
-      getVenueNaam: 'evenementToPost/getVenueNaam',
+      getEvenementToPut: 'evenementToPut/getEvenementToPut',
+      getVenueNaam: 'evenementToPut/getVenueNaam',
       getTypeAanbod: 'evenement/getTypeAanbod',
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
       getStatusArray: 'typeAanbod/getStatusArray',
@@ -237,18 +237,18 @@ export default {
   },
   methods: {
     ...mapMutations({
-      addName: 'evenementToPost/addName',
-      addStartDate: 'evenementToPost/addStartDate',
-      addEndDate: 'evenementToPost/addEndDate',
-      addDescription: 'evenementToPost/addDescription',
-      addType: 'evenementToPost/addType'
+      addName: 'evenementToPut/addName',
+      addStartDate: 'evenementToPut/addStartDate',
+      addEndDate: 'evenementToPut/addEndDate',
+      addDescription: 'evenementToPut/addDescription',
+      addType: 'evenementToPut/addType'
     }),
     editEvenement () {
-      // console.log(
-      //   'het gewijzigd evenement in editEvenement._id is: ',
-      //   this.evenementToUpdate.evenement,
-      //   this.evenementToUpdate
-      // )
+      console.log(
+        'het gewijzigd evenement in editEvenement._id is: 1',
+        this.evenementToUpdate.evenement,
+        this.evenementToUpdate
+      )
 
       if (this.$refs.form.validate()) {
         this.loading = true
@@ -265,16 +265,16 @@ export default {
           beschrijving: this.evenementToUpdate.beschrijving,
           idUiTdatabank: this.evenementToUpdate.idUiTdatabank
         }
-
+        console.log('geselecteerde locatie-naam in editEvenement._id is: 1b', evenement.locatie)
         this.addName(evenement)
         this.addStartDate(evenement)
         this.addEndDate(evenement)
         this.addDescription(evenement)
-        // console.log('geselecteerde type-naam in editEvenement._id is: ', evenement.type)
+        console.log('geselecteerde type-naam in editEvenement._id is: 2', evenement.type)
         const id = this.findTypeId(evenement.type)
         // console.log('id van type in editEvenement', id)
         this.addType(id)
-        // console.log('in editEvenement method: de jsonld opgeslaan in store evenementToPost: ', this.getEvenementToPost)
+        console.log('in editEvenement method: de jsonld opgeslaan in store evenementToPut: 3', this.getEvenementToPut)
         // console.log('id uit databank is:', evenement.idUiTdatabank)
         // this.$store.dispatch('putEvent', evenement)
         //   .then(() => {
@@ -288,8 +288,8 @@ export default {
         // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
         // geupdate evenement meegeven in de body MEEGEVEN IN DE BODY // tot hier lukt het HIER............................................................................
         axios
-          .put(`/api/putEventAPI/?id=${evenement.idUiTdatabank}`, this.getEvenementToPost)
-          .then(res => (console.log('response in editEvenement.index._id. axiosPutEvent is : ' + res.status)))
+          .put(`/api/putEventAPI/?id=${evenement.idUiTdatabank}`, this.getEvenementToPut)
+          .then(res => (console.log('response in editEvenement.index._id. axiosPutEvent is : 4' + res.status)))
           .then(
             this.$store.dispatch('putEvent', evenement)
               .catch((error) => {

@@ -58,8 +58,8 @@ app.post('/postEventAPI', (req, res) => {
 app.put('/putEventAPI', (req, res) => {
   // req.header('User-Agent') // toevoegen van een header
   const id = req.query.id
-  console.log(`de id GEKREGEN VIA req.query.id in api.putEvent is :${id}`) // via de req.query.id als in de http request ?id=... staat
-  console.log(req.body) // geeft de juiste body mee!!!
+  console.log(`de id GEKREGEN VIA req.query.id in api.putEvent is 3b :${id}`) // via de req.query.id als in de http request ?id=... staat
+  console.log('3b', req.body) // geeft de juiste body mee!!!
   // console.log(' params id van putEvent  in api.index is  : ' + req.params.id) // via parameter
 
   // / imports / events / { cdbid }

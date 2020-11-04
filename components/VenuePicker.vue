@@ -51,8 +51,13 @@ export default {
       set (value) {
         console.log('VenuePicker locatie is:1 ', value)
         this.$store.commit('evenement/updateEvenementLocatie', value)
-        // this.$store.dispatch('evenementToPost/findVenueId', value)
+
         this.$store.dispatch('evenement/findVenueId', value)
+
+        this.$store.dispatch('evenementToPut/findVenueId', value)
+
+        // this.$store.dispatch('evenementToPut/findVenueId', value)
+        // this.$store.dispatch('evenement/findVenueId', value)
       }
     }
   },

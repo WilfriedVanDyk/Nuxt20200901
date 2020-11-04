@@ -278,7 +278,7 @@ export default {
         this.updateEvenementEindUur(this.eindUur)
         this.addStartDateToEvenementToPostUiTdb() // werkt
         this.addEndDateToEvenementToPostUiTdb() // werkt
-        this.addTypeToEvenementToPostUiTdb(this.findTypeId) // werkt
+        this.addTypeToEvenementToPostUiTdb(this.findTypeId(this.$store.state.evenement.evenementToPostFireBase.type)) // werkt
         console.log('in popup method submit: de jsonld opgeslaan in store.evenement.evenementToPostUiTdb: OK!!', this.$store.state.evenement.evenementToPostUiTdb)
 
         axios
