@@ -155,7 +155,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
-import { mapMutations, mapGetters } from 'vuex' // , mapActions, mapState
+import { mapMutations, mapGetters, mapActions } from 'vuex' // , mapState
 
 export default {
   name: 'PopUp',
@@ -215,17 +215,6 @@ export default {
         this.$store.commit('evenement/updateEvenementOrganisator', value)
       }
     },
-    // werkt niet: datum wordt niet getoond ....
-    // datum: {
-    //   get () {
-    //     console.log('get evenement.datum is: ', this.$store.state.evenement.evenementToPostFireBase.datum)
-    //     return this.$store.state.evenement.evenementToPostFireBase.datum
-    //   },
-    //   set (value) {
-    //     console.log('set evenement.datum is: ', value)
-    //     this.$store.commit('evenement/updateEvenementDatum', value)
-    //   }
-    // },
     formattedDate () {
       // console.log('datum in formatted date popup.vue: ', this.datum)
       return this.datum
@@ -254,7 +243,7 @@ export default {
       findTypeId: 'evenement/findTypeId'
     })
   },
-  methods: {
+  _methods: {
     ...mapMutations({
       updateEvenementType: 'evenement/updateEvenementType',
       updateEvenementDatum: 'evenement/updateEvenementDatum',
@@ -265,9 +254,9 @@ export default {
       addEndDateToEvenementToPostUiTdb: 'evenement/addEndDateToEvenementToPostUiTdb',
       addTypeToEvenementToPostUiTdb: 'evenement/addTypeToEvenementToPostUiTdb'
     }),
-    // ...mapActions({
-    //   postEvenementToUiTdatabank: 'evenementToPost/postEvenementToUiTdatabank' // deze actie wordt voorlopig niet gebruikt ....
-    // })
+    ...mapActions({
+      AddImageToEvenementUiTdb: 'evenement/AddImageToEvenementUiTdb'
+    }),
     submit () {
       if (this.$refs.form.validate()) {
         this.loading = true
@@ -285,12 +274,15 @@ export default {
           .post('/api/postEventAPI', this.$store.state.evenement.evenementToPostUiTdb)
           .then((res) => {
             // hier controle invoeren: als de vorige post naar UiTdb werkte, maar die naar Fb niet: Moet ik de UitDb entry weer verwijderen!!!!!
-            console.log('respons id na post naar UitDb: 6', res.data.id)
+            console.log('respons id na post naar UitDb: 3b ', res.data.id)
+            // hier moet je de image nog uploaden naar het pas geposte evenement gebruik makend van de id v het evenement
+            this.AddImageToEvenementUiTdb(res.data.id)
+
             this.updateEvenementIdUiTdatabank(res.data.id)
             const eventStore = this.$store.state.evenement.evenementToPostFireBase
-            console.log('voor de dispatch in het postevent naar fb: evenement is 7 ', eventStore)
+            // console.log('voor de dispatch in het postevent naar fb: evenement is 7 ', eventStore)
             this.$store.dispatch('postEvent', eventStore)
-            console.log('na de dispatch in het postevent 8')
+            // console.log('na de dispatch in het postevent 8')
           })
           .then(() => {
             this.loading = false
@@ -302,7 +294,7 @@ export default {
           .catch((error) => {
             console.log(`${error} + post met axios in popUp  met errors`)
           })
-          .finally(() => console.log('post met axios in PopUp is complete'))
+        // .finally(() => console.log('post met axios in PopUp is complete'))
       }
     },
     cancel () {
@@ -310,6 +302,12 @@ export default {
       this.$refs.form.reset()
       this.$router.push({ name: 'Dashboard' })
     }
+  },
+  get methods () {
+    return this._methods
+  },
+  set methods (value) {
+    this._methods = value
   }
 }
 </script>

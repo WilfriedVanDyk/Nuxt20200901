@@ -49,7 +49,7 @@ export default {
         return this.$store.state.evenement.evenementToPostFireBase.locatie
       },
       set (value) {
-        console.log('VenuePicker locatie is:1 ', value)
+        // console.log('VenuePicker locatie is:1 ', value)
         this.$store.commit('evenement/updateEvenementLocatie', value)
 
         this.$store.dispatch('evenement/findVenueId', value)
@@ -74,10 +74,10 @@ export default {
       fetch('/api/venues')
         .then(res => res.json())
         .then((res) => {
-          console.log('in de api/venues search')
+          // console.log('in de api/venues search')
           const { totalItems, member } = res
           this.count = totalItems
-          console.log('in de api/venues totaal aantal items : ' + this.count)
+          // console.log('in de api/venues totaal aantal items : ' + this.count)
           this.venues = member.map(location => location.name.nl)
         })
         .finally(() => (this.isLoading = false))

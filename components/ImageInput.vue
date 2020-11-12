@@ -30,15 +30,15 @@ export default {
         return this.$store.state.evenement.image
       },
       set (value) {
-        console.log('image file in imagaeInput vue component: ', value)
-        this.$store.commit('evenement/AddImage', value)
+        // console.log('image file in imagaeInput vue component: ', value)
+        this.$store.dispatch('evenement/AddImageId', value)
       }
     }
   },
   methods: {
     addDropFile (e) {
       alert('Ok! It looks like you dropped something!')
-      console.log('e is: ', e.dataTransfer.items[0])
+      // console.log('e is: ', e.dataTransfer.items[0])
       this.file = e.dataTransfer.items[0]
     }
   }

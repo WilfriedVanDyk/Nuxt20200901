@@ -65,20 +65,21 @@ export const mutations = {
 }
 export const actions = {
     findVenueId(context, venue) {
-        console.log('venue uit de findVenueId store action: ', venue)
+        // console.log('venue uit de findVenueId store action: ', venue)
         context.commit('addVenueName', venue)
-
-        axios
-            .get(
-                `https://search-test.uitdatabank.be/places/?embed=true&q=name.nl:("${venue}")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9880`
-            )
-            .then((res) => {
-                const json = res.data.member[0]
-                console.log('dit is de id van de locatie: ', json['@id'])
-                context.commit('addVenue', json['@id'])
-            })
-            .catch((err) => {
-                console.log('error in evenementToStore findVenueId: ', err)
-            })
+        if (venue) {
+            axios
+                .get(
+                    `https://search-test.uitdatabank.be/places/?embed=true&q=name.nl:("${venue}")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9880`
+                )
+                .then((res) => {
+                    const json = res.data.member[0]
+                    console.log('dit is de id van de locatie: ', json['@id'])
+                    context.commit('addVenue', json['@id'])
+                })
+                .catch((err) => {
+                    console.log('error in evenementToStore findVenueId: ', err)
+                })
+        }
     }
 }

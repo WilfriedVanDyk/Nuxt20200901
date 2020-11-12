@@ -65,12 +65,12 @@ export const actions = {
 
     // posting an event
     postEvent: firestoreAction((context, evenement) => {
-        console.log('posteventIdUitdb is: ', evenement)
+        // console.log('posteventIdUitdb is: ', evenement.idUiTdatabank)
         // console.log(evenement)
         // return the promise so we can await the write
         return db.collection('evenementen').add(evenement)
             .then((res) => {
-                console.log('in de post event met respons: ', res)
+                console.log('in de post event fb met respons: ', res)
             })
             .catch((error) => {
                 console.log('Error getting document in index.store post event:', error)

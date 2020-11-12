@@ -17,9 +17,9 @@
     "eslint-config-prettier": "^6.11.0",
     "express": "^4.17.1",
     "firebase": "^7.19.1",
+    "form-data": "^3.0.0",
     "nuxt": "^2.14.4",
     "nuxt-material-design-icons": "^1.0.4",
-    "postscribe": "^2.0.8",
     "prettier": "^2.1.1",
     "serialize-javascript": "^4.0.0",
     "vuexfire": "^3.2.4"
@@ -29,6 +29,7 @@
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/vuetify": "^1.11.2",
     "babel-eslint": "^10.1.0",
+    "body-parser": "^1.19.0",
     "eslint": "^7.8.1",
     "eslint-config-vuetify": "^0.6.1",
     "eslint-plugin-nuxt": "^1.0.0"
