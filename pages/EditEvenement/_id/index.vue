@@ -43,11 +43,10 @@
                 prepend-icon="date_range"
                 label="Datum evenement"
                 v-bind="attrs"
-                :rules="inputValidation"
                 v-on="on"
               />
             </template>
-            <v-date-picker v-model="evenementToUpdate.datum" locale="nl" />
+            <v-date-picker v-model="evenementToUpdate.datum" locale="nl" :min="nowDate" :max="getEndDate" />
           </v-menu>
           <v-row>
             <v-col cols="11" sm="5">
@@ -75,6 +74,7 @@
                 <v-time-picker
                   v-if="timePicker1"
                   v-model="evenementToUpdate.startUur"
+                  :max="evenementToUpdate.eindUur"
                   full-width
                   @click:minute="$refs.menu1.save(evenementToUpdate.startUur)"
                 />
@@ -106,6 +106,7 @@
                 <v-time-picker
                   v-if="timePicker2"
                   v-model="evenementToUpdate.eindUur"
+                  :min="evenementToUpdate.startUur"
                   full-width
                   @click:minute="$refs.menu2.save(evenementToUpdate.eindUur)"
                 />
@@ -160,6 +161,7 @@ export default {
     return {
       evenementToUpdate: null,
       loading: false,
+      nowDate: new Date().toISOString().slice(0, 10),
       timePicker1: false,
       timePicker2: false,
       statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
@@ -169,18 +171,20 @@ export default {
       ]
     }
   },
-
-  validate (data) {
-    console.log('in validate voorlopig: ' + data.params.id)
-    return true
-  },
   computed: {
+    getEndDate () {
+      const endDate = new Date(new Date().getFullYear() + 1, new Date().getMonth(), new Date().getDay())
+      return endDate.toISOString().slice(0, 10)
+    },
     formattedDate () {
       return this.evenementToUpdate.datum
         ? format(parseISO(this.evenementToUpdate.datum), 'do MMMM yyyy', {
           locale: nl
         })
         : ''
+    },
+    getLocatie () {
+      return this.getVenueNaam ? this.getVenueNaam : this.evenementToUpdate.locatie
     },
     ...mapGetters({
       getEvenementToPut: 'evenementToPut/getEvenementToPut',
@@ -226,7 +230,7 @@ export default {
           evenement: this.evenementToUpdate.evenement,
           type: this.evenementToUpdate.type,
           organisator: this.evenementToUpdate.organisator,
-          locatie: this.getVenueNaam,
+          locatie: this.getLocatie,
           datum: this.evenementToUpdate.datum,
           startUur: this.evenementToUpdate.startUur,
           eindUur: this.evenementToUpdate.eindUur,
@@ -266,6 +270,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

@@ -35,8 +35,6 @@ export const actions = {
         // we first create a copy that excludes `id`
         // this exclusion is automatic because `id` is non-enumerable
         const id = evenement.id
-        console.log('firestore putEvent: id firebase event', id)
-        console.log('firestore putEvent: idUiTdb', evenement.idUiTdatabank)
         const evenementNoId = { ...evenement }
         // return the promise so we can await this action
         return db.collection('evenementen')

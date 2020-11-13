@@ -45,11 +45,10 @@
                     prepend-icon="date_range"
                     label="Datum evenement"
                     v-bind="attrs"
-                    :rules="inputValidation"
                     v-on="on"
                   />
                 </template>
-                <v-date-picker v-model="datum" locale="nl" />
+                <v-date-picker v-model="datum" locale="nl" :min="nowDate" :max="getEndDate" />
               </v-menu>
 
               <v-row>
@@ -78,6 +77,7 @@
                     <v-time-picker
                       v-if="timePicker1"
                       v-model="startUur"
+                      :max="eindUur"
                       full-width
                       @click:minute="$refs.menu1.save(startUur)"
                     />
@@ -110,6 +110,7 @@
                     <v-time-picker
                       v-if="timePicker2"
                       v-model="eindUur"
+                      :min="startUur"
                       full-width
                       @click:minute="$refs.menu2.save(eindUur)"
                     />
@@ -160,6 +161,7 @@ export default {
       timePicker1: false,
       timePicker2: false,
       type: '',
+      nowDate: new Date().toISOString().slice(0, 10),
       datum: null,
       startUur: null,
       eindUur: null,
@@ -173,6 +175,10 @@ export default {
     }
   },
   computed: {
+    getEndDate () {
+      const endDate = new Date(new Date().getFullYear() + 1, new Date().getMonth(), new Date().getDay())
+      return endDate.toISOString().slice(0, 10)
+    },
     evenement: {
       get () {
         return this.$store.state.evenement.evenementToPostFireBase.evenement
@@ -212,8 +218,6 @@ export default {
 
     },
     ...mapGetters({
-      getVenueNaam: 'evenementToPost/getVenueNaam',
-      getTypeAanbod: 'evenement/getTypeAanbod',
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
       getStatusArray: 'data/getStatusArray',
       findTypeId: 'evenement/findTypeId'
