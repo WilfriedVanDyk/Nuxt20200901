@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>this is the edit evenement in pages zonder id...</h1>
+    <h1>The event you try to update doesn't exist !</h1>
     <nuxt-child />
   </div>
 </template>

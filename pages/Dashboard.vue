@@ -1,11 +1,8 @@
 <template>
   <div>
-    <!-- <vuexProbeersel></vuexProbeersel> -->
-
     <h1 class="subtitle-1 grey--text">
       Dashboard
     </h1>
-    <!-- de tabel start hier-->
     <v-container fluid class="my-5 grey lighten-4">
       <v-card>
         <v-card-title>
@@ -58,8 +55,6 @@
               {{ item.beschrijving }}
             </td>
           </template>
-          <!-- item delete of update -->
-          <!-- :to="{name:'EditEvenement', params:{id:item.id}}" -->
           <template v-slot:item.actions="{ item }">
             <v-chip
               text
@@ -79,23 +74,6 @@
                 mdi-delete
               </v-icon>
             </v-chip>
-
-            <!-- <v-chip text color="grey lighten-3" class="ma-1" small @click.stop="dialog = true">
-              <span>verwijderen</span>
-              <v-icon right small>mdi-delete</v-icon>
-            </v-chip>
-
-            <v-dialog v-model="dialog" persistent max-width="300px">
-              <v-card>
-                <v-card-title class="headline">Verwijderen ?</v-card-title>
-                <v-card-text>Ben je zeker dat je dit evenement wil verwijderen ?</v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="grey" text @click="dialog = false">Cancel</v-btn>
-                  <v-btn color="grey" text @click="deleteItem(item.id)">Verwijderen</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>-->
           </template>
         </v-data-table>
       </v-card>
@@ -105,14 +83,12 @@
 
 <script>
 /* eslint-disable no-console */
-// import db from '@/plugins/fb'
 // import { format, parseISO } from 'date-fns'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
 import { mapState } from 'vuex'
-// import vuexProbeersel from "@/components/vuexProbeersel";
 
 export default {
   components: {},
@@ -147,7 +123,6 @@ export default {
           sortable: false,
           filterable: false,
           align: 'left'
-          // width: "100px"
         },
         { text: 'Locatie', value: 'locatie', align: 'center' },
         { text: 'Status', value: 'status' },
@@ -166,28 +141,21 @@ export default {
   },
   created () {
     this.$store.dispatch('bindEvenementen')
-    // als ik wil werken met parameters:  this.$store.dispatch('evenementen', { id: this.$route.params.assetId });
   },
   methods: {
     deleteItem (id, idUiTdatabank) {
-      // console.log('het deleted item id is:  ' + id)
-      // console.log('het deleted item id is:  ' + idUiTdatabank)
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-        // hier deleten van het evenement in uitdatabank via express
         axios
           .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
-          // .then(res => (console.log('delete response in dashboard is : ' + res)))
           .catch((error) => {
             console.log(`${error} + delete met axios in dashboard  met errors`)
           })
           .finally(() => console.log('delete met axios in dashboard is complete'))
 
-        // remove via firebase
         this.$store.dispatch('deleteEvent', id)
       }
     },
     EditEvenement (id) {
-      // console.log(id)
       this.$router.push({ path: `/EditEvenement/${id}` })
     }
   }

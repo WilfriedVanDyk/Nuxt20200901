@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1>Evenementen pagina</h1>
   </div>
 </template>
 

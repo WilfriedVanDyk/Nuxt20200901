@@ -1,7 +1,7 @@
 <template>
   <div class="projects">
     <h1 class="subtitle-1 grey--text">
-      Mijn evenementen
+      Mijn evenementen (after login, this page shows your organised events)
     </h1>
     <v-container class="my-5">
       <v-expansion-panels id="expan" popout multiple>
@@ -10,8 +10,6 @@
           <v-expansion-panel-content>
             <v-card flat>
               <v-card-text class="px-4 py-1 grey--text">
-                <!-- <div class="font-weight-bold">datum: {{ evenementItem.datum }}</div> -->
-
                 <div class="font-weight-bold">
                   Datum: {{ evenementItem.datum }}
                 </div>
@@ -47,47 +45,15 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-// import db from '@/plugins/fb'
 
 export default {
   name: 'Projects',
-  components: {},
-  data () {
-    return {
-      // evenementen: []
-    }
-  },
   computed: {
     evenementen () {
       let evenementen = this.$store.state.evenementen
       evenementen = evenementen.filter(evenement => evenement.organisator === 'abracourix')
       return evenementen
     }
-    // MijnEvenementen() {
-    //   return this.evenementen.filter((evenementItem) => {
-    //     return evenementItem.organisator === "Wilfried";
-    //   });
-    // },
-  },
-  created () {
-    // this.$store.dispatch('bindEvenementen')
-  //   db.collection('evenementen')
-  //     .orderBy('evenement')
-  //     .where('organisator', '==', 'vzw fatima') // hier in where clause met ingelogde gebruiker
-  //     .onSnapshot((res) => {
-  //       const changes = res.docChanges()
-  //       changes.forEach((change) => {
-  //         if (change.type === 'added') {
-  //           this.evenementen.push({
-  //             ...change.doc.data(),
-  //             id: change.doc.id
-  //           })
-  //         }
-  //       })
-  //     })
-  // }
   }
 }
 </script>

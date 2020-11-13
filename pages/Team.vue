@@ -1,7 +1,7 @@
 <template>
   <div class="team">
     <h1 class="subtitle-1 grey--text">
-      Team
+      developement Team
     </h1>
     <v-container class="my-5">
       <v-row>
@@ -14,15 +14,6 @@
           lg="3"
         >
           <v-card class="text-center ma-3">
-            <!-- <v-img
-              :key="member.name"
-              :src="member.picture"
-              :alt="member.name"
-              height="200"
-              width="200"
-              class="pt-4"
-            />-->
-            <!-- <v-responsive class="pt-4">{{member.picture}}</v-responsive> -->
             <v-avatar size="100" class="grey lighten-1">
               <img :src="member.picture" :alt="member.name">
             </v-avatar>
@@ -69,21 +60,18 @@ export default {
         {
           name: 'Corneel',
           role: 'project leader',
-          // picture: '/_nuxt/assets/pictures/mensen.jpg'
           picture: image2
         },
 
         {
           name: 'Bram',
           role: 'Web zen master',
-          // picture: '@/assets/pictures/Bram.jpg'
           picture: image3
         },
 
         {
           name: 'Jelke',
           role: 'Sales guru',
-          // picture: '/_nuxt/assets/pictures/Jelke.jpg'
           picture: image4
         }
       ]
@@ -96,8 +84,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-/* .theme--dark {
-  background-color: antiquewhite;
-} */
-</style>

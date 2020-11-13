@@ -13,13 +13,6 @@
             required
             :rules="inputValidation"
           />
-          <!-- <v-text-field
-            v-model="evenementToUpdate.type"
-            label="Type Evenement"
-            prepend-icon="event"
-            required
-            :rules="inputValidation"
-          /> -->
           <div>
             Je selecteerde het evenement type
             <a class="headline grey--text">
@@ -42,13 +35,6 @@
             required
             :rules="inputValidation"
           />
-          <!-- <v-text-field
-            v-model="evenementToUpdate.locatie"
-            label="Locatie"
-            prepend-icon="house"
-            required
-            :rules="inputValidation"
-          /> -->
           <VenuePicker class="mb-10" :locatieprop="evenementToUpdate.locatie" @naamVanVenue="evenementToUpdate.locatie=$event" />
           <v-menu>
             <template v-slot:activator="{ on, attrs }">
@@ -63,8 +49,6 @@
             </template>
             <v-date-picker v-model="evenementToUpdate.datum" locale="nl" />
           </v-menu>
-          <!-- voeg het begin uur en eind uur toe met time picker -->
-          <!-- voeg het begin uur toe met time picker -->
           <v-row>
             <v-col cols="11" sm="5">
               <v-menu
@@ -97,8 +81,6 @@
               </v-menu>
             </v-col>
             <v-spacer />
-
-            <!-- voeg het eind uur toe met time picker -->
             <v-col cols="11" sm="5">
               <v-menu
                 ref="menu2"
@@ -130,7 +112,6 @@
               </v-menu>
             </v-col>
           </v-row>
-          <!-- einde begin uur en eind uur toevoegen met time picker -->
 
           <v-overflow-btn
             v-model="evenementToUpdate.status"
@@ -171,7 +152,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
-import { mapGetters, mapMutations } from 'vuex' // , mapActions, mapState
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'EditEvenement',
@@ -188,12 +169,10 @@ export default {
       ]
     }
   },
-  // if you want to validate anything
+
   validate (data) {
-    // console.log(data)
     console.log('in validate voorlopig: ' + data.params.id)
     return true
-    // /^\d+$/.test(data.params.id) // vb van Reguliere Expressies: het mag alleen een nummer zijn
   },
   computed: {
     formattedDate () {
@@ -213,7 +192,6 @@ export default {
     })
   },
   created () {
-    // console.log(this.$route.params.id)
     if (this.$route.params.id) {
       const stringId = (this.$route.params.id).toString()
       const docRef = db.collection('evenementen').doc(stringId)
@@ -221,12 +199,9 @@ export default {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            // console.log('Document data:', doc.data())
             this.evenementToUpdate = doc.data()
             this.evenementToUpdate.id = doc.id
-            // console.log('evenementToUpdate:', this.evenementToUpdate)
           } else {
-          // doc.data() will be undefined in this case
             console.log('No such document to edit!')
           }
         })
@@ -244,12 +219,6 @@ export default {
       addType: 'evenementToPut/addType'
     }),
     editEvenement () {
-      console.log(
-        'het gewijzigd evenement in editEvenement._id is: 1',
-        this.evenementToUpdate.evenement,
-        this.evenementToUpdate
-      )
-
       if (this.$refs.form.validate()) {
         this.loading = true
         const evenement = {
@@ -258,38 +227,23 @@ export default {
           type: this.evenementToUpdate.type,
           organisator: this.evenementToUpdate.organisator,
           locatie: this.getVenueNaam,
-          datum: this.evenementToUpdate.datum, // format(parseISO(this.datum), "do MMMM yyyy", { locale: nl }),
+          datum: this.evenementToUpdate.datum,
           startUur: this.evenementToUpdate.startUur,
           eindUur: this.evenementToUpdate.eindUur,
           status: this.evenementToUpdate.status,
           beschrijving: this.evenementToUpdate.beschrijving,
           idUiTdatabank: this.evenementToUpdate.idUiTdatabank
         }
-        console.log('geselecteerde locatie-naam in editEvenement._id is: 1b', evenement.locatie)
+
         this.addName(evenement)
         this.addStartDate(evenement)
         this.addEndDate(evenement)
         this.addDescription(evenement)
-        console.log('geselecteerde type-naam in editEvenement._id is: 2', evenement.type)
         const id = this.findTypeId(evenement.type)
-        // console.log('id van type in editEvenement', id)
         this.addType(id)
-        console.log('in editEvenement method: de jsonld opgeslaan in store evenementToPut: 3', this.getEvenementToPut)
-        // console.log('id uit databank is:', evenement.idUiTdatabank)
-        // this.$store.dispatch('putEvent', evenement)
-        //   .then(() => {
-        //     this.loading = false
-        //     // this.$refs.form.reset();
-        //   })
-        //   .catch((error) => {
-        //     console.log('Error getting document in dispatch van _id.editEvenement:', error)
-        //   })
 
-        // hier de express index PUT aanroepen om dan de onderstaande code uit te voeren naar firebase, en ook naar de uitDataBank
-        // geupdate evenement meegeven in de body MEEGEVEN IN DE BODY // tot hier lukt het HIER............................................................................
         axios
           .put(`/api/putEventAPI/?id=${evenement.idUiTdatabank}`, this.getEvenementToPut)
-          .then(res => (console.log('response in editEvenement.index._id. axiosPutEvent is : 4' + res.status)))
           .then(
             this.$store.dispatch('putEvent', evenement)
               .catch((error) => {
@@ -302,7 +256,6 @@ export default {
           .catch((error) => {
             console.log(`${error} + put in index EditEvenement._id.index  met errors`)
           })
-          .finally(() => console.log('put in index EditEvenement._id.index is complete'))
 
         this.$router.push({ name: 'Dashboard' })
       }
