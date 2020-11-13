@@ -43,7 +43,11 @@
             </h3>
           </template>
           <template v-slot:item.datum="{ item }">
-            {{ item.datum }}
+            <span>{{ new Date(item.datum).toLocaleString("nl-BE", {
+              weekday: 'short',
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric' }) }}</span>
           </template>
           <template v-slot:item.status="{ item }">
             <v-chip small :class="`${item.status} white--text caption`">
@@ -83,10 +87,6 @@
 
 <script>
 /* eslint-disable no-console */
-// import { format, parseISO } from 'date-fns'
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
-import { nl } from 'date-fns/locale'
 import axios from 'axios'
 import { mapState } from 'vuex'
 
@@ -95,7 +95,6 @@ export default {
 
   data () {
     return {
-      // format,
       dialog: false,
       search: '',
       headers: [
@@ -107,7 +106,7 @@ export default {
         },
         { text: 'Wat?', value: 'type' },
         { text: 'Organisator', value: 'organisator' },
-        { text: 'Datum', value: 'datum', align: 'left' },
+        { text: 'Datum', value: 'datum', align: 'left', dataType: 'Date' },
         {
           text: 'Start uur',
           value: 'startUur',
@@ -132,9 +131,6 @@ export default {
     }
   },
   computed: {
-    formattedDate (dat) {
-      return dat ? format(parseISO(dat), 'dd MMMM yyyy', { locale: nl }) : ''
-    },
     ...mapState({
       evenementen: state => state.evenementen
     })
