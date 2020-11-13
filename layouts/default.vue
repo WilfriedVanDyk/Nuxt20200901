@@ -13,8 +13,3 @@ export default {
   components: { NavBar }
 }
 </script>
-<style>
-/* .app-content {
-  margin-left: 256px;
-} */
-</style>
