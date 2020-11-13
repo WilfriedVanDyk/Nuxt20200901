@@ -1,5 +1,7 @@
 <template>
-  <p>de index file onder editEvenement Folder ook zonder id</p>
+  <div>
+    <p>dit evenement heeft geen parameter. </p>
+  </div>
 </template>
 
 <script>

@@ -1,149 +1,154 @@
 <template>
-  <div v-if="evenementToUpdate">
-    <v-card>
-      <v-card-title>
-        <span class="headline">Wijzig evenement: {{ evenementToUpdate.evenement }}</span>
-      </v-card-title>
-      <v-card-text>
-        <v-form ref="form" class="px-3">
-          <v-text-field
-            v-model="evenementToUpdate.evenement"
-            label="Naam Evenement"
-            prepend-icon="title"
-            required
-            :rules="inputValidation"
-          />
-          <div>
-            Je selecteerde het evenement type
-            <a class="headline grey--text">
-              {{ evenementToUpdate.type }} </a>
-            <p>kies je een ander type?</p>
-          </div>
-          <v-overflow-btn
-            v-model="evenementToUpdate.type"
-            label="Type Evenement?"
-            prepend-icon="event"
-            required
-            class="my-2 mx-2"
-            :items="getTypeAanbodLabel"
-            :rules="inputValidation"
-          />
-          <v-text-field
-            v-model="evenementToUpdate.organisator"
-            label="Organisator"
-            prepend-icon="mdi-account"
-            required
-            :rules="inputValidation"
-          />
-          <VenuePicker class="mb-10" :locatieprop="evenementToUpdate.locatie" @naamVanVenue="evenementToUpdate.locatie=$event" />
-          <v-menu>
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                :value="formattedDate"
-                prepend-icon="date_range"
-                label="Datum evenement"
-                v-bind="attrs"
-                v-on="on"
-              />
-            </template>
-            <v-date-picker v-model="evenementToUpdate.datum" locale="nl" :min="nowDate" :max="getEndDate" />
-          </v-menu>
-          <v-row>
-            <v-col cols="11" sm="5">
-              <v-menu
-                ref="menu1"
-                v-model="timePicker1"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                :return-value.sync="evenementToUpdate.startUur"
-                transition="scale-transition"
-                offset-y
-                max-width="290px"
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
+  <v-app>
+    <div v-if="evenementToUpdate">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Wijzig evenement: {{ evenementToUpdate.evenement }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form" class="px-3">
+            <v-text-field
+              v-model="evenementToUpdate.evenement"
+              label="Naam Evenement"
+              prepend-icon="title"
+              required
+              :rules="inputValidation"
+            />
+            <div>
+              Je selecteerde het evenement type
+              <a class="headline grey--text">
+                {{ evenementToUpdate.type }} </a>
+              <p>kies je een ander type?</p>
+            </div>
+            <v-overflow-btn
+              v-model="evenementToUpdate.type"
+              label="Type Evenement?"
+              prepend-icon="event"
+              required
+              class="my-2 mx-2"
+              :items="getTypeAanbodLabel"
+              :rules="inputValidation"
+            />
+            <v-text-field
+              v-model="evenementToUpdate.organisator"
+              label="Organisator"
+              prepend-icon="mdi-account"
+              required
+              :rules="inputValidation"
+            />
+            <VenuePicker class="mb-10" :locatieprop="evenementToUpdate.locatie" @naamVanVenue="evenementToUpdate.locatie=$event" />
+            <v-menu>
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  :value="formattedDate"
+                  prepend-icon="date_range"
+                  label="Datum evenement"
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="evenementToUpdate.datum" locale="nl" :min="nowDate" :max="getEndDate" />
+            </v-menu>
+            <v-row>
+              <v-col cols="11" sm="5">
+                <v-menu
+                  ref="menu1"
+                  v-model="timePicker1"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  :return-value.sync="evenementToUpdate.startUur"
+                  transition="scale-transition"
+                  offset-y
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="evenementToUpdate.startUur"
+                      label="start uur"
+                      prepend-icon="access_time"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    />
+                  </template>
+                  <v-time-picker
+                    v-if="timePicker1"
                     v-model="evenementToUpdate.startUur"
-                    label="start uur"
-                    prepend-icon="access_time"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
+                    :max="evenementToUpdate.eindUur"
+                    full-width
+                    @click:minute="$refs.menu1.save(evenementToUpdate.startUur)"
                   />
-                </template>
-                <v-time-picker
-                  v-if="timePicker1"
-                  v-model="evenementToUpdate.startUur"
-                  :max="evenementToUpdate.eindUur"
-                  full-width
-                  @click:minute="$refs.menu1.save(evenementToUpdate.startUur)"
-                />
-              </v-menu>
-            </v-col>
-            <v-spacer />
-            <v-col cols="11" sm="5">
-              <v-menu
-                ref="menu2"
-                v-model="timePicker2"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                :return-value.sync="evenementToUpdate.eindUur"
-                transition="scale-transition"
-                offset-y
-                max-width="290px"
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
+                </v-menu>
+              </v-col>
+              <v-spacer />
+              <v-col cols="11" sm="5">
+                <v-menu
+                  ref="menu2"
+                  v-model="timePicker2"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  :return-value.sync="evenementToUpdate.eindUur"
+                  transition="scale-transition"
+                  offset-y
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="evenementToUpdate.eindUur"
+                      label="eind uur"
+                      prepend-icon="access_time"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    />
+                  </template>
+                  <v-time-picker
+                    v-if="timePicker2"
                     v-model="evenementToUpdate.eindUur"
-                    label="eind uur"
-                    prepend-icon="access_time"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
+                    :min="evenementToUpdate.startUur"
+                    full-width
+                    @click:minute="$refs.menu2.save(evenementToUpdate.eindUur)"
                   />
-                </template>
-                <v-time-picker
-                  v-if="timePicker2"
-                  v-model="evenementToUpdate.eindUur"
-                  :min="evenementToUpdate.startUur"
-                  full-width
-                  @click:minute="$refs.menu2.save(evenementToUpdate.eindUur)"
-                />
-              </v-menu>
-            </v-col>
-          </v-row>
+                </v-menu>
+              </v-col>
+            </v-row>
 
-          <v-overflow-btn
-            v-model="evenementToUpdate.status"
-            class="my-2 mx-2"
-            prepend-icon="help"
-            :items="getStatusArray"
-            label="status ?"
-          />
+            <v-overflow-btn
+              v-model="evenementToUpdate.status"
+              class="my-2 mx-2"
+              prepend-icon="help"
+              :items="getStatusArray"
+              label="status ?"
+            />
 
-          <v-textarea
-            v-model="evenementToUpdate.beschrijving"
-            label="Beschrijving evenement"
-            prepend-icon="edit"
-            :rules="inputValidation"
-          />
-          <v-row justify="end">
-            <v-btn class="primary mx-2 mt-3" @click="cancel">
-              cancel
-            </v-btn>
-            <v-btn
-              :loading="loading"
-              class="primary mx-2 mt-3"
-              @click="editEvenement"
-            >
-              Wijzig evenement
-            </v-btn>
-          </v-row>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </div>
+            <v-textarea
+              v-model="evenementToUpdate.beschrijving"
+              label="Beschrijving evenement"
+              prepend-icon="edit"
+              :rules="inputValidation"
+            />
+            <v-row justify="end">
+              <v-btn class="primary mx-2 mt-3" @click="cancel">
+                cancel
+              </v-btn>
+              <v-btn
+                :loading="loading"
+                class="primary mx-2 mt-3"
+                @click="editEvenement"
+              >
+                Wijzig evenement
+              </v-btn>
+            </v-row>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </div>
+    <div v-else>
+      Dit evenement bestaat niet. De parameter Id is niet juist.
+    </div>
+  </v-app>
 </template>
 
 <script>
