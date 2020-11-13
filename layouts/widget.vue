@@ -6,7 +6,7 @@
   <!-- <div class="app-content"> -->
   <div class="cultuurnet-widgets">
     <h1>in de widget layout</h1>
-    <v-app-bar text app>
+    <!-- <v-app-bar text app>
       <v-spacer />
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -19,9 +19,6 @@
         </template>
         <v-list>
           <v-list-item v-for="(link,i) in links" :key="i" router :to="link.route">
-            <!-- <nuxt-link :to="link.route">
-                {{ link.text }} nuxt
-              </nuxt-link> -->
             <v-list-item-title>{{ link.text }}</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -33,21 +30,21 @@
           exit_to_app
         </v-icon>
       </v-btn>
-    </v-app-bar>
+    </v-app-bar> -->
   <!-- <nuxt /> -->
   </div>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    links: [
-      { icon: 'event', text: 'Evenementen', route: '/' },
-      { icon: 'dashboard', text: 'Dashboard', route: '/dashboard' },
-      // { icon: 'folder', text: 'Mijn evenementen', route: '/projects' },
-      { icon: 'person', text: 'Team', route: '/Team' }
-    ]
-  }),
+  // data: () => ({
+  //   links: [
+  //     { icon: 'event', text: 'Evenementen', route: '/' },
+  //     { icon: 'dashboard', text: 'Dashboard', route: '/dashboard' },
+  //     // { icon: 'folder', text: 'Mijn evenementen', route: '/projects' },
+  //     { icon: 'person', text: 'Team', route: '/Team' }
+  //   ]
+  // }),
   head: {
     title: 'Widget page',
     script: [

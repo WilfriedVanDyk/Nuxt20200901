@@ -186,16 +186,6 @@ export default {
         this.$store.commit('evenement/updateEvenementTitle', value)
       }
     },
-    // werkt niet
-    // type: {
-    //   get () {
-    //     return this.$store.state.evenement.evenementToPostFireBase.type
-    //   },
-    //   set (value) {
-    //     console.log('evenement.type is: ', value)
-    //     this.$store.commit('evenement/updateEvenementType', value)
-    //   }
-    // },
     beschrijving: {
       get () {
         return this.$store.state.evenement.evenementToPostFireBase.beschrijving

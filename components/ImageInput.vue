@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     addDropFile (e) {
-      alert('Ok! It looks like you dropped something!')
+      alert('Ok! It looks like you dropped something! this is still in development. try selecting an image!!')
       // console.log('e is: ', e.dataTransfer.items[0])
       this.file = e.dataTransfer.items[0]
     }
