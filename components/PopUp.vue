@@ -21,7 +21,6 @@
                 required
                 :rules="inputValidation"
               />
-              <!-- hier het type vinden om dan later in de UiTdb het type ID te plaatsen -->
               <v-overflow-btn
                 v-model="type"
                 label="Type Evenement?"
@@ -52,8 +51,7 @@
                 </template>
                 <v-date-picker v-model="datum" locale="nl" />
               </v-menu>
-              <!-- voeg het begin uur en eind uur toe met time picker -->
-              <!-- voeg het begin uur toe met time picker -->
+
               <v-row>
                 <v-col cols="11" sm="5">
                   <v-menu
@@ -87,7 +85,6 @@
                 </v-col>
                 <v-spacer />
 
-                <!-- voeg het eind uur toe met time picker -->
                 <v-col cols="11" sm="5">
                   <v-menu
                     ref="menu2"
@@ -119,7 +116,6 @@
                   </v-menu>
                 </v-col>
               </v-row>
-              <!-- einde begin uur en eind uur toevoegen met time picker -->
 
               <v-overflow-btn
                 v-model="status"
@@ -155,7 +151,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import axios from 'axios'
-import { mapMutations, mapGetters, mapActions } from 'vuex' // , mapState
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'PopUp',
@@ -182,7 +178,6 @@ export default {
         return this.$store.state.evenement.evenementToPostFireBase.evenement
       },
       set (value) {
-        // console.log('evenement.evenement is: ', value)
         this.$store.commit('evenement/updateEvenementTitle', value)
       }
     },
@@ -191,22 +186,18 @@ export default {
         return this.$store.state.evenement.evenementToPostFireBase.beschrijving
       },
       set (value) {
-        // console.log('evenement.beschrijving is: ', value)
         this.$store.commit('evenement/updateEvenementBeschrijving', value)
       }
     },
     organisator: {
       get () {
-        // console.log('get evenement.organisator is: ', this.$store.state.evenement.evenementToPostFireBase.organisator)
         return this.$store.state.evenement.evenementToPostFireBase.organisator
       },
       set (value) {
-        // console.log('set evenement.organisator is: ', this.$store.state.evenement.evenementToPostFireBase.organisator)
         this.$store.commit('evenement/updateEvenementOrganisator', value)
       }
     },
     formattedDate () {
-      // console.log('datum in formatted date popup.vue: ', this.datum)
       return this.datum
         ? format(parseISO(this.datum), 'do MMMM yyyy', { locale: nl })
         : ''
@@ -216,16 +207,11 @@ export default {
         return this.$store.state.evenement.evenementToPostFireBase.status
       },
       set (value) {
-        // console.log('set evenement.status is: ', this.$store.state.evenement.evenementToPostFireBase.status)
         this.$store.commit('evenement/updateEvenementStatus', value)
       }
 
     },
-    // ...mapState([
-    //   'typeAanbod'
-    // ]),
     ...mapGetters({
-      // getEvenementToPost: 'evenement/getevenementToPostUiTdb',
       getVenueNaam: 'evenementToPost/getVenueNaam',
       getTypeAanbod: 'evenement/getTypeAanbod',
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
@@ -250,29 +236,24 @@ export default {
     submit () {
       if (this.$refs.form.validate()) {
         this.loading = true
-        // console.log('type in evenement is : ', this.type)
         this.updateEvenementType(this.type)
         this.updateEvenementDatum(this.datum)
         this.updateEvenementStartUur(this.startUur)
         this.updateEvenementEindUur(this.eindUur)
-        this.addStartDateToEvenementToPostUiTdb() // werkt
-        this.addEndDateToEvenementToPostUiTdb() // werkt
-        this.addTypeToEvenementToPostUiTdb(this.findTypeId(this.$store.state.evenement.evenementToPostFireBase.type)) // werkt
+        this.addStartDateToEvenementToPostUiTdb()
+        this.addEndDateToEvenementToPostUiTdb()
+        this.addTypeToEvenementToPostUiTdb(this.findTypeId(this.$store.state.evenement.evenementToPostFireBase.type))
         console.log('in popup method submit: de jsonld opgeslaan in store.evenement.evenementToPostUiTdb: OK!!', this.$store.state.evenement.evenementToPostUiTdb)
 
         axios
           .post('/api/postEventAPI', this.$store.state.evenement.evenementToPostUiTdb)
           .then((res) => {
-            // hier controle invoeren: als de vorige post naar UiTdb werkte, maar die naar Fb niet: Moet ik de UitDb entry weer verwijderen!!!!!
             console.log('respons id na post naar UitDb: 3b ', res.data.id)
-            // hier moet je de image nog uploaden naar het pas geposte evenement gebruik makend van de id v het evenement
             this.AddImageToEvenementUiTdb(res.data.id)
 
             this.updateEvenementIdUiTdatabank(res.data.id)
             const eventStore = this.$store.state.evenement.evenementToPostFireBase
-            // console.log('voor de dispatch in het postevent naar fb: evenement is 7 ', eventStore)
             this.$store.dispatch('postEvent', eventStore)
-            // console.log('na de dispatch in het postevent 8')
           })
           .then(() => {
             this.loading = false
@@ -284,7 +265,6 @@ export default {
           .catch((error) => {
             console.log(`${error} + post met axios in popUp  met errors`)
           })
-        // .finally(() => console.log('post met axios in PopUp is complete'))
       }
     },
     cancel () {

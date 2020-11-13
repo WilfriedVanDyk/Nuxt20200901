@@ -18,7 +18,6 @@ module.exports = { path: '/api/', handler: app }
 // Sanity endpoint works!!!
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/hello', (req, res) => {
-  console.log('hello nuxt')
   res.send('world')
 })
 

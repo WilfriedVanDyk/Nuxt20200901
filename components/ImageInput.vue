@@ -16,7 +16,7 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
+
 export default {
   name: 'ImageInput',
   data () {
@@ -30,7 +30,6 @@ export default {
         return this.$store.state.evenement.image
       },
       set (value) {
-        // console.log('image file in imagaeInput vue component: ', value)
         this.$store.dispatch('evenement/AddImageId', value)
       }
     }
@@ -38,7 +37,6 @@ export default {
   methods: {
     addDropFile (e) {
       alert('Ok! It looks like you dropped something! this is still in development. try selecting an image!!')
-      // console.log('e is: ', e.dataTransfer.items[0])
       this.file = e.dataTransfer.items[0]
     }
   }

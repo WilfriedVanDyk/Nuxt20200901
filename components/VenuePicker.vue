@@ -26,8 +26,6 @@
   </v-card>
 </template>
 <script>
-// attribute bij v-autocomplete kan zijn  @input="venueToStore" om de method venueToStore aan te spreken
-/* eslint-disable no-console */
 export default {
   props: {
     locatieprop: {
@@ -40,7 +38,6 @@ export default {
     descriptionLimit: 60,
     venues: [],
     isLoading: false,
-    // locatie: null,
     search: null
   }),
   computed: {
@@ -49,15 +46,9 @@ export default {
         return this.$store.state.evenement.evenementToPostFireBase.locatie
       },
       set (value) {
-        // console.log('VenuePicker locatie is:1 ', value)
         this.$store.commit('evenement/updateEvenementLocatie', value)
-
         this.$store.dispatch('evenement/findVenueId', value)
-
         this.$store.dispatch('evenementToPut/findVenueId', value)
-
-        // this.$store.dispatch('evenementToPut/findVenueId', value)
-        // this.$store.dispatch('evenement/findVenueId', value)
       }
     }
   },
@@ -74,25 +65,12 @@ export default {
       fetch('/api/venues')
         .then(res => res.json())
         .then((res) => {
-          // console.log('in de api/venues search')
           const { totalItems, member } = res
           this.count = totalItems
-          // console.log('in de api/venues totaal aantal items : ' + this.count)
           this.venues = member.map(location => location.name.nl)
         })
         .finally(() => (this.isLoading = false))
     }
-  },
-  methods: {
-    // venueEmmit () {
-    //   this.$emit('naamVanVenue', this.locatie)
-    // },
-    // venueToStore () {
-    //   if (this.locatie !== undefined) {
-    //     console.log('in de venueStore van de venuePicker: ', this.locatie)
-    //     this.$store.dispatch('evenementToPost/findVenueId', this.locatie)
-    //   }
-    // }
   }
 }
 </script>

@@ -51,12 +51,10 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 
-// import axios from "axios";
 export default {
   props: {
     eventprop: {
@@ -68,7 +66,6 @@ export default {
   data () {
     return {
       datum: new Date(this.eventprop.startDate).toLocaleDateString()
-      //   uitEvenement: this.uitEvenementObject
     }
   },
   computed: {

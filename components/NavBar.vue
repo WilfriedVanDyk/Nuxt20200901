@@ -8,7 +8,6 @@
         </v-btn>
       </v-snackbar>
 
-      <!-- <v-toolbar> -->
       <v-app-bar text app>
         <v-app-bar-nav-icon class="grey--text" @click="drawer=!drawer" />
         <v-toolbar-title class="text-uppercase grey--text">
@@ -29,9 +28,6 @@
           </template>
           <v-list>
             <v-list-item v-for="(link,i) in links" :key="i" router :to="link.route">
-              <!-- <nuxt-link :to="link.route">
-                {{ link.text }} nuxt
-              </nuxt-link> -->
               <v-list-item-title>{{ link.text }}</v-list-item-title>
             </v-list-item>
           </v-list>
@@ -43,7 +39,6 @@
             exit_to_app
           </v-icon>
         </v-btn>
-        <!-- </v-toolbar> -->
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" app class="info">
@@ -64,11 +59,9 @@
         <v-list>
           <v-list-item v-for="(link, i) in links" :key="i" router :to="link.route">
             <v-list-item-action>
-              <!-- <v-btn icon> -->
               <v-icon class="white--text">
                 {{ link.icon }}
               </v-icon>
-              <!-- </v-btn>   -->
             </v-list-item-action>
 
             <v-list-item-content>
@@ -93,12 +86,10 @@ export default {
   data: () => ({
     imageWilfried,
     snackbar: false,
-    // link: "",
     drawer: true,
     links: [
       { icon: 'event', text: 'Evenementen', route: '/' },
       { icon: 'dashboard', text: 'Dashboard', route: '/dashboard' },
-      // { icon: 'folder', text: 'Mijn evenementen', route: '/projects' },
       { icon: 'person', text: 'Team', route: '/Team' }
     ]
   })
