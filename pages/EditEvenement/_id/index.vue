@@ -187,7 +187,7 @@ export default {
       getVenueNaam: 'evenementToPut/getVenueNaam',
       getTypeAanbod: 'evenement/getTypeAanbod',
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
-      getStatusArray: 'typeAanbod/getStatusArray',
+      getStatusArray: 'data/getStatusArray',
       findTypeId: 'evenement/findTypeId'
     })
   },

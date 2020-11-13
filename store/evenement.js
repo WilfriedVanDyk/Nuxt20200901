@@ -34,8 +34,6 @@ export const state = () => ({
         }
     },
     venueNaam: '',
-    typeId: null, // mag verwijdert worden als we met de volledige evenementToPostUiTdb werken (zie ook in updateEvenementType const mag weg)
-    image: null,
     imageId: null
 })
 export const getters = {
@@ -46,15 +44,8 @@ export const getters = {
         return state.typeAanbod.map(object => object.label).sort()
     },
     findTypeId: state => (typeEvenement) => {
-        // hier het type Id halen uit de data.state.typeAanbod ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // console.log('in de findTypeId: typeObject is :', typeEvenement)
-        // typeId = (state.typeAanbod.map(object => object.label === type)).id // context.rootState.data.typeAanbod;     this.$store.data of/en   state.typeAanbod is undefined.....
         const gekozenType = state.typeAanbod.find(object => object.label === typeEvenement)
-        // console.log('in de findTypeId: gekozen type is: ', gekozenType)
         const typeId = gekozenType.id
-        // console.log('in findTypeId in mutation van data.js, de gevonden id is:', typeId) // dit werkt tot  en met hier ik weet nog niet zeker of het iets returned... dat gebeurt dus niet....
-        // state.typeId = typeId
-        // console.log('data state.typeId is: ', state.typeId)
         return typeId
     }
 }
@@ -76,20 +67,13 @@ export const mutations = {
         state.evenementToPostUiTdb.description = { nl: beschrijving }
     },
     updateEvenementType: (state, type) => {
-        // console.log('in updateEvenementType in store.evenement:', type)
         state.evenementToPostFireBase.type = type
-        //  hoe roep ik findTypeId(type) op uit typeAanbod module  ?????????????
-        // const typeId = rootGetters['typeAanbod/findTypeId'](type) // geeft error: rootGetters is undefined...
-        // const typeId = getters.findTypeId(type) // geeft zelfde error
-        // console.log('tyeId in store.evenement mutation updateEvenementType is: ', typeId)
-        // state.evenementToPostUiTdb.terms.push({ typeId })
     },
     updateEvenementOrganisator: (state, organisator) => {
         state.evenementToPostFireBase.organisator = organisator
     },
     updateEvenementLocatie: (state, locatie) => {
         state.evenementToPostFireBase.locatie = locatie
-        // console.log('3: ', state.evenementToPostFireBase.locatie)
     },
     updateEvenementDatum: (state, datum) => {
         state.evenementToPostFireBase.datum = datum
@@ -112,41 +96,27 @@ export const mutations = {
     },
     addEndDateToEvenementToPostUiTdb(state) {
         const eindDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.eindUur}:00+01:00`
-        // console.log(' in de store.evenement endDate to UitDb json: ', eindDateTime)
         state.evenementToPostUiTdb.endDate = eindDateTime
     },
     addTypeToEvenementToPostUiTdb(state, id) {
-        // console.log('typid in evenementToPost in addType mutation:', id)
-        // state.type = { id }
-        // console.log('state.type in evenementToPost is: ', state.type)
         state.evenementToPostUiTdb.terms.length = 0
         state.evenementToPostUiTdb.terms.push({ id })
     },
     addVenue(state, venueId) {
         state.evenementToPostUiTdb.location['@id'] = venueId
-        // console.log('evenementToPostUiTdb evenement.addVenue :5', state.evenementToPostUiTdb)
     },
     addVenueName(state, locatieNaam) {
         state.venueNaam = locatieNaam
-        // console.log('3: ', state.venueNaam)
     }
 }
 export const actions = {
     AddImageId(context, image) {
-        console.log('image in AddImageID store.evenement: 1', image)
-        // state.image = image
-        // state.evenementToPostFireBase.image = image
-        // console.log('image file in store.evenement.evenementToPostFireBase: ', state.evenementToPostFireBase)
-        // //// hier de api.index aanspreken  imageToUiTdb
         if (image) {
             const formData = new FormData()
             formData.append('file', image)
             formData.append('description', 'een foto bij een evenement')
             formData.append('language', 'nl')
             formData.append('copyrightHolder', 'pixabay')
-            // for (const pair of formData.entries()) {
-            //     console.log(pair[0] + ', ' + pair[1])
-            // }
 
             axios.post('https://io-test.uitdatabank.be/images/', formData, {
                 headers: {
@@ -156,68 +126,42 @@ export const actions = {
                 }
             })
                 .then((response) => {
-                    console.log('response image Id: 2', response.data.imageId)
-                    // state.imageId = response.data.imageId
                     context.commit('addImageIdToState', response.data.imageId)
-                    console.log('state.imageId: 3', context.state.imageId)
-                    // state.evenementToPostUiTdb.mediaObjectId = response.data.imageId
-                    // const data = res.json(response)
-                    // console.log(data)
                 })
                 .catch((err) => {
-                    console.log('error post image to UiTdb: ', err)
+                    console.log(err)
                 })
         }
     },
     AddImageToEvenementUiTdb(context, idEvent) {
         const idFoto = context.state.imageId
-        console.log('idFoto: 4', idFoto)
-        console.log('idEvent: 4', idEvent)
-        // const object = {
-        //     mediaObjectId: idFoto
-        // }
-        axios.post(
-            `https://io-test.uitdatabank.be/events/${idEvent}/images/`
-            ,
-            {
-                /*eslint-disable */
-                "mediaObjectId": "70806433-772a-4413-b7e6-63e41d1a1887"
+        if (idFoto) {
+            axios.post(
+                `https://io-test.uitdatabank.be/events/${idEvent}/images/`
+                ,
+                {
+                    /*eslint-disable */
+                    // "mediaObjectId": "70806433-772a-4413-b7e6-63e41d1a1887"
+                    "mediaObjectId": idFoto
 
-            },
-            {
-                headers: {
-                    'x-api-key': APIKEYWilfried,
-                    Authorization: `${JWT}`,
-                    'Content-Type': 'text/plain'
-                }
-            })
-            .then((response) => {
-                console.log('55', response)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        // axios.post(`https://io-test.uitdatabank.be/events/${idEvent}/images/`, object, {
-        //     data: {
-        //         mediaObjectId: idFoto
-        //     },
-        //     headers: {
-        //         // 'Content- Type': 'application/ json',
-        //         'x-api-key': APIKEYWilfried,
-        //         Authorization: `${JWT}`
-        //     }
-        // })
-        //     .then((response) => {
-        //         console.log('55', response)
-        //     })
-        //     .catch((err) => {
-        //         console.log(err)
-        //     })
+                },
+                {
+                    headers: {
+                        'x-api-key': APIKEYWilfried,
+                        Authorization: `${JWT}`,
+                        'Content-Type': 'text/plain'
+                    }
+                })
+                .then((response) => {
+                    console.log('55', response)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
     },
     findVenueId(context, venue) {
-        // console.log('venue uit de evenement.findVenueId store action:2 ', venue)
         context.commit('addVenueName', venue)
-        // er komt soms een fout op het einde... waarom ???
         if (venue) {
             axios
                 .get(
@@ -225,7 +169,6 @@ export const actions = {
                 )
                 .then((res) => {
                     const json = res.data.member[0]
-                    // console.log('dit is de id van de locatie:4 ', json['@id'])
                     context.commit('addVenue', json['@id'])
                 })
                 .catch((err) => {
@@ -235,15 +178,3 @@ export const actions = {
     }
 }
 
-// const evenement = {
-//     evenement: this.evenement,
-//     type: this.type,
-//     organisator: this.organisator,
-//     locatie: this.locatie,
-//     datum: this.datum,
-//     startUur: this.startUur,
-//     eindUur: this.eindUur,
-//     status: this.status,
-//     beschrijving: this.beschrijving,
-//     idUiTdatabank: ''
-// }

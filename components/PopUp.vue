@@ -215,7 +215,7 @@ export default {
       getVenueNaam: 'evenementToPost/getVenueNaam',
       getTypeAanbod: 'evenement/getTypeAanbod',
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
-      getStatusArray: 'typeAanbod/getStatusArray',
+      getStatusArray: 'data/getStatusArray',
       findTypeId: 'evenement/findTypeId'
     })
   },
@@ -243,12 +243,10 @@ export default {
         this.addStartDateToEvenementToPostUiTdb()
         this.addEndDateToEvenementToPostUiTdb()
         this.addTypeToEvenementToPostUiTdb(this.findTypeId(this.$store.state.evenement.evenementToPostFireBase.type))
-        console.log('in popup method submit: de jsonld opgeslaan in store.evenement.evenementToPostUiTdb: OK!!', this.$store.state.evenement.evenementToPostUiTdb)
 
         axios
           .post('/api/postEventAPI', this.$store.state.evenement.evenementToPostUiTdb)
           .then((res) => {
-            console.log('respons id na post naar UitDb: 3b ', res.data.id)
             this.AddImageToEvenementUiTdb(res.data.id)
 
             this.updateEvenementIdUiTdatabank(res.data.id)

@@ -6,8 +6,6 @@
 // https://firebase.google.com/docs/web/setup#available-libraries -->
 // <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
 
-//     <script>
-
 // Your web app's Firebase configuration
 
 import firebase from 'firebase/app'
@@ -31,8 +29,3 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore()
 export default db
-
-// const { TimeStamp, GeoPoint } = firebase.firestore
-// export { TimeStamp, GeoPoint }
-
-// </script>
