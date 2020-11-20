@@ -87,7 +87,7 @@
 
 <script>
 /* eslint-disable no-console */
-import axios from 'axios'
+// import axios from 'axios'
 import { mapState } from 'vuex'
 
 export default {
@@ -141,13 +141,7 @@ export default {
   methods: {
     deleteItem (id, idUiTdatabank) {
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-        axios
-          .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
-          .catch((error) => {
-            console.log(`${error} + delete met axios in dashboard  met errors`)
-          })
-          .finally(() => console.log('delete met axios in dashboard is complete'))
-
+        this.$store.dispatch.deleteEventUiTdb.deleteItem(idUiTdatabank)
         this.$store.dispatch('deleteEvent', id)
       }
     },

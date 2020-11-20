@@ -157,8 +157,8 @@ import db from '@/plugins/fb'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-import axios from 'axios'
-import { mapGetters, mapMutations } from 'vuex'
+// import axios from 'axios'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'EditEvenement',
@@ -225,25 +225,19 @@ export default {
       addStartDate: 'evenementToPut/addStartDate',
       addEndDate: 'evenementToPut/addEndDate',
       addDescription: 'evenementToPut/addDescription',
-      addType: 'evenementToPut/addType'
+      addType: 'evenementToPut/addType',
+      evenementfbToStore: 'evenementToPut/evenementfbToStore'
+    }),
+    ...mapActions({
+      putEventToAlldb: 'evenementToPut/putEventToAlldb'
     }),
     editEvenement () {
       if (this.$refs.form.validate()) {
         this.loading = true
-        const evenement = {
-          id: this.evenementToUpdate.id,
-          evenement: this.evenementToUpdate.evenement,
-          type: this.evenementToUpdate.type,
-          organisator: this.evenementToUpdate.organisator,
-          locatie: this.getLocatie,
-          datum: this.evenementToUpdate.datum,
-          startUur: this.evenementToUpdate.startUur,
-          eindUur: this.evenementToUpdate.eindUur,
-          status: this.evenementToUpdate.status,
-          beschrijving: this.evenementToUpdate.beschrijving,
-          idUiTdatabank: this.evenementToUpdate.idUiTdatabank
-        }
+        const evenement = this.evenementToUpdate
+        evenement.locatie = this.getLocatie
 
+        this.evenementfbToStore(evenement)
         this.addName(evenement)
         this.addStartDate(evenement)
         this.addEndDate(evenement)
@@ -251,22 +245,8 @@ export default {
         const id = this.findTypeId(evenement.type)
         this.addType(id)
 
-        axios
-          .put(`/api/putEventAPI/?id=${evenement.idUiTdatabank}`, this.getEvenementToPut)
-          .then(
-            this.$store.dispatch('putEvent', evenement)
-              .catch((error) => {
-                console.log('Error getting document in dispatch van _id.editEvenement:', error)
-              }))
-          .then(() => {
-            this.loading = false
-            // this.$refs.form.reset();
-          })
-          .catch((error) => {
-            console.log(`${error} + put in index EditEvenement._id.index  met errors`)
-          })
-
-        this.$router.push({ name: 'Dashboard' })
+        this.putEventToAlldb(evenement.idUiTdatabank)
+          .then(this.$router.push({ name: 'Dashboard' }))
       }
     },
     cancel () {

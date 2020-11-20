@@ -20,60 +20,6 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/hello', (req, res) => {
   res.send('world')
 })
-
-// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// post event in uitDataBank : app.post works with axios.post in popup.vue component
-app.post('/postEventAPI', (req, res) => {
-  const evenementVoorUitDatabank = req.body
-  axios
-    .post(
-      'https://io-test.uitdatabank.be/imports/events/', evenementVoorUitDatabank, {
-      headers: {
-        'x-api-key': APIKEYWilfried,
-        Authorization: `${JWT}`
-      }
-    }
-    )
-    .then((response) => {
-      res.json(response.data)
-    })
-    .catch((err) => {
-      console.log('error post offer', err)
-    })
-})
-
-// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Put event in uitDataBank : app.put works with axios.put in EditEvenement.index._id
-app.put('/putEventAPI', (req, res) => {
-  const id = req.query.id
-  axios
-    .put(
-      `https://io-test.uitdatabank.be/imports/events/${id}`, req.body, {
-      headers: {
-        'x-api-key': APIKEYWilfried,
-        Authorization: `${JWT}`
-      }
-    }
-    )
-    .then((response) => {
-      res.json(response.data)
-    })
-    .catch((err) => {
-      console.log('error put offer in api.index om update te doen in de UiTdb: ', err)
-    })
-})
-
-// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// delete event in uitDataBank: app.delete works with axios.delete in dashboard
-app.delete('/deleteEventAPI', (req, res) => {
-  const idUiTdatabank = req.query.idUiTdatabank
-  axios.delete(`https://io-test.uitdatabank.be/events/${idUiTdatabank}`, {
-    headers: {
-      'x-api-key': APIKEYWilfried,
-      Authorization: `${JWT}`
-    }
-  })
-})
 /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // app.post image to event in UiTdb
 app.post('/imageToEvent', (req, res) => {
@@ -101,6 +47,7 @@ app.get('/venues', (req, res) => {
   axios
     .get(
       `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=200&addressCountry=BE&postalCode=9880`
+      // `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=200&addressCountry=BE&(postalCode=9880 OR postalCode=9990)`
     )
     .then((response) => {
       res.json(response.data)

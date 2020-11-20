@@ -35,7 +35,7 @@ export default {
     }
   },
   data: () => ({
-    descriptionLimit: 60,
+    // descriptionLimit: 60,
     venues: [],
     isLoading: false,
     search: null
@@ -68,6 +68,8 @@ export default {
           const { totalItems, member } = res
           this.count = totalItems
           this.venues = member.map(location => location.name.nl)
+          // voor als ik veiliger de juiste locatie wil opzoeken
+          // this.venues = member.map(location => {name: location.name.nl, id: location.id)
         })
         .finally(() => (this.isLoading = false))
     }

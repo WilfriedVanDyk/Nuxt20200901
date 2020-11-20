@@ -151,26 +151,31 @@
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-import axios from 'axios'
+// import axios from 'axios'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'PopUp',
   data () {
     return {
+      evenement: null,
       timePicker1: false,
       timePicker2: false,
-      type: '',
+      // type: '',
       nowDate: new Date().toISOString().slice(0, 10),
       datum: null,
       startUur: null,
       eindUur: null,
+      beschrijving: null,
       inputValidation: [
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
       loading: false,
+      organisator: null,
       dialog: false,
+      status: null,
+      type: null,
       typeId: ''
     }
   },
@@ -179,43 +184,10 @@ export default {
       const endDate = new Date(new Date().getFullYear() + 1, new Date().getMonth(), new Date().getDay())
       return endDate.toISOString().slice(0, 10)
     },
-    evenement: {
-      get () {
-        return this.$store.state.evenement.evenementToPostFireBase.evenement
-      },
-      set (value) {
-        this.$store.commit('evenement/updateEvenementTitle', value)
-      }
-    },
-    beschrijving: {
-      get () {
-        return this.$store.state.evenement.evenementToPostFireBase.beschrijving
-      },
-      set (value) {
-        this.$store.commit('evenement/updateEvenementBeschrijving', value)
-      }
-    },
-    organisator: {
-      get () {
-        return this.$store.state.evenement.evenementToPostFireBase.organisator
-      },
-      set (value) {
-        this.$store.commit('evenement/updateEvenementOrganisator', value)
-      }
-    },
     formattedDate () {
       return this.datum
         ? format(parseISO(this.datum), 'do MMMM yyyy', { locale: nl })
         : ''
-    },
-    status: {
-      get () {
-        return this.$store.state.evenement.evenementToPostFireBase.status
-      },
-      set (value) {
-        this.$store.commit('evenement/updateEvenementStatus', value)
-      }
-
     },
     ...mapGetters({
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
@@ -225,7 +197,6 @@ export default {
   },
   _methods: {
     ...mapMutations({
-      updateEvenementType: 'evenement/updateEvenementType',
       updateEvenementDatum: 'evenement/updateEvenementDatum',
       updateEvenementStartUur: 'evenement/updateEvenementStartUur',
       updateEvenementEindUur: 'evenement/updateEvenementEindUur',
@@ -235,28 +206,26 @@ export default {
       addTypeToEvenementToPostUiTdb: 'evenement/addTypeToEvenementToPostUiTdb'
     }),
     ...mapActions({
-      AddImageToEvenementUiTdb: 'evenement/AddImageToEvenementUiTdb'
+      AddImageToEvenementUiTdb: 'evenement/AddImageToEvenementUiTdb',
+      PostEvent: 'evenement/PostEvent'
     }),
     submit () {
       if (this.$refs.form.validate()) {
         this.loading = true
-        this.updateEvenementType(this.type)
+        this.$store.commit('evenement/updateEvenementTitle', this.evenement)
+        this.$store.commit('evenement/updateEvenementBeschrijving', this.beschrijving)
+        this.$store.commit('evenement/updateEvenementOrganisator', this.organisator)
+        this.$store.commit('evenement/updateEvenementStatus', this.status)
         this.updateEvenementDatum(this.datum)
         this.updateEvenementStartUur(this.startUur)
         this.updateEvenementEindUur(this.eindUur)
+        this.$store.commit('evenement/updateEvenementType', this.type)
+
         this.addStartDateToEvenementToPostUiTdb()
         this.addEndDateToEvenementToPostUiTdb()
         this.addTypeToEvenementToPostUiTdb(this.findTypeId(this.$store.state.evenement.evenementToPostFireBase.type))
 
-        axios
-          .post('/api/postEventAPI', this.$store.state.evenement.evenementToPostUiTdb)
-          .then((res) => {
-            this.AddImageToEvenementUiTdb(res.data.id)
-
-            this.updateEvenementIdUiTdatabank(res.data.id)
-            const eventStore = this.$store.state.evenement.evenementToPostFireBase
-            this.$store.dispatch('postEvent', eventStore)
-          })
+        this.PostEvent()
           .then(() => {
             this.loading = false
             this.dialog = false
