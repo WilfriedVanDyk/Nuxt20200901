@@ -20,34 +20,13 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/hello', (req, res) => {
   res.send('world')
 })
-/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// app.post image to event in UiTdb
-app.post('/imageToEvent', (req, res) => {
-  console.log('body bij imageToEvent: 5', req.body)
-  const idEvent = req.body.idEvent
-  const idFoto = req.body.idFoto
-  axios.post(`https://io-test.uitdatabank.be/events/${idEvent}4dc2bd3b-1971-4487-96a6-5fc43129f0d2/images/`, { mediaObjectId: idFoto }, {
-    headers: {
-      'Content-Type': 'text/plain',
-      'x-api-key': APIKEYWilfried,
-      Authorization: `${JWT}`
-    }
-  })
-    .then((response) => {
-      console.log('55', response)
-      res.json(response.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-})
+
 //  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // app.get offer locatie/venues
 app.get('/venues', (req, res) => {
   axios
     .get(
-      `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=200&addressCountry=BE&postalCode=9880`
-      // `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=200&addressCountry=BE&(postalCode=9880 OR postalCode=9990)`
+      `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=300&addressCountry=BE&regions=reg-meetjesland` // 51.090973, 3.442068
     )
     .then((response) => {
       res.json(response.data)
@@ -55,4 +34,15 @@ app.get('/venues', (req, res) => {
     .catch((err) => {
       console.log(err)
     })
+})
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// delete event in uitDataBank: app.delete works with axios.delete in dashboard
+app.delete('/deleteEventAPI', (req, res) => {
+  const idUiTdatabank = req.query.idUiTdatabank
+  axios.delete(`https://io-test.uitdatabank.be/events/${idUiTdatabank}`, {
+    headers: {
+      'x-api-key': APIKEYWilfried,
+      Authorization: `${JWT}`
+    }
+  })
 })

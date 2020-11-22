@@ -4,7 +4,7 @@
       <h2
         v-if="locatieprop"
       >
-        Je selecteerde: <strong>{{ locatieprop }}</strong>
+        Je selecteerde: <strong>{{ locatieprop.name }}</strong>
       </h2>
       <span v-if="!locatie">selecteer een andere locatie indien nodig</span>
       <v-autocomplete
@@ -15,7 +15,7 @@
         color="white"
         hide-no-data
         hide-selected
-        item-text="Description"
+        item-text="name"
         item-value="API"
         label="Locatie ?"
         placeholder="Start typing to Search"
@@ -29,13 +29,12 @@
 export default {
   props: {
     locatieprop: {
-      type: String,
+      type: Object,
       default: null,
       required: false
     }
   },
   data: () => ({
-    // descriptionLimit: 60,
     venues: [],
     isLoading: false,
     search: null
@@ -46,9 +45,10 @@ export default {
         return this.$store.state.evenement.evenementToPostFireBase.locatie
       },
       set (value) {
-        this.$store.commit('evenement/updateEvenementLocatie', value)
-        this.$store.dispatch('evenement/findVenueId', value)
-        this.$store.dispatch('evenementToPut/findVenueId', value)
+        if (value) {
+          this.$store.commit('evenement/updateEvenementLocatie', value)
+          this.$store.commit('evenementToPut/addVenue', value)
+        }
       }
     }
   },
@@ -67,9 +67,12 @@ export default {
         .then((res) => {
           const { totalItems, member } = res
           this.count = totalItems
-          this.venues = member.map(location => location.name.nl)
-          // voor als ik veiliger de juiste locatie wil opzoeken
-          // this.venues = member.map(location => {name: location.name.nl, id: location.id)
+          this.venues = member.map((location) => {
+            const venue = {}
+            venue.name = location.name.nl
+            venue.id = location['@id']
+            return venue
+          })
         })
         .finally(() => (this.isLoading = false))
     }

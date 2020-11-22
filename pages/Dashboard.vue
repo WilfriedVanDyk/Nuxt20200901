@@ -87,8 +87,8 @@
 
 <script>
 /* eslint-disable no-console */
-// import axios from 'axios'
-import { mapState } from 'vuex'
+import axios from 'axios'
+import { mapState } from 'vuex' // , mapActions
 
 export default {
   components: {},
@@ -123,7 +123,7 @@ export default {
           filterable: false,
           align: 'left'
         },
-        { text: 'Locatie', value: 'locatie', align: 'center' },
+        { text: 'Locatie', value: 'locatie.name', align: 'center' },
         { text: 'Status', value: 'status' },
         { text: 'beschrijving', value: 'data-table-expand', groupable: false },
         { text: 'Acties', value: 'actions', sortable: false, groupable: false }
@@ -139,9 +139,24 @@ export default {
     this.$store.dispatch('bindEvenementen')
   },
   methods: {
+    // ...mapActions({
+    //   deleteItem: 'deleteEventUiTdb/deleteItem'
+    // }),
+    // deleteItem (id, idUiTdabank) {
+    //   console.log('ids zijn:', id, idUiTdabank)
+    //   if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
+    //     console.log('ole')
+    //     this.deleteItem(id, idUiTdabank)
+    //   }
+    // },
     deleteItem (id, idUiTdatabank) {
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-        this.$store.dispatch.deleteEventUiTdb.deleteItem(idUiTdatabank)
+        axios
+          .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
+          .catch((error) => {
+            console.log(`${error} + delete met axios in dashboard  met errors`)
+          })
+          .finally(() => console.log('delete met axios in dashboard is complete'))
         this.$store.dispatch('deleteEvent', id)
       }
     },

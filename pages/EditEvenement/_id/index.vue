@@ -189,11 +189,11 @@ export default {
         : ''
     },
     getLocatie () {
-      return this.getVenueNaam ? this.getVenueNaam : this.evenementToUpdate.locatie
+      return this.getVenue ? this.getVenue : this.evenementToUpdate.locatie
     },
     ...mapGetters({
-      getEvenementToPut: 'evenementToPut/getEvenementToPut',
-      getVenueNaam: 'evenementToPut/getVenueNaam',
+      // getEvenementToPut: 'evenementToPut/getEvenementToPut',
+      getVenue: 'evenementToPut/getVenue',
       getTypeAanbod: 'evenement/getTypeAanbod',
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
       getStatusArray: 'data/getStatusArray',
