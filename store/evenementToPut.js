@@ -23,23 +23,24 @@ export const state = () => ({
         }
     },
     evenementputToFireBase: null,
-    venueNaam: '',
+    venue: null,
     type: ''
 })
 export const getters = {
-    getEvenementToPut(state) {
-        return state.evenementToPut
-    },
-    getVenueNaam(state) {
-        return state.venueNaam
+    // getEvenementToPut(state) {
+    //     return state.evenementToPut
+    // },
+    getVenue(state) {
+        return state.venue
     }
 }
 export const mutations = {
     evenementfbToStore(state, evenement) {
         state.evenementputToFireBase = evenement
     },
-    addVenue(state, venueId) {
-        state.evenementToPut.location['@id'] = venueId
+    addVenue(state, venue) {
+        state.venue = venue
+        state.evenementToPut.location['@id'] = venue.id
     },
     addName(state, evenement) {
         state.evenementToPut.name.nl = evenement.evenement
@@ -55,31 +56,12 @@ export const mutations = {
     addDescription(state, evenement) {
         state.evenementToPut.description.nl = evenement.beschrijving
     },
-    addVenueName(state, locatieNaam) {
-        state.venueNaam = locatieNaam
-    },
     addType(state, id) {
         state.evenementToPut.terms.length = 0
         state.evenementToPut.terms.push({ id })
     }
 }
 export const actions = {
-    findVenueId(context, venue) {
-        context.commit('addVenueName', venue)
-        if (venue) {
-            axios
-                .get(
-                    `https://search-test.uitdatabank.be/places/?embed=true&q=name.nl:("${venue}")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9880`
-                )
-                .then((res) => {
-                    const json = res.data.member[0]
-                    context.commit('addVenue', json['@id'])
-                })
-                .catch((err) => {
-                    console.log('error in evenementToStore findVenueId: ', err)
-                })
-        }
-    },
     putEventToAlldb(context, id) {
         axios
             .put(

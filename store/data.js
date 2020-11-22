@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable space-before-function-paren */
 /* eslint-disable indent */
+
 export const state = () => ({
     statusArray: [
         'DRAFT',

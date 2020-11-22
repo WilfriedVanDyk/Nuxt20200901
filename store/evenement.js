@@ -74,6 +74,7 @@ export const mutations = {
     },
     updateEvenementLocatie: (state, locatie) => {
         state.evenementToPostFireBase.locatie = locatie
+        state.evenementToPostUiTdb.location['@id'] = locatie.id
     },
     updateEvenementDatum: (state, datum) => {
         state.evenementToPostFireBase.datum = datum
@@ -87,9 +88,6 @@ export const mutations = {
     updateEvenementStatus: (state, status) => {
         state.evenementToPostFireBase.status = status
     },
-    // updateEvenementIdUiTdatabank: (state, idUiTdatabank) => {
-    //     state.evenementToPostFireBase.idUiTdatabank = idUiTdatabank
-    // },
     addStartDateToEvenementToPostUiTdb(state) {
         const startDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.startUur}:00+01:00`
         state.evenementToPostUiTdb.startDate = startDateTime
@@ -104,10 +102,10 @@ export const mutations = {
     },
     addVenue(state, venueId) {
         state.evenementToPostUiTdb.location['@id'] = venueId
-    },
-    addVenueName(state, locatieNaam) {
-        state.venueNaam = locatieNaam
     }
+    // addVenueName(state, locatieNaam) {
+    //     state.venueNaam = locatieNaam
+    // }
 }
 export const actions = {
     AddImageId(context, image) {
@@ -136,13 +134,14 @@ export const actions = {
     AddImageToEvenementUiTdb(context, idEvent) {
         const idFoto = context.state.imageId
         if (idFoto) {
+            // axios.post('api/imageToEvent', { idEvent, idFoto })
             axios.post(
                 `https://io-test.uitdatabank.be/events/${idEvent}/images/`
                 ,
                 {
                     /*eslint-disable */
-                    "mediaObjectId": "70806433-772a-4413-b7e6-63e41d1a1887"
-                    // "mediaObjectId": idFoto
+                    // "mediaObjectId": "70806433-772a-4413-b7e6-63e41d1a1887"
+                    "mediaObjectId": idFoto
 
                 },
                 {
@@ -152,36 +151,17 @@ export const actions = {
                         'Content-Type': 'text/plain'
                     }
                 })
-                .then((response) => {
-                    console.log('55', response)
-                })
+                // .then((response) => {
+                //     // console.log('55', response)
+                // })
                 .catch((err) => {
                     console.log(err)
                 })
         }
     },
-    findVenueId(context, venue) {
-        context.commit('addVenueName', venue)
-        if (venue) {
-            axios
-                .get(
-                    `https://search-test.uitdatabank.be/places/?embed=true&q=name.nl:("${venue}")&apiKey=${APIKEYWilfried}&addressCountry=BE&postalCode=9880`
-                    // `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=200&addressCountry=BE&q=(postalCode=9880 OR postalCode=9990)`
-                    // `https://search-test.uitdatabank.be/places/?embed=true&q=name.nl:("${venue}")&apiKey=${APIKEYWilfried}&addressCountry=BE&&q=(postalCode=9880 OR postalCode=9990)`
-                )
-                .then((res) => {
-                    const json = res.data.member[0]
-                    context.commit('addVenue', json['@id'])
-                })
-                .catch((err) => {
-                    console.log('error in evenementToStore findVenueId: ', err)
-                })
-        }
-    },
     PostEvent(context) {
-        let event = context.state.evenementToPostFireBase
+        const event = context.state.evenementToPostFireBase
         const location = context.state.evenementToPostFireBase.locatie
-        console.log('let event: 0', event)
         axios
             .post(
                 'https://io-test.uitdatabank.be/imports/events/', context.state.evenementToPostUiTdb, {
@@ -192,12 +172,10 @@ export const actions = {
             }
             )
             .then((response) => {
-                console.log('id UiTdb als repose:1 ', response.data.id)
                 event.idUiTdatabank = response.data.id
                 event.locatie = location
 
                 // context.dispatch('AddImageToEvenementUiTdb', context.state.evenementToPostFireBase.idUiTdatabank)
-                console.log('toFbEvent: 2', event)
                 context.dispatch('postEvent', event, { root: true })
             })
             .catch((err) => {
@@ -205,7 +183,5 @@ export const actions = {
                 // en delete mogelijk event in Fb
                 console.log('error post offer STORE EVENEMENT', err)
             })
-
     }
 }
-
