@@ -15,14 +15,14 @@
           <v-card-text>
             <v-form ref="form" class="px-3">
               <v-text-field
-                v-model="evenement"
+                v-model="event.evenement"
                 label="Naam Evenement"
                 prepend-icon="title"
                 required
                 :rules="inputValidation"
               />
               <v-overflow-btn
-                v-model="type"
+                v-model="event.type"
                 label="Type Evenement?"
                 prepend-icon="event"
                 required
@@ -31,7 +31,7 @@
                 :rules="inputValidation"
               />
               <v-text-field
-                v-model="organisator"
+                v-model="event.organisator"
                 label="Organisator"
                 prepend-icon="mdi-account-circle"
                 required
@@ -48,7 +48,7 @@
                     v-on="on"
                   />
                 </template>
-                <v-date-picker v-model="datum" locale="nl" :min="nowDate" :max="getEndDate" />
+                <v-date-picker v-model="event.datum" locale="nl" :min="nowDate" :max="getEndDate" />
               </v-menu>
 
               <v-row>
@@ -58,7 +58,7 @@
                     v-model="timePicker1"
                     :close-on-content-click="false"
                     :nudge-right="40"
-                    :return-value.sync="startUur"
+                    :return-value.sync="event.startUur"
                     transition="scale-transition"
                     offset-y
                     max-width="290px"
@@ -66,7 +66,7 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="startUur"
+                        v-model="event.startUur"
                         label="start uur"
                         prepend-icon="access_time"
                         readonly
@@ -76,10 +76,10 @@
                     </template>
                     <v-time-picker
                       v-if="timePicker1"
-                      v-model="startUur"
-                      :max="eindUur"
+                      v-model="event.startUur"
+                      :max="event.eindUur"
                       full-width
-                      @click:minute="$refs.menu1.save(startUur)"
+                      @click:minute="$refs.menu1.save(event.startUur)"
                     />
                   </v-menu>
                 </v-col>
@@ -91,7 +91,7 @@
                     v-model="timePicker2"
                     :close-on-content-click="false"
                     :nudge-right="40"
-                    :return-value.sync="eindUur"
+                    :return-value.sync="event.eindUur"
                     transition="scale-transition"
                     offset-y
                     max-width="290px"
@@ -99,7 +99,7 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="eindUur"
+                        v-model="event.eindUur"
                         label="eind uur"
                         prepend-icon="access_time"
                         readonly
@@ -109,17 +109,17 @@
                     </template>
                     <v-time-picker
                       v-if="timePicker2"
-                      v-model="eindUur"
-                      :min="startUur"
+                      v-model="event.eindUur"
+                      :min="event.startUur"
                       full-width
-                      @click:minute="$refs.menu2.save(eindUur)"
+                      @click:minute="$refs.menu2.save(event.eindUur)"
                     />
                   </v-menu>
                 </v-col>
               </v-row>
 
               <v-overflow-btn
-                v-model="status"
+                v-model="event.status"
                 class="my-2 mx-2"
                 prepend-icon="help"
                 :items="getStatusArray"
@@ -127,7 +127,7 @@
               />
               <ImageInput class="mb-10" />
               <v-textarea
-                v-model="beschrijving"
+                v-model="event.beschrijving"
                 label="Beschrijving evenement"
                 prepend-icon="edit"
                 :rules="inputValidation"
@@ -158,25 +158,25 @@ export default {
   name: 'PopUp',
   data () {
     return {
-      evenement: null,
-      timePicker1: false,
-      timePicker2: false,
-      // type: '',
+      dialog: false,
+      event: {
+        beschrijving: null,
+        datum: null,
+        eindUur: null,
+        evenement: null,
+        organisator: null,
+        startUur: null,
+        status: null,
+        type: null
+      },
+      loading: false,
       nowDate: new Date().toISOString().slice(0, 10),
-      datum: null,
-      startUur: null,
-      eindUur: null,
-      beschrijving: null,
       inputValidation: [
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
-      loading: false,
-      organisator: null,
-      dialog: false,
-      status: null,
-      type: null,
-      typeId: ''
+      timePicker1: false,
+      timePicker2: false
     }
   },
   computed: {
@@ -185,8 +185,8 @@ export default {
       return endDate.toISOString().slice(0, 10)
     },
     formattedDate () {
-      return this.datum
-        ? format(parseISO(this.datum), 'do MMMM yyyy', { locale: nl })
+      return this.event.datum
+        ? format(parseISO(this.event.datum), 'do MMMM yyyy', { locale: nl })
         : ''
     },
     ...mapGetters({
@@ -197,33 +197,27 @@ export default {
   },
   _methods: {
     ...mapMutations({
-      updateEvenementDatum: 'evenement/updateEvenementDatum',
-      updateEvenementStartUur: 'evenement/updateEvenementStartUur',
-      updateEvenementEindUur: 'evenement/updateEvenementEindUur',
-      updateEvenementIdUiTdatabank: 'evenement/updateEvenementIdUiTdatabank',
-      addStartDateToEvenementToPostUiTdb: 'evenement/addStartDateToEvenementToPostUiTdb',
-      addEndDateToEvenementToPostUiTdb: 'evenement/addEndDateToEvenementToPostUiTdb',
-      addTypeToEvenementToPostUiTdb: 'evenement/addTypeToEvenementToPostUiTdb'
+      // addStartDateToEvenementToPostUiTdb: 'evenement/addStartDateToEvenementToPostUiTdb',
+      // addEndDateToEvenementToPostUiTdb: 'evenement/addEndDateToEvenementToPostUiTdb',
+      // addTypeToEvenementToPostUiTdb: 'evenement/addTypeToEvenementToPostUiTdb'
     }),
     ...mapActions({
-      AddImageToEvenementUiTdb: 'evenement/AddImageToEvenementUiTdb',
+      // AddImageToEvenementUiTdb: 'evenement/AddImageToEvenementUiTdb',
+      EventToStore: 'evenement/EventToStore',
+      // EventToUiTdbStore: 'evenement/EventToUiTdbStore',
       PostEvent: 'evenement/PostEvent'
     }),
     submit () {
       if (this.$refs.form.validate()) {
         this.loading = true
-        this.$store.commit('evenement/updateEvenementTitle', this.evenement)
-        this.$store.commit('evenement/updateEvenementBeschrijving', this.beschrijving)
-        this.$store.commit('evenement/updateEvenementOrganisator', this.organisator)
-        this.$store.commit('evenement/updateEvenementStatus', this.status)
-        this.updateEvenementDatum(this.datum)
-        this.updateEvenementStartUur(this.startUur)
-        this.updateEvenementEindUur(this.eindUur)
-        this.$store.commit('evenement/updateEvenementType', this.type)
+        this.EventToStore(this.event)
 
-        this.addStartDateToEvenementToPostUiTdb()
-        this.addEndDateToEvenementToPostUiTdb()
-        this.addTypeToEvenementToPostUiTdb(this.findTypeId(this.$store.state.evenement.evenementToPostFireBase.type))
+        // hier dispatch om post naar UiTdb klaar te zetten
+        // this.EventToUiTdbStore()
+
+        // this.addStartDateToEvenementToPostUiTdb()
+        // this.addEndDateToEvenementToPostUiTdb()
+        // this.addTypeToEvenementToPostUiTdb(this.findTypeId(this.$store.state.evenement.evenementToPostFireBase.type))
 
         this.PostEvent()
           .then(() => {

@@ -108,6 +108,22 @@ export const mutations = {
     // }
 }
 export const actions = {
+    EventToStore(context, event) {
+        context.commit('updateEvenementTitle', event.evenement)
+        context.commit('updateEvenementBeschrijving', event.beschrijving)
+        context.commit('updateEvenementOrganisator', event.organisator)
+        context.commit('updateEvenementStatus', event.status)
+        context.commit('updateEvenementDatum', event.datum)
+        context.commit('updateEvenementStartUur', event.startUur)
+        context.commit('updateEvenementEindUur', event.eindUur)
+        context.commit('updateEvenementType', event.type)
+        context.dispatch('EventToUiTdbStore')
+    },
+    EventToUiTdbStore(context) {
+        context.commit('addStartDateToEvenementToPostUiTdb')
+        context.commit('addEndDateToEvenementToPostUiTdb')
+        context.commit('addTypeToEvenementToPostUiTdb', (context.getters.findTypeId(context.state.evenementToPostFireBase.type)))
+    },
     AddImageId(context, image) {
         if (image) {
             const formData = new FormData()

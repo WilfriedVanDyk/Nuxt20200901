@@ -6,7 +6,7 @@
     <h1 v-else>
       {{ otherError }}
     </h1>
-    <p>Terug naar de <a href="/"> HomePagina</a>!</p>
+    <p>Terug naar de <a href="/dashboard"> HomePagina</a>!</p>
   </v-app>
 </template>
 
