@@ -53,20 +53,13 @@ export const mutations = {
     commitEventToStore(state, event) {
         state.evenementToPostFireBase.beschrijving = event.beschrijving
         state.evenementToPostUiTdb.description = { nl: event.beschrijving }
-
         state.evenementToPostFireBase.datum = event.datum
-
-        state.evenementToPostFireBase.eindUur = event.eindUur
-
-        state.evenementToPostFireBase.organisator = event.organisator
-
-        state.evenementToPostFireBase.startUur = event.startUur
-
-        state.evenementToPostFireBase.status = event.status
-
         state.evenementToPostFireBase.evenement = event.evenement
         state.evenementToPostUiTdb.name = { nl: event.evenement }
-
+        state.evenementToPostFireBase.eindUur = event.eindUur
+        state.evenementToPostFireBase.organisator = event.organisator
+        state.evenementToPostFireBase.startUur = event.startUur
+        state.evenementToPostFireBase.status = event.status
         state.evenementToPostFireBase.type = event.type
     },
     // to post to uitdb extra info

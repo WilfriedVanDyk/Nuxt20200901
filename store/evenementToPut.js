@@ -35,30 +35,24 @@ export const getters = {
     }
 }
 export const mutations = {
-    evenementfbToStore(state, evenement) {
-        state.evenementputToFireBase = evenement
-    },
-    addVenue(state, venue) {
-        state.venue = venue
-        state.evenementToPut.location['@id'] = venue.id
-    },
-    addName(state, evenement) {
-        state.evenementToPut.name.nl = evenement.evenement
-    },
-    addStartDate(state, evenement) {
-        const startDateTime = `${evenement.datum}T${evenement.startUur}:00+01:00`
+    evenementToStore(state, event) {
+        state.evenementputToFireBase = event
+
+        state.evenementToPut.description.nl = event.beschrijving
+        state.evenementToPut.name.nl = event.evenement
+
+        const startDateTime = `${event.datum}T${event.startUur}:00+01:00`
         state.evenementToPut.startDate = startDateTime
-    },
-    addEndDate(state, evenement) {
-        const eindDateTime = `${evenement.datum}T${evenement.eindUur}:00+01:00`
-        state.evenementToPut.endDate = eindDateTime
-    },
-    addDescription(state, evenement) {
-        state.evenementToPut.description.nl = evenement.beschrijving
+        const endDateTime = `${event.datum}T${event.eindUur}:00+01:00`
+        state.evenementToPut.endDate = endDateTime
     },
     addType(state, id) {
         state.evenementToPut.terms.length = 0
         state.evenementToPut.terms.push({ id })
+    },
+    addVenue(state, venue) {
+        state.venue = venue
+        state.evenementToPut.location['@id'] = venue.id
     }
 }
 export const actions = {

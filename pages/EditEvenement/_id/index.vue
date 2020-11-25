@@ -167,13 +167,13 @@ export default {
       evenementToUpdate: null,
       loading: false,
       nowDate: new Date().toISOString().slice(0, 10),
-      timePicker1: false,
-      timePicker2: false,
-      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
       inputValidation: [
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
-      ]
+      ],
+      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
+      timePicker1: false,
+      timePicker2: false
     }
   },
   computed: {
@@ -221,12 +221,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      addName: 'evenementToPut/addName',
-      addStartDate: 'evenementToPut/addStartDate',
-      addEndDate: 'evenementToPut/addEndDate',
-      addDescription: 'evenementToPut/addDescription',
       addType: 'evenementToPut/addType',
-      evenementfbToStore: 'evenementToPut/evenementfbToStore'
+      evenementToStore: 'evenementToPut/evenementToStore'
     }),
     ...mapActions({
       putEventToAlldb: 'evenementToPut/putEventToAlldb'
@@ -234,18 +230,15 @@ export default {
     editEvenement () {
       if (this.$refs.form.validate()) {
         this.loading = true
-        const evenement = this.evenementToUpdate
-        evenement.locatie = this.getLocatie
+        const event = this.evenementToUpdate
+        event.locatie = this.getLocatie
 
-        this.evenementfbToStore(evenement)
-        this.addName(evenement)
-        this.addStartDate(evenement)
-        this.addEndDate(evenement)
-        this.addDescription(evenement)
-        const id = this.findTypeId(evenement.type)
+        this.evenementToStore(event)
+        // hier verder werken in store in de evenementfbToStore
+        const id = this.findTypeId(event.type)
         this.addType(id)
 
-        this.putEventToAlldb(evenement.idUiTdatabank)
+        this.putEventToAlldb(event.idUiTdatabank)
           .then(this.$router.push({ name: 'Dashboard' }))
       }
     },
