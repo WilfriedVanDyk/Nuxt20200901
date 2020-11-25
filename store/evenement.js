@@ -50,79 +50,87 @@ export const getters = {
     }
 }
 export const mutations = {
-    addImageIdToState(state, id) {
-        state.imageId = id
-        state.evenementToPostFireBase.imageId = id
+    commitEventToStore(state, event) {
+        state.evenementToPostFireBase.beschrijving = event.beschrijving
+        state.evenementToPostUiTdb.description = { nl: event.beschrijving }
+
+        state.evenementToPostFireBase.datum = event.datum
+
+        state.evenementToPostFireBase.eindUur = event.eindUur
+
+        state.evenementToPostFireBase.organisator = event.organisator
+
+        state.evenementToPostFireBase.startUur = event.startUur
+
+        state.evenementToPostFireBase.status = event.status
+
+        state.evenementToPostFireBase.evenement = event.evenement
+        state.evenementToPostUiTdb.name = { nl: event.evenement }
+
+        state.evenementToPostFireBase.type = event.type
     },
-    addImageIdToEvenementToPostUiTdb(state, id) {
-        state.evenementToPostFireBase.image = id
-        state.evenementToPostUiTdb.mediaObjectId = id
-    },
-    updateEvenementTitle(state, title) {
-        state.evenementToPostFireBase.evenement = title
-        state.evenementToPostUiTdb.name = { nl: title }
-    },
-    updateEvenementBeschrijving(state, beschrijving) {
-        state.evenementToPostFireBase.beschrijving = beschrijving
-        state.evenementToPostUiTdb.description = { nl: beschrijving }
-    },
-    updateEvenementType: (state, type) => {
-        state.evenementToPostFireBase.type = type
-    },
-    updateEvenementOrganisator: (state, organisator) => {
-        state.evenementToPostFireBase.organisator = organisator
-    },
-    updateEvenementLocatie: (state, locatie) => {
-        state.evenementToPostFireBase.locatie = locatie
-        state.evenementToPostUiTdb.location['@id'] = locatie.id
-    },
-    updateEvenementDatum: (state, datum) => {
-        state.evenementToPostFireBase.datum = datum
-    },
-    updateEvenementStartUur: (state, startUur) => {
-        state.evenementToPostFireBase.startUur = startUur
-    },
-    updateEvenementEindUur: (state, eindUur) => {
-        state.evenementToPostFireBase.eindUur = eindUur
-    },
-    updateEvenementStatus: (state, status) => {
-        state.evenementToPostFireBase.status = status
-    },
-    addStartDateToEvenementToPostUiTdb(state) {
+    // to post to uitdb extra info
+    addDateToEvenementToPostUiTdb(state) {
         const startDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.startUur}:00+01:00`
         state.evenementToPostUiTdb.startDate = startDateTime
-    },
-    addEndDateToEvenementToPostUiTdb(state) {
-        const eindDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.eindUur}:00+01:00`
-        state.evenementToPostUiTdb.endDate = eindDateTime
+        const endDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.eindUur}:00+01:00`
+        state.evenementToPostUiTdb.endDate = endDateTime
     },
     addTypeToEvenementToPostUiTdb(state, id) {
         state.evenementToPostUiTdb.terms.length = 0
         state.evenementToPostUiTdb.terms.push({ id })
     },
+    // to venuPicker
+    updateEvenementLocatie: (state, locatie) => {
+        state.evenementToPostFireBase.locatie = locatie
+        state.evenementToPostUiTdb.location['@id'] = locatie.id
+    },
     addVenue(state, venueId) {
         state.evenementToPostUiTdb.location['@id'] = venueId
+    },
+    // imageUpLoad
+    addImageIdToState(state, id) {
+        state.imageId = id
+        state.evenementToPostFireBase.imageId = id
     }
-    // addVenueName(state, locatieNaam) {
-    //     state.venueNaam = locatieNaam
-    // }
+    // addImageIdToEvenementToPostUiTdb(state, id) {
+    //     state.evenementToPostFireBase.image = id
+    //     state.evenementToPostUiTdb.mediaObjectId = id
+    // },
 }
 export const actions = {
     EventToStore(context, event) {
-        context.commit('updateEvenementTitle', event.evenement)
-        context.commit('updateEvenementBeschrijving', event.beschrijving)
-        context.commit('updateEvenementOrganisator', event.organisator)
-        context.commit('updateEvenementStatus', event.status)
-        context.commit('updateEvenementDatum', event.datum)
-        context.commit('updateEvenementStartUur', event.startUur)
-        context.commit('updateEvenementEindUur', event.eindUur)
-        context.commit('updateEvenementType', event.type)
+        context.commit('commitEventToStore', event)
         context.dispatch('EventToUiTdbStore')
     },
     EventToUiTdbStore(context) {
-        context.commit('addStartDateToEvenementToPostUiTdb')
-        context.commit('addEndDateToEvenementToPostUiTdb')
+        context.commit('addDateToEvenementToPostUiTdb')
         context.commit('addTypeToEvenementToPostUiTdb', (context.getters.findTypeId(context.state.evenementToPostFireBase.type)))
+    },
+    PostEvent(context) {
+        const event = context.state.evenementToPostFireBase
+        const location = context.state.evenementToPostFireBase.locatie
+        axios
+            .post(
+                'https://io-test.uitdatabank.be/imports/events/', context.state.evenementToPostUiTdb, {
+                headers: {
+                    'x-api-key': APIKEYWilfried,
+                    Authorization: `${JWT}`
+                }
+            }
+            )
+            .then((response) => {
+                event.idUiTdatabank = response.data.id
+                event.locatie = location
+
+                // context.dispatch('AddImageToEvenementUiTdb', context.state.evenementToPostFireBase.idUiTdatabank)
+                context.dispatch('postEvent', event, { root: true })
+            })
+            .catch((err) => {
+                // delete mogelijk event in UiTdb
+                // en delete mogelijk event in Fb
+                console.log('error post offer STORE EVENEMENT', err)
+            })
     },
     AddImageId(context, image) {
         if (image) {
@@ -174,30 +182,5 @@ export const actions = {
                     console.log(err)
                 })
         }
-    },
-    PostEvent(context) {
-        const event = context.state.evenementToPostFireBase
-        const location = context.state.evenementToPostFireBase.locatie
-        axios
-            .post(
-                'https://io-test.uitdatabank.be/imports/events/', context.state.evenementToPostUiTdb, {
-                headers: {
-                    'x-api-key': APIKEYWilfried,
-                    Authorization: `${JWT}`
-                }
-            }
-            )
-            .then((response) => {
-                event.idUiTdatabank = response.data.id
-                event.locatie = location
-
-                // context.dispatch('AddImageToEvenementUiTdb', context.state.evenementToPostFireBase.idUiTdatabank)
-                context.dispatch('postEvent', event, { root: true })
-            })
-            .catch((err) => {
-                // delete mogelijk event in UiTdb
-                // en delete mogelijk event in Fb
-                console.log('error post offer STORE EVENEMENT', err)
-            })
     }
 }
