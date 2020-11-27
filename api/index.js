@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-/* eslint-disable no-console */
 const express = require('express')
 const app = express()
 const axios = require('axios')
@@ -24,7 +23,7 @@ app.get('/hello', (req, res) => {
 
 //  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // app.get offer locatie/venues
-app.get('/venues', (req, res) => {
+app.get('/venues', (req, res, next) => {
   axios
     .get(
       `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=300&addressCountry=BE&regions=reg-meetjesland` // 51.090973, 3.442068
@@ -33,23 +32,22 @@ app.get('/venues', (req, res) => {
       res.json(response.data)
     })
     .catch((err) => {
-      console.log(err)
+      next(err)
     })
 })
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // delete event in uitDataBank: app.delete works with axios.delete in dashboard
 app.delete('/deleteEventAPI', (req, res, next) => {
   const idUiTdatabank = req.query.idUiTdatabank
-  try {
-    axios.delete(`https://io-test.uitdatabank.be/events/${idUiTdatabank}`, {
-      headers: {
-        'x-api-key': APIKEYWilfried,
-        Authorization: `${JWT}`
-      }
+  axios.delete(`https://io-test.uitdatabank.be/events/${idUiTdatabank}`, {
+    headers: {
+      'x-api-key': APIKEYWilfried,
+      Authorization: `${JWT}`
+    }
+  })
+    .catch((err) => {
+      next(err)
     })
-  } catch (error) {
-    next(error)
-  }
 })
 // //////////////////////////////////////////////////////////////////////////////////////////
 // Adding Image id doesn't work: response data comes in response.config instead in response.data
