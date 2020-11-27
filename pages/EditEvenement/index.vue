@@ -1,6 +1,7 @@
 <template>
   <div>
-    <p>dit evenement heeft geen parameter. </p>
+    <div></div>
+    <p>dit evenement kan niet getoond worden. Is de url juist ? </p>
   </div>
 </template>
 

@@ -33,8 +33,7 @@ export const state = () => ({
             nl: ''
         }
     },
-    venueNaam: '',
-    imageId: null
+    venueNaam: ''
 })
 export const getters = {
     getTypeAanbod: (state) => {
@@ -80,16 +79,7 @@ export const mutations = {
     },
     addVenue(state, venueId) {
         state.evenementToPostUiTdb.location['@id'] = venueId
-    },
-    // imageUpLoad
-    addImageIdToState(state, id) {
-        state.imageId = id
-        state.evenementToPostFireBase.imageId = id
     }
-    // addImageIdToEvenementToPostUiTdb(state, id) {
-    //     state.evenementToPostFireBase.image = id
-    //     state.evenementToPostUiTdb.mediaObjectId = id
-    // },
 }
 export const actions = {
     EventToStore(context, event) {
@@ -116,7 +106,7 @@ export const actions = {
                 event.idUiTdatabank = response.data.id
                 event.locatie = location
 
-                // context.dispatch('AddImageToEvenementUiTdb', context.state.evenementToPostFireBase.idUiTdatabank)
+                // context.dispatch('imageUpload/AddImageToEvenementUiTdb', context.state.evenementToPostFireBase.idUiTdatabank)
                 context.dispatch('postEvent', event, { root: true })
             })
             .catch((err) => {
@@ -124,56 +114,5 @@ export const actions = {
                 // en delete mogelijk event in Fb
                 console.log('error post offer STORE EVENEMENT', err)
             })
-    },
-    AddImageId(context, image) {
-        if (image) {
-            const formData = new FormData()
-            formData.append('file', image)
-            formData.append('description', 'een foto bij een evenement')
-            formData.append('language', 'nl')
-            formData.append('copyrightHolder', 'pixabay')
-
-            axios.post('https://io-test.uitdatabank.be/images/', formData, {
-                headers: {
-                    'x-api-key': APIKEYWilfried,
-                    Authorization: `${JWT}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-                .then((response) => {
-                    context.commit('addImageIdToState', response.data.imageId)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-    },
-    AddImageToEvenementUiTdb(context, idEvent) {
-        const idFoto = context.state.imageId
-        if (idFoto) {
-            // axios.post('api/imageToEvent', { idEvent, idFoto })
-            axios.post(
-                `https://io-test.uitdatabank.be/events/${idEvent}/images/`
-                ,
-                {
-                    /*eslint-disable */
-                    // "mediaObjectId": "70806433-772a-4413-b7e6-63e41d1a1887"
-                    "mediaObjectId": idFoto
-
-                },
-                {
-                    headers: {
-                        'x-api-key': APIKEYWilfried,
-                        Authorization: `${JWT}`,
-                        'Content-Type': 'text/plain'
-                    }
-                })
-                // .then((response) => {
-                //     // console.log('55', response)
-                // })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
     }
 }

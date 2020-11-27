@@ -44,5 +44,36 @@ app.delete('/deleteEventAPI', (req, res) => {
       'x-api-key': APIKEYWilfried,
       Authorization: `${JWT}`
     }
+  }).catch((error) => {
+    console.log(`${error} + delete met axios in Api.index  met errors`)
   })
 })
+// //////////////////////////////////////////////////////////////////////////////////////////
+// Adding Image id doesn't work: response data comes in response.config instead in response.data
+// Also when axios.post is in the popup component
+// app.post('/imageToEvent', (req, res) => {
+//   const idEvent = req.body.idEvent
+//   const idFoto = req.body.idFoto
+//   axios.post(
+//     `https://io-test.uitdatabank.be/events/${idEvent}/images/`
+//     ,
+//     {
+//       /*eslint-disable */
+//       // "mediaObjectId": "70806433-772a-4413-b7e6-63e41d1a1887"
+//       "mediaObjectId": idFoto
+
+//     },
+//     {
+//       headers: {
+//         'x-api-key': APIKEYWilfried,
+//         Authorization: `${JWT}`,
+//         'Content-Type': 'text/plain'
+//       }
+//     })
+//     .then((response) => {
+//       console.log('in express API imagetoEvent: ', response)
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+// })

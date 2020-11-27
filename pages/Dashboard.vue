@@ -149,15 +149,20 @@ export default {
     //     this.deleteItem(id, idUiTdabank)
     //   }
     // },
+
+    // Deze delete moet nog gestroomlijnd worden net zoals alle andere catch gebeurtenissen
     deleteItem (id, idUiTdatabank) {
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
         axios
           .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
+          .then(
+            this.$store.dispatch('deleteEvent', id)
+          )
           .catch((error) => {
             console.log(`${error} + delete met axios in dashboard  met errors`)
           })
           .finally(() => console.log('delete met axios in dashboard is complete'))
-        this.$store.dispatch('deleteEvent', id)
+        // this.$store.dispatch('deleteEvent', id)
       }
     },
     EditEvenement (id) {

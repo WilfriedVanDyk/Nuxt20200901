@@ -125,7 +125,7 @@
                 :items="getStatusArray"
                 label="status ?"
               />
-              <ImageInput class="mb-10" />
+              <!-- <ImageInput class="mb-10" /> -->
               <v-textarea
                 v-model="event.beschrijving"
                 label="Beschrijving evenement"
@@ -151,8 +151,7 @@
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-// import axios from 'axios'
-import { mapMutations, mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'PopUp',
@@ -195,16 +194,9 @@ export default {
       findTypeId: 'evenement/findTypeId'
     })
   },
-  _methods: {
-    ...mapMutations({
-      // addStartDateToEvenementToPostUiTdb: 'evenement/addStartDateToEvenementToPostUiTdb',
-      // addEndDateToEvenementToPostUiTdb: 'evenement/addEndDateToEvenementToPostUiTdb',
-      // addTypeToEvenementToPostUiTdb: 'evenement/addTypeToEvenementToPostUiTdb'
-    }),
+  methods: {
     ...mapActions({
-      // AddImageToEvenementUiTdb: 'evenement/AddImageToEvenementUiTdb',
       EventToStore: 'evenement/EventToStore',
-      // EventToUiTdbStore: 'evenement/EventToUiTdbStore',
       PostEvent: 'evenement/PostEvent'
     }),
     submit () {
@@ -212,17 +204,12 @@ export default {
         this.loading = true
         this.EventToStore(this.event)
 
-        // hier dispatch om post naar UiTdb klaar te zetten
-        // this.EventToUiTdbStore()
-
-        // this.addStartDateToEvenementToPostUiTdb()
-        // this.addEndDateToEvenementToPostUiTdb()
-        // this.addTypeToEvenementToPostUiTdb(this.findTypeId(this.$store.state.evenement.evenementToPostFireBase.type))
-
         this.PostEvent()
           .then(() => {
             this.loading = false
             this.dialog = false
+            // deze emit gebeurt ook als in postevent een error gebeurd !!!! dat mag niet
+            // heeft dit niet te maken met het feit dat er na postevent geen catch kan gebeuren ?
             this.$emit('eventAdded')
             this.$refs.form.reset()
             this.$router.push({ name: 'Dashboard' })
@@ -237,12 +224,6 @@ export default {
       this.$refs.form.reset()
       this.$router.push({ name: 'Dashboard' })
     }
-  },
-  get methods () {
-    return this._methods
-  },
-  set methods (value) {
-    this._methods = value
   }
 }
 </script>

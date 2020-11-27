@@ -27,9 +27,6 @@ export const state = () => ({
     type: ''
 })
 export const getters = {
-    // getEvenementToPut(state) {
-    //     return state.evenementToPut
-    // },
     getVenue(state) {
         return state.venue
     }

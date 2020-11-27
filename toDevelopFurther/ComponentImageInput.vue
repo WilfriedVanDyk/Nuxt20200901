@@ -30,7 +30,7 @@ export default {
         return this.$store.state.evenement.image
       },
       set (value) {
-        this.$store.dispatch('evenement/AddImageId', value)
+        this.$store.dispatch('imageUpload/AddImageId', value)
       }
     }
   },

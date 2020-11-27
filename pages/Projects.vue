@@ -51,7 +51,7 @@ export default {
   computed: {
     evenementen () {
       let evenementen = this.$store.state.evenementen
-      evenementen = evenementen.filter(evenement => evenement.organisator === 'abracourix')
+      evenementen = evenementen.filter(evenement => evenement.organisator === 'VZW Fatima')
       return evenementen
     }
   }
