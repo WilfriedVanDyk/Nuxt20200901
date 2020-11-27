@@ -147,7 +147,6 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
@@ -208,14 +207,12 @@ export default {
           .then(() => {
             this.loading = false
             this.dialog = false
-            // deze emit gebeurt ook als in postevent een error gebeurd !!!! dat mag niet
-            // heeft dit niet te maken met het feit dat er na postevent geen catch kan gebeuren ?
             this.$emit('eventAdded')
             this.$refs.form.reset()
             this.$router.push({ name: 'Dashboard' })
           })
           .catch((error) => {
-            console.log(`${error} + post met axios in popUp  met errors`)
+            this.$nuxt.error({ statusCode: 400, message: error.message })
           })
       }
     },

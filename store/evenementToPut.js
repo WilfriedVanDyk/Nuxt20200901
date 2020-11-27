@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable space-before-function-paren */
 /* eslint-disable indent */
 import axios from 'axios'
@@ -54,20 +53,24 @@ export const mutations = {
 }
 export const actions = {
     putEventToAlldb(context, id) {
-        axios
-            .put(
-                `https://io-test.uitdatabank.be/imports/events/${id}`, context.state.evenementToPut, {
-                headers: {
-                    'x-api-key': APIKEYWilfried,
-                    Authorization: `${JWT}`
+        return new Promise((resolve, reject) => {
+            axios
+                .put(
+                    `https://io-test.uitdatabank.be/imports/events/${id}`, context.state.evenementToPut, {
+                    headers: {
+                        'x-api-key': APIKEYWilfried,
+                        // 'x-api-key': 'APIKEYWilfried11111111111111111111111',
+                        Authorization: `${JWT}`
+                    }
                 }
-            }
-            )
-            .then(() => {
-                context.dispatch('putEvent', context.state.evenementputToFireBase, { root: true })
-            })
-            .catch((err) => {
-                console.log('error put offer in api.index om update te doen: ', err)
-            })
+                )
+                .then(() => {
+                    context.dispatch('putEvent', context.state.evenementputToFireBase, { root: true })
+                    resolve()
+                })
+                .catch((err) => {
+                    reject(err)
+                })
+        })
     }
 }

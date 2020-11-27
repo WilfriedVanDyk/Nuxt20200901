@@ -1,10 +1,13 @@
 <template>
   <v-app dark>
     <h1 v-if="error.statusCode === 404">
+      <div></div>
       {{ pageNotFound }}
     </h1>
     <h1 v-else>
-      {{ otherError }}
+      <div></div>
+      <p> {{ error.message }}</p>
+      <p> {{ otherError }}</p>
     </h1>
     <p>Terug naar de <a href="/dashboard"> HomePagina</a>!</p>
   </v-app>
@@ -21,8 +24,8 @@ export default {
   },
   data () {
     return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
+      pageNotFound: '404 De pagina is niet gevonden',
+      otherError: 'Er is een fout gebeurd'
     }
   },
   head () {

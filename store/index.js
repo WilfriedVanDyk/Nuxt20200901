@@ -26,7 +26,7 @@ export const actions = {
             .doc(id)
             .delete()
             .catch((error) => {
-                console.log('Error getting document in index.store delete event:', error)
+                this.$nuxt.error({ statusCode: 400, message: error.message })
             })
     }),
 

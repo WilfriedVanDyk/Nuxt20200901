@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable space-before-function-paren */
 /* eslint-disable indent */
 
@@ -93,26 +92,27 @@ export const actions = {
     PostEvent(context) {
         const event = context.state.evenementToPostFireBase
         const location = context.state.evenementToPostFireBase.locatie
-        axios
-            .post(
-                'https://io-test.uitdatabank.be/imports/events/', context.state.evenementToPostUiTdb, {
-                headers: {
-                    'x-api-key': APIKEYWilfried,
-                    Authorization: `${JWT}`
+        return new Promise((resolve, reject) => {
+            axios
+                .post(
+                    'https://io-test.uitdatabank.be/imports/events/', context.state.evenementToPostUiTdb, {
+                    headers: {
+                        'x-api-key': APIKEYWilfried,
+                        Authorization: `${JWT}`
+                    }
                 }
-            }
-            )
-            .then((response) => {
-                event.idUiTdatabank = response.data.id
-                event.locatie = location
+                )
+                .then((response) => {
+                    event.idUiTdatabank = response.data.id
+                    event.locatie = location
 
-                // context.dispatch('imageUpload/AddImageToEvenementUiTdb', context.state.evenementToPostFireBase.idUiTdatabank)
-                context.dispatch('postEvent', event, { root: true })
-            })
-            .catch((err) => {
-                // delete mogelijk event in UiTdb
-                // en delete mogelijk event in Fb
-                console.log('error post offer STORE EVENEMENT', err)
-            })
+                    // context.dispatch('imageUpload/AddImageToEvenementUiTdb', context.state.evenementToPostFireBase.idUiTdatabank)
+                    context.dispatch('postEvent', event, { root: true })
+                    resolve()
+                })
+                .catch((err) => {
+                    reject(err)
+                })
+        })
     }
 }

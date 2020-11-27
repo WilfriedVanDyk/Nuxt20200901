@@ -3,6 +3,7 @@
     <h1 class="subtitle-1 grey--text">
       Dashboard
     </h1>
+    <span v-if="$nuxt.isOffline">Er is geen internet verbinding !!</span>
     <v-container fluid class="my-5 grey lighten-4">
       <v-card>
         <v-card-title>
@@ -86,10 +87,8 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
 import axios from 'axios'
-import { mapState } from 'vuex' // , mapActions
-
+import { mapState } from 'vuex'
 export default {
   components: {},
 
@@ -139,18 +138,6 @@ export default {
     this.$store.dispatch('bindEvenementen')
   },
   methods: {
-    // ...mapActions({
-    //   deleteItem: 'deleteEventUiTdb/deleteItem'
-    // }),
-    // deleteItem (id, idUiTdabank) {
-    //   console.log('ids zijn:', id, idUiTdabank)
-    //   if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-    //     console.log('ole')
-    //     this.deleteItem(id, idUiTdabank)
-    //   }
-    // },
-
-    // Deze delete moet nog gestroomlijnd worden net zoals alle andere catch gebeurtenissen
     deleteItem (id, idUiTdatabank) {
       if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
         axios
@@ -159,10 +146,8 @@ export default {
             this.$store.dispatch('deleteEvent', id)
           )
           .catch((error) => {
-            console.log(`${error} + delete met axios in dashboard  met errors`)
+            this.$nuxt.error({ statusCode: 400, message: error.message })
           })
-          .finally(() => console.log('delete met axios in dashboard is complete'))
-        // this.$store.dispatch('deleteEvent', id)
       }
     },
     EditEvenement (id) {

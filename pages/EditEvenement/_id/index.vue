@@ -152,12 +152,10 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
 import db from '@/plugins/fb'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
-// import axios from 'axios'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
@@ -192,7 +190,6 @@ export default {
       return this.getVenue ? this.getVenue : this.evenementToUpdate.locatie
     },
     ...mapGetters({
-      // getEvenementToPut: 'evenementToPut/getEvenementToPut',
       getVenue: 'evenementToPut/getVenue',
       getTypeAanbod: 'evenement/getTypeAanbod',
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
@@ -210,12 +207,10 @@ export default {
           if (doc.exists) {
             this.evenementToUpdate = doc.data()
             this.evenementToUpdate.id = doc.id
-          } else {
-            console.log('No such document to edit!')
           }
         })
         .catch(function (error) {
-          console.log('Error getting document:', error)
+          this.$nuxt.error({ statusCode: 400, message: error.message })
         })
     }
   },
@@ -234,12 +229,14 @@ export default {
         event.locatie = this.getLocatie
 
         this.evenementToStore(event)
-        // hier verder werken in store in de evenementfbToStore
         const id = this.findTypeId(event.type)
         this.addType(id)
 
         this.putEventToAlldb(event.idUiTdatabank)
           .then(this.$router.push({ name: 'Dashboard' }))
+          .catch((error) => {
+            this.$nuxt.error({ statusCode: 404, message: error.message })
+          })
       }
     },
     cancel () {
