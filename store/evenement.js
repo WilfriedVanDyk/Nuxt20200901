@@ -91,7 +91,6 @@ export const actions = {
     },
     PostEvent(context) {
         const event = context.state.evenementToPostFireBase
-        const location = context.state.evenementToPostFireBase.locatie
         return new Promise((resolve, reject) => {
             axios
                 .post(
@@ -104,9 +103,6 @@ export const actions = {
                 )
                 .then((response) => {
                     event.idUiTdatabank = response.data.id
-                    event.locatie = location
-
-                    // context.dispatch('imageUpload/AddImageToEvenementUiTdb', context.state.evenementToPostFireBase.idUiTdatabank)
                     context.dispatch('postEvent', event, { root: true })
                     resolve()
                 })
