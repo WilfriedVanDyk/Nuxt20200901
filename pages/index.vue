@@ -92,6 +92,7 @@
 import axios from 'axios'
 import { mapState } from 'vuex'
 export default {
+  name: 'Index',
   data () {
     return {
       dialog: false,
