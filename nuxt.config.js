@@ -1,10 +1,12 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  target: 'static',
+  generate: {
+    fallback: '404.html'
+  },
   router: {
     base: '/Nuxt20200901/'
-  }
+  },
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
@@ -14,7 +16,8 @@ export default {
   ** Nuxt target
   ** See https://nuxtjs.org/api/configuration-target
   */
-  target: 'server',
+  // target: 'server',
+  target: 'static',
   /*
   ** Headers of the page
   ** See https://nuxtjs.org/api/configuration-head
@@ -106,7 +109,7 @@ export default {
   build: {
   },
   serverMiddleware: ['~/api/index.js'],
-  transition: {
+  pageTransition: {
     name: 'fade',
     mode: 'out-in'
   }
