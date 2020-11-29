@@ -105,7 +105,7 @@ export default {
   build: {
   },
   serverMiddleware: ['~/api/index.js'],
-  transition: {
+  pageTransition: {
     name: 'fade',
     mode: 'out-in'
   }
