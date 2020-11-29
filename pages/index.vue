@@ -80,31 +80,6 @@
                 mdi-delete
               </v-icon>
             </v-chip>
-            <!-- <v-chip text color="black" class="ma-1" small @click.stop="dialog = true">
-              <span>verwijderen</span>
-              <v-icon right small>
-                mdi-delete
-              </v-icon>
-            </v-chip> -->
-            <!-- <v-dialog v-model="dialog" max-width="290">
-              <v-card>
-                <v-card-title class="headline">
-                  Verwijderen ?
-                </v-card-title>
-                <v-card-text>
-                  Ben je zeker dat je dit evenement wil verwijderen ?
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="grey" text @click="dialog = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn color="grey" text @click="deleteItem(item.id, item.idUiTdatabank)">
-                    Verwijderen
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog> -->
           </template>
         </v-data-table>
       </v-card>
@@ -176,17 +151,6 @@ export default {
           .finally(this.dialog = false)
       }
     },
-    // deleteItem (id, idUiTdatabank) {
-    //   axios
-    //     .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
-    //     .then(
-    //       this.$store.dispatch('deleteEvent', id)
-    //     )
-    //     .catch((error) => {
-    //       this.$nuxt.error({ statusCode: 400, message: error.message })
-    //     })
-    //     .finally(this.dialog = false)
-    // },
     EditEvenement (id) {
       this.$router.push({ path: `/EditEvenement/${id}` })
     }
