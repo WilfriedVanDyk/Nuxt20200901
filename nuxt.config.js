@@ -49,8 +49,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    '~/plugins/fb.js',
-    '~/plugins/dialog.js'
+    '~/plugins/fb.js'
     // register global components in a file in the plugin folder: zie max filmkes 6.62 vb ... ? navbar misschien of venuePicker
   ],
   /*

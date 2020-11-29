@@ -139,20 +139,18 @@ export default {
   },
   methods: {
     deleteItem (name, id, idUiTdatabank) {
-      this.$confirm(`Ben je zeker dat je het evenement ${name} wil verwijderen? `).then((res) => {
-        if (res) {
-          axios
-            .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
-            .then(
-              this.$store.dispatch('deleteEvent', id)
-            )
-            .catch((error) => {
-              this.dialog = false
-              this.$nuxt.error({ statusCode: 400, message: error.message })
-            })
-            .finally(this.dialog = false)
-        } else { this.$router.push({ path: '/' }) }
-      })
+      if (window.confirm(`Ben je zeker dat je het evenement ${name} wil verwijderen?`)) {
+        axios
+          .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
+          .then(
+            this.$store.dispatch('deleteEvent', id)
+          )
+          .catch((error) => {
+            this.dialog = false
+            this.$nuxt.error({ statusCode: 400, message: error.message })
+          })
+          .finally(this.dialog = false)
+      }
     },
     EditEvenement (id) {
       this.$router.push({ path: `/EditEvenement/${id}` })
