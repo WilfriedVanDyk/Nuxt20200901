@@ -233,14 +233,14 @@ export default {
         this.addType(id)
 
         this.putEventToAlldb(event.idUiTdatabank)
-          .then(this.$router.push({ name: 'Dashboard' }))
+          .then(this.$router.push({ name: 'index' }))
           .catch((error) => {
             this.$nuxt.error({ statusCode: 404, message: error.message })
           })
       }
     },
     cancel () {
-      this.$router.push({ name: 'Dashboard' })
+      this.$router.push({ name: 'index' })
     }
   }
 }

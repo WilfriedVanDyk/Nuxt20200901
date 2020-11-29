@@ -3,6 +3,9 @@
     <h1 class="subtitle-1 grey--text">
       Mijn evenementen (after login, this page shows your organised events)
     </h1>
+
+    <a href="https://wilfriedvandyk.github.io/VZWFatima/">Beklijk WidgetPagina van VZW Fatima</a>
+
     <v-container class="my-5">
       <v-expansion-panels id="expan" popout multiple>
         <v-expansion-panel v-for="evenementItem in evenementen" :key="evenementItem.evenement" class="my-3">

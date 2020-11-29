@@ -125,9 +125,11 @@
                 :items="getStatusArray"
                 label="status ?"
               />
-              <!-- <ImageInput class="mb-10" /> -->
               <v-textarea
                 v-model="event.beschrijving"
+                locale="nl"
+                auto-grow
+                counter
                 label="Beschrijving evenement"
                 prepend-icon="edit"
                 :rules="inputValidation"
@@ -209,7 +211,7 @@ export default {
             this.dialog = false
             this.$emit('eventAdded')
             this.$refs.form.reset()
-            this.$router.push({ name: 'Dashboard' })
+            this.$router.push({ name: 'index' })
           })
           .catch((error) => {
             this.$nuxt.error({ statusCode: 400, message: error.message })
@@ -219,7 +221,7 @@ export default {
     cancel () {
       this.dialog = false
       this.$refs.form.reset()
-      this.$router.push({ name: 'Dashboard' })
+      this.$router.push({ name: 'index' })
     }
   }
 }

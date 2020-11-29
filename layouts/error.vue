@@ -9,7 +9,7 @@
       <p> {{ error.message }}</p>
       <p> {{ otherError }}</p>
     </h1>
-    <p>Terug naar de <a href="/dashboard"> HomePagina</a>!</p>
+    <p>Terug naar de <a href="/"> HomePagina</a>!</p>
   </v-app>
 </template>
 

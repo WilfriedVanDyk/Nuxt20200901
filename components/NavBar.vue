@@ -88,9 +88,8 @@ export default {
     snackbar: false,
     drawer: true,
     links: [
-      // { icon: 'event', text: 'Evenementen', route: '/' },
+      { icon: 'dashboard', text: 'Dashboard', route: '/' },
       { icon: 'event', text: 'Your Events', route: '/Projects' },
-      { icon: 'dashboard', text: 'Dashboard', route: '/dashboard' },
       { icon: 'person', text: 'Team', route: '/Team' }
     ]
   })
