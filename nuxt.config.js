@@ -1,12 +1,9 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  // router: { // does not work
-  //   linkActiveClass: 'active,'
-  //   base: '/app/',
-  //   routeNameSplitter: '/'
-  // },
-  //
+  router: {
+    base: '/Nuxt20200901/'
+  },
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
@@ -16,7 +13,8 @@ export default {
   ** Nuxt target
   ** See https://nuxtjs.org/api/configuration-target
   */
-  target: 'server',
+  // target: 'server',
+  target: 'static',
   /*
   ** Headers of the page
   ** See https://nuxtjs.org/api/configuration-head
