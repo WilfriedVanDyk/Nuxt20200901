@@ -49,8 +49,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    '~/plugins/fb.js'
-    // date filter in max: 6.62 datefilter maken
+    '~/plugins/fb.js',
+    '~/plugins/dialog.js'
     // register global components in a file in the plugin folder: zie max filmkes 6.62 vb ... ? navbar misschien of venuePicker
   ],
   /*

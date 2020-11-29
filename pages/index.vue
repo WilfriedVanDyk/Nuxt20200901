@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 <template>
   <div>
     <h1 class="subtitle-1 grey--text">
@@ -74,7 +75,7 @@
               </v-icon>
             </v-chip>
 
-            <v-chip color="black" class="my-1" small @click="deleteItem(item.id, item.idUiTdatabank)">
+            <v-chip color="black" class="my-1" small @click="deleteItem(item.evenement ,item.id, item.idUiTdatabank)">
               <span>verwijderen</span>
               <v-icon right small>
                 mdi-delete
@@ -137,19 +138,21 @@ export default {
     this.$store.dispatch('bindEvenementen')
   },
   methods: {
-    deleteItem (id, idUiTdatabank) {
-      if (window.confirm('Ben je zeker dat je het evenement wil verwijderen?')) {
-        axios
-          .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
-          .then(
-            this.$store.dispatch('deleteEvent', id)
-          )
-          .catch((error) => {
-            this.dialog = false
-            this.$nuxt.error({ statusCode: 400, message: error.message })
-          })
-          .finally(this.dialog = false)
-      }
+    deleteItem (name, id, idUiTdatabank) {
+      this.$confirm(`Ben je zeker dat je het evenement ${name} wil verwijderen? `).then((res) => {
+        if (res) {
+          axios
+            .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
+            .then(
+              this.$store.dispatch('deleteEvent', id)
+            )
+            .catch((error) => {
+              this.dialog = false
+              this.$nuxt.error({ statusCode: 400, message: error.message })
+            })
+            .finally(this.dialog = false)
+        } else { this.$router.push({ path: '/' }) }
+      })
     },
     EditEvenement (id) {
       this.$router.push({ path: `/EditEvenement/${id}` })
