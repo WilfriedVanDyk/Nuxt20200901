@@ -130,15 +130,15 @@
               :rules="inputValidation"
             />
             <v-row justify="end">
-              <v-btn class="primary mx-2 mt-3" @click="cancel">
-                cancel
-              </v-btn>
               <v-btn
                 :loading="loading"
                 class="primary mx-2 mt-3"
                 @click="editEvenement"
               >
                 Wijzig evenement
+              </v-btn>
+              <v-btn class="primary mx-2 mt-3" @click="cancel">
+                cancel
               </v-btn>
             </v-row>
           </v-form>

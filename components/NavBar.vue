@@ -89,7 +89,7 @@ export default {
     drawer: true,
     links: [
       { icon: 'dashboard', text: 'Dashboard', route: '/' },
-      { icon: 'event', text: 'Your Events', route: '/Projects' },
+      { icon: 'event', text: 'Jouw Evenementen', route: '/Projects' },
       { icon: 'person', text: 'Team', route: '/Team' }
     ]
   })

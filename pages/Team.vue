@@ -1,7 +1,7 @@
 <template>
   <div class="team">
     <h1 class="subtitle-1 grey--text">
-      developement Team
+      Team VZW Fatima
     </h1>
     <v-container class="my-5">
       <v-row>
@@ -53,25 +53,25 @@ export default {
       team: [
         {
           name: 'Wilfried',
-          role: 'Web developer',
+          role: 'Secretaris',
           picture: '/_nuxt/assets/pictures/VanDykWilfried.jpg'
         },
 
         {
           name: 'Corneel',
-          role: 'project leader',
+          role: 'Voorzitter',
           picture: image2
         },
 
         {
           name: 'Bram',
-          role: 'Web zen master',
+          role: 'Techniek',
           picture: image3
         },
 
         {
           name: 'Jelke',
-          role: 'Sales guru',
+          role: 'Promotie',
           picture: image4
         }
       ]

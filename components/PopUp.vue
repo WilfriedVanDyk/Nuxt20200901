@@ -35,6 +35,8 @@
                 label="Organisator"
                 prepend-icon="mdi-account-circle"
                 required
+                placeholder="VZW Fatima"
+                filled
                 :rules="inputValidation"
               />
               <VenuePicker class="mb-10" />

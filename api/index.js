@@ -23,7 +23,7 @@ app.get('/hello', (req, res) => {
 app.get('/venues', (req, res, next) => {
   axios
     .get(
-      `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=300&addressCountry=BE&regions=reg-meetjesland` // 51.090973, 3.442068
+      `https://search-test.uitdatabank.be/places/?embed=true&apiKey=${APIKEYWilfried}&limit=300&addressCountry=BE&regions=reg-meetjesland`
     )
     .then((response) => {
       res.json(response.data)
