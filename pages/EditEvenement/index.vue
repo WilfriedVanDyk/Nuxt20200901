@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div></div>
+  <v-main>
+    <br><br><br><br><br>
     <p>dit evenement kan niet getoond worden. Is de url juist ? </p>
-  </div>
+  </v-main>
 </template>
 
 <script>

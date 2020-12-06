@@ -1,13 +1,12 @@
 <template>
-  <div class="projects">
-    <div class="chip">
-      <v-chip color="grey darken-2" class="my-5" large href="https://wilfriedvandyk.github.io/VZWFatima/">
-        <span> Beklijk WidgetPagina van VZW Fatima</span>
-        <v-icon right medium>
-          event_note
-        </v-icon>
-      </v-chip>
-    </div>
+  <v-main class="projects">
+    <v-chip color="grey darken-2" class="my-5" large href="https://wilfriedvandyk.github.io/VZWFatima/">
+      <span> Beklijk WidgetPagina van VZW Fatima</span>
+      <v-icon right medium>
+        event_note
+      </v-icon>
+    </v-chip>
+
     <v-container class="my-5">
       <v-expansion-panels id="expan" popout multiple>
         <v-expansion-panel v-for="evenementItem in evenementen" :key="evenementItem.evenement" class="my-3">
@@ -46,7 +45,7 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>

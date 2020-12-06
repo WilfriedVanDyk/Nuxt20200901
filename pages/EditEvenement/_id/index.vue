@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-main>
     <div v-if="evenementToUpdate">
       <v-card>
         <v-card-title>
@@ -132,13 +132,13 @@
             <v-row justify="end">
               <v-btn
                 :loading="loading"
-                class="primary mx-2 mt-3"
+                class="success mx-2 mt-3"
                 @click="editEvenement"
               >
                 Wijzig evenement
               </v-btn>
-              <v-btn class="primary mx-2 mt-3" @click="cancel">
-                cancel
+              <v-btn class="success mx-2 mt-3" @click="cancel">
+                annuleer
               </v-btn>
             </v-row>
           </v-form>
@@ -148,15 +148,15 @@
     <div v-else>
       Dit evenement bestaat niet. De parameter Id is niet juist.
     </div>
-  </v-app>
+  </v-main>
 </template>
 
 <script>
-import db from '@/plugins/fb'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { nl } from 'date-fns/locale'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import db from '~/plugins/fb'
 
 export default {
   name: 'EditEvenement',

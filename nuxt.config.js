@@ -1,9 +1,6 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors.js'
 
 export default {
-  // router: {
-  //   base: '/Nuxt20200901/'
-  // },
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
@@ -20,27 +17,22 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: 'InvoerApp',
-    // process.env.npm_package_name || '', // titel van mij ????!!!!
+    // titleTemplate: '%s - ' + process.env.npm_package_name,
+    title: 'VZW Fatima: InvoerApp',
     meta: [
-      { charset: 'utf-8' },
+      { charset: 'utf-20' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      // hier kan je de google fonts toevoegen... maar niet als je met vuetify werkt
-      { rel: 'style', href: 'https://fonts.googleapis.com/css2?family=Grandstander:wght@100&display=swap' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Oswald|Libre+Baskerville&display=swap' }
+      { rel: 'icon', type: 'image/x-icon', href: '/villaWhatever.jpg' }
     ]
   },
   /*
   ** Global CSS
   */
   css: [
-    '~/assets/styles/main.css',
-    '~/assets/styles/fade.css'
+    '~/assets/styles/main.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -48,7 +40,6 @@ export default {
   */
   plugins: [
     '~/plugins/fb.js'
-    // register global components in a file in the plugin folder: zie max filmkes 6.62 vb ... ? navbar misschien of venuePicker
   ],
   /*
   ** Auto import components
@@ -93,7 +84,7 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          success: colors.teal.lighten1
         }
       }
     }
@@ -104,7 +95,9 @@ export default {
   */
   build: {
   },
-  serverMiddleware: ['~/api/index.js'],
+  serverMiddleware: [
+    // Will register file from project api directory to handle /api/* requires
+    { path: '/api', handler: '~/api/index.js' }],
   pageTransition: {
     name: 'fade',
     mode: 'out-in'

@@ -1,5 +1,5 @@
 <template>
-  <div class="team">
+  <v-main class="team">
     <h1 class="subtitle-1 grey--text">
       Team VZW Fatima
     </h1>
@@ -37,13 +37,14 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>
-import image4 from '@/assets/pictures/Jelke.jpg'
-import image3 from '@/assets/pictures/Bram.jpg'
-import image2 from '@/assets/pictures/Corneel.jpg'
+import image4 from '~/assets/pictures/Jelke.jpg'
+import image3 from '~/assets/pictures/Bram.jpg'
+import image2 from '~/assets/pictures/Corneel.jpg'
+import image1 from '~/assets/pictures/VanDykWilfried.jpg'
 
 export default {
   name: 'Team',
@@ -54,7 +55,7 @@ export default {
         {
           name: 'Wilfried',
           role: 'Secretaris',
-          picture: '/_nuxt/assets/pictures/VanDykWilfried.jpg'
+          picture: image1
         },
 
         {
@@ -75,11 +76,6 @@ export default {
           picture: image4
         }
       ]
-    }
-  },
-  methods: {
-    getImgUrl (picture) {
-      return require(picture)
     }
   }
 }

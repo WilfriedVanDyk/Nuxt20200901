@@ -44,11 +44,11 @@
       <v-navigation-drawer v-model="drawer" app class="info">
         <v-row justify="center">
           <v-col cols="6">
-            <v-avatar size="100">
-              <img :src="imageWilfried">
+            <v-avatar size="150">
+              <img src="/villaWhatever.jpg">
             </v-avatar>
             <p class="white--text subtitle-1 mt-5 text-center">
-              Wilfried
+              Villa Whatever
             </p>
           </v-col>
           <v-col col="6" class="my-4">
@@ -77,14 +77,9 @@
 </template>
 
 <script>
-// import
-import PopUp from '@/components/PopUp.vue'
-import imageWilfried from '@/assets/pictures/VanDykWilfried.jpg'
 export default {
   name: 'NavBar',
-  components: { PopUp },
   data: () => ({
-    imageWilfried,
     snackbar: false,
     drawer: true,
     links: [

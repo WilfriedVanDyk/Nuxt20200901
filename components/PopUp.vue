@@ -47,6 +47,7 @@
                     prepend-icon="date_range"
                     label="Datum evenement"
                     v-bind="attrs"
+                    :rules="inputValidation"
                     v-on="on"
                   />
                 </template>
@@ -73,6 +74,7 @@
                         prepend-icon="access_time"
                         readonly
                         v-bind="attrs"
+                        :rules="inputValidation"
                         v-on="on"
                       />
                     </template>
@@ -106,6 +108,7 @@
                         prepend-icon="access_time"
                         readonly
                         v-bind="attrs"
+                        :rules="inputValidation"
                         v-on="on"
                       />
                     </template>
@@ -126,6 +129,7 @@
                 prepend-icon="help"
                 :items="getStatusArray"
                 label="status ?"
+                :rules="inputValidation"
               />
               <v-textarea
                 v-model="event.beschrijving"
@@ -136,11 +140,11 @@
                 prepend-icon="edit"
                 :rules="inputValidation"
               />
-              <v-btn :loading="loading" class="primary mx-2 mt-3" @click="submit">
+              <v-btn :loading="loading" class="success mx-2 mt-3" @click="submit">
                 Voeg evenement toe
               </v-btn>
-              <v-btn class="primary mx-2 mt-3" @click="cancel">
-                cancel
+              <v-btn class="success mx-2 mt-3" @click="cancel">
+                annuleer
               </v-btn>
             </v-form>
           </v-card-text>

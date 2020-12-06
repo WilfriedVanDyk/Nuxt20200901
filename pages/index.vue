@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 <template>
-  <div>
+  <v-main>
     <h1 class="subtitle-1 grey--text">
       Dashboard
     </h1>
@@ -74,22 +74,15 @@
                 mdi-pencil
               </v-icon>
             </v-chip>
-
-            <v-chip color="black" class="my-1" small @click="deleteItem(item.evenement ,item.id, item.idUiTdatabank)">
-              <span>verwijderen</span>
-              <v-icon right small>
-                mdi-delete
-              </v-icon>
-            </v-chip>
+            <DialogBoxDelete :event="item" />
           </template>
         </v-data-table>
       </v-card>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
 export default {
   name: 'Index',
@@ -139,20 +132,6 @@ export default {
     this.$store.dispatch('bindEvenementen')
   },
   methods: {
-    deleteItem (name, id, idUiTdatabank) {
-      if (window.confirm(`Ben je zeker dat je het evenement ${name} wil verwijderen?`)) {
-        axios
-          .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
-          .then(
-            this.$store.dispatch('deleteEvent', id)
-          )
-          .catch((error) => {
-            this.dialog = false
-            this.$nuxt.error({ statusCode: 400, message: error.message })
-          })
-          .finally(this.dialog = false)
-      }
-    },
     EditEvenement (id) {
       this.$router.push({ path: `/EditEvenement/${id}` })
     }
