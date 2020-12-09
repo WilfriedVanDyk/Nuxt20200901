@@ -95,9 +95,7 @@ export default {
   */
   build: {
   },
-  serverMiddleware: [
-    // Will register file from project api directory to handle /api/* requires
-    { path: '/api', handler: '~/api/index.js' }],
+  serverMiddleware: [],
   pageTransition: {
     name: 'fade',
     mode: 'out-in'

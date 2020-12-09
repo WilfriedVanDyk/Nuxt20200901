@@ -1,6 +1,12 @@
 /* eslint-disable indent */
 <template>
   <v-main>
+    <v-snackbar v-model="snackbar" :timeout="4000" top color="teal">
+      Evenement is verwijderd!
+      <v-btn text color="white" class="ml-15" @click="snackbar=false">
+        close
+      </v-btn>
+    </v-snackbar>
     <h1 class="subtitle-1 grey--text">
       Dashboard
     </h1>
@@ -74,7 +80,7 @@
                 mdi-pencil
               </v-icon>
             </v-chip>
-            <DialogBoxDelete :event="item" />
+            <DialogBoxDelete :event="item" @eventDeleted="snackbar=true" />
           </template>
         </v-data-table>
       </v-card>
@@ -89,6 +95,7 @@ export default {
   data () {
     return {
       dialog: false,
+      snackbar: false,
       search: '',
       headers: [
         {

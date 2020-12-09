@@ -9,7 +9,7 @@
       <span v-if="!locatie">selecteer een andere locatie indien nodig</span>
       <v-autocomplete
         v-model="locatie"
-        :items="venues"
+        :items="this.$store.state.data.venues"
         :loading="isLoading"
         :search-input.sync="search"
         color="white"
@@ -35,7 +35,6 @@ export default {
     }
   },
   data: () => ({
-    venues: [],
     isLoading: false,
     search: null
   }),
@@ -54,27 +53,8 @@ export default {
   },
   watch: {
     search () {
-      // Items have already been loaded
-      if (this.venues.length > 0) { return }
-
-      // Items have already been requested
-      if (this.isLoading) { return }
-
-      this.isLoading = true
-      // Lazily load input items
-      fetch('/api/venues')
-        .then(res => res.json())
-        .then((res) => {
-          const { totalItems, member } = res
-          this.count = totalItems
-          this.venues = member.map((location) => {
-            const venue = {}
-            venue.name = location.name.nl
-            venue.id = location['@id']
-            return venue
-          })
-        })
-        .finally(() => (this.isLoading = false))
+      if (this.$store.state.data.venues.length > 0) { return }
+      this.$store.dispatch('data/GetVenues')
     }
   }
 }

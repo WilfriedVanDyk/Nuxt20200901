@@ -32,7 +32,7 @@ export const actions = {
     }),
 
     // updating an event
-    putEvent: firestoreAction(({ state }, evenement) => {
+    putEvent: firestoreAction(({ context }, evenement) => {
         // we first create a copy that excludes `id`
         // this exclusion is automatic because `id` is non-enumerable
         const id = evenement.id

@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav>
-      <v-snackbar v-model="snackbar" :timeout="4000" top color="success">
+      <v-snackbar v-model="snackbar" :timeout="4000" top color="teal">
         Evenement is toegevoegd!
         <v-btn text color="white" class="ml-15" @click="snackbar=false">
           close

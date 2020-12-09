@@ -3,7 +3,7 @@
     <h1 class="subtitle-1 grey--text">
       Team VZW Fatima
     </h1>
-    <v-container class="my-5">
+    <v-container fluid class="my-5">
       <v-row>
         <v-col
           v-for="member in team"

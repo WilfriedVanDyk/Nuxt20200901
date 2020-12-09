@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'DialogBox',
   props: {
@@ -68,11 +67,11 @@ export default {
   },
   methods: {
     deleteItem (id, idUiTdatabank) {
-      axios
-        .delete(`/api/deleteEventAPI/?idUiTdatabank=${idUiTdatabank}`)
+      this.$store.dispatch('evenement/DeleteEventUiTdb', idUiTdatabank)
         .then(
           this.$store.dispatch('deleteEvent', id)
         )
+        .then(this.$emit('eventDeleted'))
         .catch((error) => {
           this.dialog = false
           this.$nuxt.error({ statusCode: 400, message: error.message })

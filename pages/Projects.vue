@@ -7,7 +7,7 @@
       </v-icon>
     </v-chip>
 
-    <v-container class="my-5">
+    <v-container fluid class="my-5">
       <v-expansion-panels id="expan" popout multiple>
         <v-expansion-panel v-for="evenementItem in evenementen" :key="evenementItem.evenement" class="my-3">
           <v-expansion-panel-header>{{ evenementItem.evenement }}</v-expansion-panel-header>
