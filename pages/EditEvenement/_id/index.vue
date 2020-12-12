@@ -210,7 +210,7 @@ export default {
           }
         })
         .catch(function (error) {
-          this.$nuxt.error({ statusCode: 400, message: error.message })
+          this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
         })
     }
   },
@@ -235,11 +235,13 @@ export default {
         this.putEventToAlldb(event.idUiTdatabank)
           .then(this.$router.push({ name: 'index' }))
           .catch((error) => {
-            this.$nuxt.error({ statusCode: 404, message: error.message })
+            this.$store.commit('evenement/commitEventsToNull')
+            this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
           })
       }
     },
     cancel () {
+      this.$store.commit('evenement/commitEventsToNull')
       this.$router.push({ name: 'index' })
     }
   }
