@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-main dark>
     <h1 v-if="error.statusCode === 404">
       <div></div>
       {{ pageNotFound }}
@@ -10,7 +10,7 @@
       <p> {{ otherError }}</p>
     </h1>
     <p>Terug naar de <a href="/"> HomePagina</a>!</p>
-  </v-app>
+  </v-main>
 </template>
 
 <script>

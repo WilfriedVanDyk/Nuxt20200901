@@ -21,7 +21,7 @@ export const state = () => ({
             nl: ''
         }
     },
-    evenementputToFireBase: null,
+    evenementputToFireBase: {},
     venue: null,
     type: ''
 })
@@ -59,7 +59,6 @@ export const actions = {
                     `https://io-test.uitdatabank.be/imports/events/${id}`, context.state.evenementToPut, {
                     headers: {
                         'x-api-key': APIKEYWilfried,
-                        // 'x-api-key': 'APIKEYWilfried11111111111111111111111',
                         Authorization: `${JWT}`
                     }
                 }

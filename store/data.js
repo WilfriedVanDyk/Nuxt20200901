@@ -38,6 +38,7 @@ export const actions = {
                 )
                 .then((res) => {
                     context.commit('PopulateVenues', res.data.member)
+                    resolve()
                 })
                 .catch((err) => {
                     reject(err)

@@ -46,6 +46,25 @@ export const getters = {
     }
 }
 export const mutations = {
+    commitEventsToNull(state) {
+        state.evenementToPostFireBase = {}
+        state.evenementToPostUiTdb = {
+            mainLanguage: 'nl',
+            name: {
+                nl: ''
+            },
+            calendarType: 'single',
+            startDate: '',
+            endDate: '',
+            terms: [],
+            location: {
+                '@id': ''
+            },
+            description: {
+                nl: ''
+            }
+        }
+    },
     commitEventToStore(state, event) {
         state.evenementToPostFireBase.beschrijving = event.beschrijving
         state.evenementToPostUiTdb.description = { nl: event.beschrijving }

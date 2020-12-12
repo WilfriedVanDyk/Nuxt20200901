@@ -220,12 +220,15 @@ export default {
             this.$router.push({ name: 'index' })
           })
           .catch((error) => {
-            this.$nuxt.error({ statusCode: 400, message: error.message })
+            this.dialog = false
+            this.$store.commit('evenement/commitEventsToNull')
+            this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
           })
       }
     },
     cancel () {
       this.dialog = false
+      this.$store.commit('evenement/commitEventsToNull')
       this.$refs.form.reset()
       this.$router.push({ name: 'index' })
     }
