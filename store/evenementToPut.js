@@ -26,7 +26,7 @@ export const state = () => ({
     type: ''
 })
 export const getters = {
-    getVenue(state) {
+    getChangedVenue(state) {
         return state.venue
     }
 }
@@ -41,12 +41,14 @@ export const mutations = {
         state.evenementToPut.startDate = startDateTime
         const endDateTime = `${event.datum}T${event.eindUur}:00+01:00`
         state.evenementToPut.endDate = endDateTime
+
+        state.evenementToPut.location['@id'] = event.locatie.id
     },
     addType(state, id) {
         state.evenementToPut.terms.length = 0
         state.evenementToPut.terms.push({ id })
     },
-    addVenue(state, venue) {
+    addChangedVenue(state, venue) {
         state.venue = venue
         state.evenementToPut.location['@id'] = venue.id
     }

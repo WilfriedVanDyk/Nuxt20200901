@@ -46,7 +46,7 @@ export default {
       set (value) {
         if (value) {
           this.$store.commit('evenement/updateEvenementLocatie', value)
-          this.$store.commit('evenementToPut/addVenue', value)
+          this.$store.commit('evenementToPut/addChangedVenue', value)
         }
       }
     }

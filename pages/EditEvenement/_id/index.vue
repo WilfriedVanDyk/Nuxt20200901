@@ -187,10 +187,10 @@ export default {
         : ''
     },
     getLocatie () {
-      return this.getVenue ? this.getVenue : this.evenementToUpdate.locatie
+      return this.getChangedVenue ? this.getChangedVenue : this.evenementToUpdate.locatie
     },
     ...mapGetters({
-      getVenue: 'evenementToPut/getVenue',
+      getChangedVenue: 'evenementToPut/getChangedVenue',
       getTypeAanbod: 'evenement/getTypeAanbod',
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
       getStatusArray: 'data/getStatusArray',
@@ -227,7 +227,6 @@ export default {
         this.loading = true
         const event = this.evenementToUpdate
         event.locatie = this.getLocatie
-
         this.evenementToStore(event)
         const id = this.findTypeId(event.type)
         this.addType(id)
