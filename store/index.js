@@ -6,9 +6,11 @@ import db from '~/plugins/fb'
 export const state = () => ({
     evenementen: []
 })
-export const mutations = { ...vuexfireMutations }
+export const mutations = {
+    ...vuexfireMutations
+}
 export const actions = {
-
+    //  works only when the mode is universal in nuxt.config.js
     async nuxtServerInit({ dispatch }) {
         if (!process.client) { await dispatch('bindEvenementen') }
     },
@@ -17,7 +19,7 @@ export const actions = {
     bindEvenementen: firestoreAction(({ bindFirestoreRef }) => {
         // return the promise returned by `bindFirestoreRef`
         return bindFirestoreRef('evenementen', db.collection('evenementen')).then(res => res).catch((error) => {
-            this.$nuxt.error({ statusCode: 400, message: error.message })
+            this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
         })
     }),
 
@@ -27,7 +29,7 @@ export const actions = {
             .doc(id)
             .delete()
             .catch((error) => {
-                this.$nuxt.error({ statusCode: 400, message: error.message })
+                this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
             })
     }),
 
@@ -42,7 +44,7 @@ export const actions = {
             .doc(id)
             .update(evenementNoId)
             .catch((error) => {
-                this.$nuxt.error({ statusCode: 400, message: error.message })
+                this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
             })
     }),
 
@@ -51,8 +53,7 @@ export const actions = {
         // return the promise so we can await the write
         return db.collection('evenementen').add(evenement)
             .catch((error) => {
-                this.$nuxt.error({ statusCode: 400, message: error.message })
+                this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
             })
     })
-
 }

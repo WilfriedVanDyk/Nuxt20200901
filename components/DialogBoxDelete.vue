@@ -17,7 +17,7 @@
           </v-card-title>
 
           <v-card-text>
-            Ben je zeker dat je het evenement <strong color="teal">{{ event.evenement }}</strong>  wil verwijderen ?
+            Ben je zeker dat je het evenement <strong>{{ event.evenement }}</strong>  wil verwijderen ?
           </v-card-text>
 
           <v-card-actions>
@@ -25,7 +25,7 @@
 
             <v-btn
               text
-              color="success"
+              color="teal"
               class="ml-15"
               @click="dialog = false"
             >
@@ -34,7 +34,7 @@
 
             <v-btn
               text
-              color="success"
+              color="teal"
               class="ml-15"
               @click="deleteItem (event.id, event.idUiTdatabank)"
             >

@@ -14,12 +14,6 @@
               required
               :rules="inputValidation"
             />
-            <div>
-              Je selecteerde het evenement type
-              <a class="headline grey--text">
-                {{ evenementToUpdate.type }} </a>
-              <p>kies je een ander type?</p>
-            </div>
             <v-overflow-btn
               v-model="evenementToUpdate.type"
               label="Type Evenement?"
@@ -169,7 +163,6 @@ export default {
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
-      statusArray: ['in voorbereiding', 'afgewerkt', 'gepasseerd'],
       timePicker1: false,
       timePicker2: false
     }
@@ -225,13 +218,16 @@ export default {
     editEvenement () {
       if (this.$refs.form.validate()) {
         this.loading = true
-        const event = this.evenementToUpdate
-        event.locatie = this.getLocatie
-        this.evenementToStore(event)
-        const id = this.findTypeId(event.type)
+        // add location to date.evenementToUpdate
+        this.evenementToUpdate.locatie = this.getLocatie
+
+        // evenementToUpdate to store.evenementToPut.state objects for firestore and UiTdatabank
+        this.evenementToStore(this.evenementToUpdate)
+        const id = this.findTypeId(this.evenementToUpdate.type)
         this.addType(id)
 
-        this.putEventToAlldb(event.idUiTdatabank)
+        // put both objects to backend firestore and UiTdatabank
+        this.putEventToAlldb(this.evenementToUpdate.idUiTdatabank)
           .then(this.$router.push({ name: 'index' }))
           .catch((error) => {
             this.$store.commit('evenement/commitEventsToNull')

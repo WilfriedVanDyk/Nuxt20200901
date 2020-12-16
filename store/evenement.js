@@ -104,11 +104,12 @@ export const actions = {
         context.commit('addTypeToEvenementToPostUiTdb', (context.getters.findTypeId(context.state.evenementToPostFireBase.type)))
     },
     PostEvent(context) {
-        const event = context.state.evenementToPostFireBase
+        const eventToUiTdb = context.state.evenementToPostUiTdb
+        const eventToFb = context.state.evenementToPostFireBase
         return new Promise((resolve, reject) => {
             axios
                 .post(
-                    'https://io-test.uitdatabank.be/imports/events/', context.state.evenementToPostUiTdb, {
+                    'https://io-test.uitdatabank.be/imports/events/', eventToUiTdb, {
                     headers: {
                         'x-api-key': APIKEYWilfried,
                         Authorization: `${JWT}`
@@ -116,8 +117,8 @@ export const actions = {
                 }
                 )
                 .then((response) => {
-                    event.idUiTdatabank = response.data.id
-                    context.dispatch('postEvent', event, { root: true })
+                    eventToFb.idUiTdatabank = response.data.id
+                    context.dispatch('postEvent', eventToFb, { root: true })
                     resolve()
                 })
                 .catch((err) => {
