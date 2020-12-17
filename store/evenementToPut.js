@@ -22,8 +22,7 @@ export const state = () => ({
         }
     },
     evenementputToFireBase: {},
-    venue: null,
-    type: ''
+    venue: null
 })
 export const getters = {
     getChangedVenue(state) {
@@ -51,6 +50,9 @@ export const mutations = {
     addChangedVenue(state, venue) {
         state.venue = venue
         state.evenementToPut.location['@id'] = venue.id
+    },
+    venueToNull(state) {
+        state.venue = null
     }
 }
 export const actions = {
@@ -72,6 +74,9 @@ export const actions = {
                 .catch((err) => {
                     reject(err)
                 })
+                .finally(
+                    context.commit('venueToNull')
+                )
         })
     }
 }

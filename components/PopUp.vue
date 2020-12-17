@@ -197,8 +197,7 @@ export default {
     },
     ...mapGetters({
       getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
-      getStatusArray: 'data/getStatusArray',
-      findTypeId: 'evenement/findTypeId'
+      getStatusArray: 'data/getStatusArray'
     })
   },
   methods: {
