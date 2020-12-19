@@ -154,6 +154,12 @@ import db from '~/plugins/fb'
 
 export default {
   name: 'EditEvenement',
+  // async fetch () {
+  //   if (this.$route.params.id) {
+  //     const stringId = (this.$route.params.id).toString()
+  //     this.evenementToUpdate = await this.$store.dispatch('getSingleEvent', stringId)
+  //   }
+  // },
   data () {
     return {
       evenementToUpdate: null,

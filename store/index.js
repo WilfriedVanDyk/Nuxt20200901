@@ -5,9 +5,16 @@ import db from '~/plugins/fb'
 
 export const state = () => ({
     evenementen: []
+    // evenementFb: null
 })
 export const mutations = {
     ...vuexfireMutations
+    // mutateEventFb(state, event) {
+    //     state.evenementFb = event
+    // },
+    // addIdToEventFb(state, id) {
+    //     state.evenementFb.id = id
+    // }
 }
 export const actions = {
     //  works only when the mode is universal in nuxt.config.js
@@ -18,9 +25,8 @@ export const actions = {
     // get all evenementen from fb and inserts the objects into state.evenementen array
     bindEvenementen: firestoreAction(({ bindFirestoreRef }) => {
         // return the promise returned by `bindFirestoreRef`
-        return bindFirestoreRef('evenementen', db.collection('evenementen')).then(res => res).catch((error) => {
-            this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
-        })
+        return bindFirestoreRef('evenementen', db.collection('evenementen'))
+            .then(res => res)
     }),
 
     // delete an evenement
@@ -28,9 +34,6 @@ export const actions = {
         db.collection('evenementen')
             .doc(id)
             .delete()
-            .catch((error) => {
-                this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
-            })
     }),
 
     // updating an event
@@ -43,17 +46,22 @@ export const actions = {
         return db.collection('evenementen')
             .doc(id)
             .update(evenementNoId)
-            .catch((error) => {
-                this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
-            })
     }),
 
     // posting an event
     postEvent: firestoreAction((context, evenement) => {
         // return the promise so we can await the write
         return db.collection('evenementen').add(evenement)
-            .catch((error) => {
-                this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
-            })
     })
+
+    // getSingleEvent: firestoreAction((context, stringId) => {
+    //     return db.collection('evenementen').doc(stringId)
+    //         .get()
+    //         .then((doc) => {
+    //             if (doc.exists) {
+    //                 context.commit('mutateEventFb', doc.data())
+    //                 context.commit('addIdToEventFb', doc.id)
+    //             }
+    //         })
+    // })
 }
