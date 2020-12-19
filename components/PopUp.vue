@@ -196,7 +196,7 @@ export default {
         : ''
     },
     ...mapGetters({
-      getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
+      getTypeAanbodLabel: 'data/getTypeAanbodLabel',
       getStatusArray: 'data/getStatusArray'
     })
   },
@@ -221,7 +221,7 @@ export default {
           .catch((error) => {
             this.dialog = false
             this.$store.commit('evenement/commitEventsToNull')
-            this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
+            this.$nuxt.error({ statusCode: error.code, message: error.message })
           })
       }
     },

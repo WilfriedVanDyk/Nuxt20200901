@@ -54,7 +54,7 @@ export default {
   watch: {
     search () {
       if (this.$store.state.data.venues.length > 0) { return }
-      this.$store.dispatch('data/GetVenues')
+      this.$store.dispatch('data/getVenues')
     }
   }
 }

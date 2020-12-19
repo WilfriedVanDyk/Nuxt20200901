@@ -67,14 +67,14 @@ export default {
   },
   methods: {
     deleteItem (id, idUiTdatabank) {
-      this.$store.dispatch('evenement/DeleteEventUiTdb', idUiTdatabank)
+      this.$store.dispatch('data/deleteEventUiTdb', idUiTdatabank)
         .then(
           this.$store.dispatch('deleteEvent', id)
         )
         .then(this.$emit('eventDeleted'))
         .catch((error) => {
           this.dialog = false
-          this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
+          this.$nuxt.error({ statusCode: error.code, message: error.message })
         })
         .finally(() => {
           this.dialog = false

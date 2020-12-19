@@ -184,10 +184,10 @@ export default {
     },
     ...mapGetters({
       getChangedVenue: 'evenementToPut/getChangedVenue',
-      getTypeAanbod: 'evenement/getTypeAanbod',
-      getTypeAanbodLabel: 'evenement/getTypeAanbodLabel',
+      getTypeAanbod: 'data/getTypeAanbod',
+      getTypeAanbodLabel: 'data/getTypeAanbodLabel',
       getStatusArray: 'data/getStatusArray',
-      findTypeId: 'evenement/findTypeId'
+      findTypeId: 'data/findTypeId'
     })
   },
   created () {
@@ -203,7 +203,7 @@ export default {
           }
         })
         .catch(function (error) {
-          this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
+          this.$nuxt.error({ statusCode: error.code, message: error.message })
         })
     }
   },
@@ -223,15 +223,16 @@ export default {
 
         // evenementToUpdate to store.evenementToPut.state objects for firestore and UiTdatabank
         this.evenementToStore(this.evenementToUpdate)
+        // add type to store.state.evenementToPut.evenementToPut (UiTdatabank)
         const id = this.findTypeId(this.evenementToUpdate.type)
         this.addType(id)
 
         // put both objects to backend firestore and UiTdatabank
-        this.putEventToAlldb(this.evenementToUpdate.idUiTdatabank)
+        this.putEventToAlldb()
           .then(this.$router.push({ name: 'index' }))
           .catch((error) => {
             this.$store.commit('evenement/commitEventsToNull')
-            this.$nuxt.error({ statusCode: error.code, message: error.message + '     ' + error.response.data.title })
+            this.$nuxt.error({ statusCode: error.code, message: error.message })
           })
       }
     },
