@@ -9,7 +9,7 @@
       <span v-if="!locatie">selecteer een andere locatie indien nodig</span>
       <v-autocomplete
         v-model="locatie"
-        :items="this.$store.state.data.venues"
+        :items="this.$store.state.uiTdatabank.venues"
         :loading="isLoading"
         :search-input.sync="search"
         color="white"
@@ -53,8 +53,8 @@ export default {
   },
   watch: {
     search () {
-      if (this.$store.state.data.venues.length > 0) { return }
-      this.$store.dispatch('data/getVenues')
+      if (this.$store.state.uiTdatabank.venues.length > 0) { return }
+      this.$store.dispatch('uiTdatabank/getVenues')
     }
   }
 }

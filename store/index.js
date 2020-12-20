@@ -5,16 +5,9 @@ import db from '~/plugins/fb'
 
 export const state = () => ({
     evenementen: []
-    // evenementFb: null
 })
 export const mutations = {
     ...vuexfireMutations
-    // mutateEventFb(state, event) {
-    //     state.evenementFb = event
-    // },
-    // addIdToEventFb(state, id) {
-    //     state.evenementFb.id = id
-    // }
 }
 export const actions = {
     //  works only when the mode is universal in nuxt.config.js
@@ -53,15 +46,4 @@ export const actions = {
         // return the promise so we can await the write
         return db.collection('evenementen').add(evenement)
     })
-
-    // getSingleEvent: firestoreAction((context, stringId) => {
-    //     return db.collection('evenementen').doc(stringId)
-    //         .get()
-    //         .then((doc) => {
-    //             if (doc.exists) {
-    //                 context.commit('mutateEventFb', doc.data())
-    //                 context.commit('addIdToEventFb', doc.id)
-    //             }
-    //         })
-    // })
 }

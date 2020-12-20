@@ -196,8 +196,8 @@ export default {
         : ''
     },
     ...mapGetters({
-      getTypeAanbodLabel: 'data/getTypeAanbodLabel',
-      getStatusArray: 'data/getStatusArray'
+      getTypeAanbodLabel: 'uiTdatabank/getTypeAanbodLabel',
+      getStatusArray: 'uiTdatabank/getStatusArray'
     })
   },
   methods: {

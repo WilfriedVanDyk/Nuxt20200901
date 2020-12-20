@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     deleteItem (id, idUiTdatabank) {
-      this.$store.dispatch('data/deleteEventUiTdb', idUiTdatabank)
+      this.$store.dispatch('uiTdatabank/deleteEventUiTdb', idUiTdatabank)
         .then(
           this.$store.dispatch('deleteEvent', id)
         )

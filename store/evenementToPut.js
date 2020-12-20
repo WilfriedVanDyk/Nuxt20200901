@@ -59,7 +59,7 @@ export const actions = {
         eventToUiTdb.id = eventToFb.idUiTdatabank
 
         return new Promise((resolve, reject) => {
-            context.dispatch('data/putEventUiTdb', eventToUiTdb, { root: true })
+            context.dispatch('uiTdatabank/putEventUiTdb', eventToUiTdb, { root: true })
                 .then(() => {
                     context.dispatch('putEvent', eventToFb, { root: true })
                     resolve()

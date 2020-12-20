@@ -154,12 +154,6 @@ import db from '~/plugins/fb'
 
 export default {
   name: 'EditEvenement',
-  // async fetch () {
-  //   if (this.$route.params.id) {
-  //     const stringId = (this.$route.params.id).toString()
-  //     this.evenementToUpdate = await this.$store.dispatch('getSingleEvent', stringId)
-  //   }
-  // },
   data () {
     return {
       evenementToUpdate: null,
@@ -190,10 +184,10 @@ export default {
     },
     ...mapGetters({
       getChangedVenue: 'evenementToPut/getChangedVenue',
-      getTypeAanbod: 'data/getTypeAanbod',
-      getTypeAanbodLabel: 'data/getTypeAanbodLabel',
-      getStatusArray: 'data/getStatusArray',
-      findTypeId: 'data/findTypeId'
+      getTypeAanbod: 'uiTdatabank/getTypeAanbod',
+      getTypeAanbodLabel: 'uiTdatabank/getTypeAanbodLabel',
+      getStatusArray: 'uiTdatabank/getStatusArray',
+      findTypeId: 'uiTdatabank/findTypeId'
     })
   },
   created () {

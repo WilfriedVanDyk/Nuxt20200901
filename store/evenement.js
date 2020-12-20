@@ -78,13 +78,13 @@ export const actions = {
     },
     EventToUiTdbStore(context) {
         context.commit('addDateToEvenementToPostUiTdb')
-        context.commit('addTypeToEvenementToPostUiTdb', (context.rootGetters['data/findTypeId'](context.state.evenementToPostFireBase.type)))
+        context.commit('addTypeToEvenementToPostUiTdb', (context.rootGetters['uiTdatabank/findTypeId'](context.state.evenementToPostFireBase.type)))
     },
     PostEvent(context) {
         const eventToUiTdb = context.state.evenementToPostUiTdb
         const eventToFb = context.state.evenementToPostFireBase
         return new Promise((resolve, reject) => {
-            context.dispatch('data/postEventUiTdb', eventToUiTdb, { root: true })
+            context.dispatch('uiTdatabank/postEventUiTdb', eventToUiTdb, { root: true })
                 .then((response) => {
                     eventToFb.idUiTdatabank = response
                 })
