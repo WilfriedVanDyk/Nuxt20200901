@@ -59,13 +59,11 @@ export const mutations = {
         if (startDateTime.includes('Standard')) {
             startDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.startUur}:00+01:00`
         } else { startDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.startUur}:00+02:00` }
-        state.evenementToPut.startDate = startDateTime
 
         let endDateTime = new Date(`${state.evenementToPostFireBase.datum} ${state.evenementToPostFireBase.eindUur}`).toString()
         if (endDateTime.includes('Standard')) {
             endDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.eindUur}:00+01:00`
         } else { endDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.eindUur}:00+02:00` }
-        state.evenementToPut.endDate = endDateTime
 
         state.evenementToPostUiTdb.startDate = startDateTime
         state.evenementToPostUiTdb.endDate = endDateTime
