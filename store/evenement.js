@@ -1,6 +1,5 @@
 /* eslint-disable space-before-function-paren */
 /* eslint-disable indent */
-// import axios from 'axios'
 
 export const state = () => ({
     evenementToPostFireBase: {},
@@ -56,9 +55,19 @@ export const mutations = {
     },
     // to post to uitdb extra info
     addDateToEvenementToPostUiTdb(state) {
-        const startDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.startUur}:00+01:00`
+        let startDateTime = new Date(`${state.evenementToPostFireBase.datum} ${state.evenementToPostFireBase.startUur}`).toString()
+        if (startDateTime.includes('Standard')) {
+            startDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.startUur}:00+01:00`
+        } else { startDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.startUur}:00+02:00` }
+        state.evenementToPut.startDate = startDateTime
+
+        let endDateTime = new Date(`${state.evenementToPostFireBase.datum} ${state.evenementToPostFireBase.eindUur}`).toString()
+        if (endDateTime.includes('Standard')) {
+            endDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.eindUur}:00+01:00`
+        } else { endDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.eindUur}:00+02:00` }
+        state.evenementToPut.endDate = endDateTime
+
         state.evenementToPostUiTdb.startDate = startDateTime
-        const endDateTime = `${state.evenementToPostFireBase.datum}T${state.evenementToPostFireBase.eindUur}:00+01:00`
         state.evenementToPostUiTdb.endDate = endDateTime
     },
     addTypeToEvenementToPostUiTdb(state, id) {
@@ -72,15 +81,15 @@ export const mutations = {
     }
 }
 export const actions = {
-    EventToStore(context, event) {
+    eventToStore(context, event) {
         context.commit('commitEventToStore', event)
-        context.dispatch('EventToUiTdbStore')
+        context.dispatch('eventToUiTdbStore')
     },
-    EventToUiTdbStore(context) {
+    eventToUiTdbStore(context) {
         context.commit('addDateToEvenementToPostUiTdb')
         context.commit('addTypeToEvenementToPostUiTdb', (context.rootGetters['uiTdatabank/findTypeId'](context.state.evenementToPostFireBase.type)))
     },
-    PostEvent(context) {
+    postEvent(context) {
         const eventToUiTdb = context.state.evenementToPostUiTdb
         const eventToFb = context.state.evenementToPostFireBase
         return new Promise((resolve, reject) => {

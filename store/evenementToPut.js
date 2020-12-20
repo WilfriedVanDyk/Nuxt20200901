@@ -33,9 +33,16 @@ export const mutations = {
         state.evenementToPut.description.nl = event.beschrijving
         state.evenementToPut.name.nl = event.evenement
 
-        const startDateTime = `${event.datum}T${event.startUur}:00+01:00`
+        let startDateTime = new Date(`${event.datum} ${event.startUur}`).toString()
+        if (startDateTime.includes('Standard')) {
+            startDateTime = `${event.datum}T${event.startUur}:00+01:00`
+        } else { startDateTime = `${event.datum}T${event.startUur}:00+02:00` }
         state.evenementToPut.startDate = startDateTime
-        const endDateTime = `${event.datum}T${event.eindUur}:00+01:00`
+
+        let endDateTime = new Date(`${event.datum} ${event.eindUur}`).toString()
+        if (endDateTime.includes('Standard')) {
+            endDateTime = `${event.datum}T${event.eindUur}:00+01:00`
+        } else { endDateTime = `${event.datum}T${event.eindUur}:00+02:00` }
         state.evenementToPut.endDate = endDateTime
 
         state.evenementToPut.location['@id'] = event.locatie.id

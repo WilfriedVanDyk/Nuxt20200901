@@ -202,15 +202,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      EventToStore: 'evenement/EventToStore',
-      PostEvent: 'evenement/PostEvent'
+      eventToStore: 'evenement/eventToStore',
+      postEvent: 'evenement/postEvent'
     }),
     submit () {
       if (this.$refs.form.validate()) {
         this.loading = true
-        this.EventToStore(this.event)
+        this.eventToStore(this.event)
 
-        this.PostEvent()
+        this.postEvent()
           .then(() => {
             this.loading = false
             this.dialog = false
