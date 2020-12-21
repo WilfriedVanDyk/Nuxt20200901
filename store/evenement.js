@@ -72,7 +72,7 @@ export const mutations = {
         state.evenementToPostUiTdb.terms.length = 0
         state.evenementToPostUiTdb.terms.push({ id })
     },
-    // to venuPicker
+    // from VenuePicker
     updateEvenementLocatie: (state, locatie) => {
         state.evenementToPostFireBase.locatie = locatie
         state.evenementToPostUiTdb.location['@id'] = locatie.id

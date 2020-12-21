@@ -8,7 +8,7 @@
       </v-btn>
     </v-snackbar>
     <h1 class="subtitle-1 grey--text">
-      Dashboard
+      VZW Fatima
     </h1>
     <span v-if="$nuxt.isOffline">Er is geen internet verbinding !!</span>
     <v-container fluid class="my-5 grey lighten-4">

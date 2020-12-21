@@ -73,7 +73,6 @@ export default {
         )
         .then(this.$emit('eventDeleted'))
         .catch((error) => {
-          this.dialog = false
           this.$nuxt.error({ statusCode: error.code, message: error.message })
         })
         .finally(() => {
