@@ -45,19 +45,19 @@
           show-group-by
           show-expand
         >
-          <template v-slot:item.evenement="{ item }">
+          <template v-slot:[`item.evenement`]="{ item }">
             <h3 :class="`${item.status} text--ligthen-1 grey--text`">
               {{ item.evenement }}
             </h3>
           </template>
-          <template v-slot:item.datum="{ item }">
+          <template v-slot:[`item.datum`]="{ item }">
             <span>{{ new Date(item.datum).toLocaleString("nl-BE", {
               weekday: 'short',
               day: '2-digit',
               month: 'long',
               year: 'numeric' }) }}</span>
           </template>
-          <template v-slot:item.status="{ item }">
+          <template v-slot:[`item.status`]="{ item }">
             <v-chip small :class="`${item.status} white--text caption`">
               {{ item.status }}
             </v-chip>
@@ -67,7 +67,7 @@
               {{ item.beschrijving }}
             </td>
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <v-chip
               text
               color="black"
