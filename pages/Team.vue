@@ -77,6 +77,9 @@ export default {
         }
       ]
     }
+  },
+  head: {
+    title: 'Jouw team'
   }
 }
 </script>

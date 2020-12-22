@@ -31,11 +31,7 @@ export const actions = {
 
     // updating an event
     putEvent: firestoreAction(({ context }, evenement) => {
-        // we first create a copy that excludes `id`
-        // this exclusion is automatic because `id` is non-enumerable
-        const id = evenement.id
-        const evenementNoId = { ...evenement }
-        // return the promise so we can await this action
+        const { id, ...evenementNoId } = evenement
         return db.collection('evenementen')
             .doc(id)
             .update(evenementNoId)

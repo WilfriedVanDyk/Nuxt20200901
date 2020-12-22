@@ -106,11 +106,10 @@ export const actions = {
     },
     putEventUiTdb(context, eventUiTdb) {
         return new Promise((resolve, reject) => {
-            const id = eventUiTdb.id
-            const evenementNoId = { ...eventUiTdb }
+            const { id, ...eventUiTdbNoId } = eventUiTdb
             axios
                 .put(
-                    `https://io-test.uitdatabank.be/imports/events/${id}`, evenementNoId, {
+                    `https://io-test.uitdatabank.be/imports/events/${id}`, eventUiTdbNoId, {
                     headers: {
                         'x-api-key': context.state.APIKEYWilfried,
                         Authorization: context.state.JWT

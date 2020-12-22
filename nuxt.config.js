@@ -17,8 +17,8 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    // titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: 'VZW Fatima: InvoerApp',
+    titleTemplate: '%s - ' + 'VZW Fatima',
+    title: 'InvoerApp',
     meta: [
       { charset: 'utf-20' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

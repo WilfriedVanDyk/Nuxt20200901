@@ -240,6 +240,9 @@ export default {
       this.$store.commit('evenement/commitEventsToNull')
       this.$router.push({ name: 'index' })
     }
+  },
+  head: {
+    title: 'Evenement aanpassen'
   }
 }
 </script>

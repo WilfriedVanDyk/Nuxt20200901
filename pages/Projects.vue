@@ -58,6 +58,9 @@ export default {
       evenementen = evenementen.filter(evenement => evenement.organisator === 'VZW Fatima')
       return evenementen
     }
+  },
+  head: {
+    title: 'Jouw evenementen'
   }
 }
 </script>
