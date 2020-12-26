@@ -21,6 +21,7 @@
         placeholder="Start typing to Search"
         prepend-icon="mdi-theater"
         return-object
+        :rules="[v => this.$store.state.uiTdatabank.venues.includes(v) || 'selecteer een locatie uit de lijst']"
       />
     </v-card-text>
   </v-card>

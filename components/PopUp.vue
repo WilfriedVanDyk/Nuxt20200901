@@ -19,7 +19,7 @@
                 label="Naam Evenement"
                 prepend-icon="title"
                 required
-                :rules="inputValidation"
+                :rules="inputValidationShortText"
               />
               <v-overflow-btn
                 v-model="event.type"
@@ -28,7 +28,7 @@
                 required
                 class="my-2 mx-2"
                 :items="getTypeAanbodLabel"
-                :rules="inputValidation"
+                :rules="inputValidationSelectText"
               />
               <v-text-field
                 v-model="event.organisator"
@@ -37,7 +37,7 @@
                 required
                 placeholder="VZW Fatima"
                 filled
-                :rules="inputValidation"
+                :rules="inputValidationShortText"
               />
               <VenuePicker class="mb-10" />
               <v-menu>
@@ -47,7 +47,7 @@
                     prepend-icon="date_range"
                     label="Datum evenement"
                     v-bind="attrs"
-                    :rules="inputValidation"
+                    :rules="inputValidationDateTime"
                     v-on="on"
                   />
                 </template>
@@ -74,7 +74,7 @@
                         prepend-icon="access_time"
                         readonly
                         v-bind="attrs"
-                        :rules="inputValidation"
+                        :rules="inputValidationDateTime"
                         v-on="on"
                       />
                     </template>
@@ -108,7 +108,7 @@
                         prepend-icon="access_time"
                         readonly
                         v-bind="attrs"
-                        :rules="inputValidation"
+                        :rules="inputValidationDateTime"
                         v-on="on"
                       />
                     </template>
@@ -129,7 +129,7 @@
                 prepend-icon="help"
                 :items="getStatusArray"
                 label="status ?"
-                :rules="inputValidation"
+                :rules="inputValidationSelectText"
               />
               <v-textarea
                 v-model="event.beschrijving"
@@ -181,6 +181,17 @@ export default {
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
+      inputValidationShortText: [
+        v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
+        v => (v && v.length <= 60) || ' de maximum lengte is 60 karakters'
+      ],
+      inputValidationSelectText: [
+        v => (v && v.length >= 3) || ' selecteer een item',
+        v => (v && v.length <= 60) || '  selecteer een item'
+      ],
+      inputValidationDateTime: [
+        v => (v && v.length >= 3) || ' selecteer een tijdtstip'
+      ],
       timePicker1: false,
       timePicker2: false
     }
@@ -223,11 +234,15 @@ export default {
             this.$store.commit('evenement/commitEventsToNull')
             this.$nuxt.error({ statusCode: error.code, message: error.message })
           })
+          .finally(
+            this.$store.commit('evenementToPut/venueToNull')
+          )
       }
     },
     cancel () {
       this.dialog = false
       this.$store.commit('evenement/commitEventsToNull')
+      this.$store.commit('evenementToPut/venueToNull')
       this.$refs.form.reset()
       this.$router.push({ name: 'index' })
     }

@@ -12,7 +12,7 @@
               label="Naam Evenement"
               prepend-icon="title"
               required
-              :rules="inputValidation"
+              :rules="inputValidationShortText"
             />
             <v-overflow-btn
               v-model="evenementToUpdate.type"
@@ -21,14 +21,14 @@
               required
               class="my-2 mx-2"
               :items="getTypeAanbodLabel"
-              :rules="inputValidation"
+              :rules="inputValidationSelectText"
             />
             <v-text-field
               v-model="evenementToUpdate.organisator"
               label="Organisator"
               prepend-icon="mdi-account"
               required
-              :rules="inputValidation"
+              :rules="inputValidationShortText"
             />
             <VenuePicker class="mb-10" :locatieprop="evenementToUpdate.locatie" @naamVanVenue="evenementToUpdate.locatie=$event" />
             <v-menu>
@@ -114,6 +114,7 @@
               class="my-2 mx-2"
               prepend-icon="help"
               :items="getStatusArray"
+              :rules="inputValidationSelectText"
               label="status ?"
             />
 
@@ -162,6 +163,16 @@ export default {
       inputValidation: [
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
+      ],
+      inputValidationShortText: [
+        v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
+        v => (v && v.length <= 60) || ' de maximum lengte is 60 karakters'
+      ],
+      inputValidationSelectText: [
+        v => (v && v.length >= 3) || ' selecteer een item'
+      ],
+      inputValidationDateTime: [
+        v => (v && v.length >= 3) || ' selecteer een tijdtstip'
       ],
       timePicker1: false,
       timePicker2: false
@@ -234,10 +245,14 @@ export default {
             this.$store.commit('evenement/commitEventsToNull')
             this.$nuxt.error({ statusCode: error.code, message: error.message })
           })
+          .finally(
+            this.$store.commit('evenementToPut/venueToNull')
+          )
       }
     },
     cancel () {
       this.$store.commit('evenement/commitEventsToNull')
+      this.$store.commit('evenementToPut/venueToNull')
       this.$router.push({ name: 'index' })
     }
   },
