@@ -137,6 +137,8 @@ export default {
   },
   created () {
     this.$store.dispatch('bindEvenementen')
+    if (this.$store.state.uiTdatabank.venues.length > 0) { return }
+    this.$store.dispatch('uiTdatabank/getVenues')
   },
   methods: {
     EditEvenement (id) {

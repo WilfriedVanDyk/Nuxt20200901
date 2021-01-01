@@ -19,6 +19,7 @@
                 label="Naam Evenement"
                 prepend-icon="title"
                 required
+                :counter="60"
                 :rules="inputValidationShortText"
               />
               <v-overflow-btn
@@ -37,6 +38,7 @@
                 required
                 placeholder="VZW Fatima"
                 filled
+                :counter="60"
                 :rules="inputValidationShortText"
               />
               <VenuePicker class="mb-10" />
@@ -135,7 +137,7 @@
                 v-model="event.beschrijving"
                 locale="nl"
                 auto-grow
-                counter
+                :counter="300"
                 label="Beschrijving evenement"
                 prepend-icon="edit"
                 :rules="inputValidation"
@@ -178,19 +180,20 @@ export default {
       loading: false,
       nowDate: new Date().toISOString().slice(0, 10),
       inputValidation: [
+        value => !!value || 'Verplicht veld',
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
       inputValidationShortText: [
+        value => !!value || 'Verplicht veld',
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 60) || ' de maximum lengte is 60 karakters'
       ],
       inputValidationSelectText: [
-        v => (v && v.length >= 3) || ' selecteer een item',
-        v => (v && v.length <= 60) || '  selecteer een item'
+        value => !!value || 'Verplicht veld'
       ],
       inputValidationDateTime: [
-        v => (v && v.length >= 3) || ' selecteer een tijdtstip'
+        value => !!value || 'Verplicht veld'
       ],
       timePicker1: false,
       timePicker2: false
@@ -227,22 +230,22 @@ export default {
             this.dialog = false
             this.$emit('eventAdded')
             this.$refs.form.reset()
-            this.$router.push({ name: 'index' })
           })
           .catch((error) => {
             this.dialog = false
-            this.$store.commit('evenement/commitEventsToNull')
             this.$nuxt.error({ statusCode: error.code, message: error.message })
           })
           .finally(
-            this.$store.commit('evenementToPut/venueToNull')
+            this.$store.commit('evenement/commitEventsToNull'),
+            this.$store.commit('evenementToPut/eventsToNull'),
+            this.$router.push({ name: 'index' })
           )
       }
     },
     cancel () {
       this.dialog = false
       this.$store.commit('evenement/commitEventsToNull')
-      this.$store.commit('evenementToPut/venueToNull')
+      this.$store.commit('evenementToPut/eventsToNull')
       this.$refs.form.reset()
       this.$router.push({ name: 'index' })
     }

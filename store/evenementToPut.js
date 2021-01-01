@@ -19,7 +19,7 @@ export const state = () => ({
             nl: ''
         }
     },
-    venue: null
+    venue: {}
 })
 export const getters = {
     getChangedVenue(state) {
@@ -27,6 +27,26 @@ export const getters = {
     }
 }
 export const mutations = {
+    eventsToNull(state) {
+        state.evenementputToFireBase = {}
+        state.evenementToPut = {
+            mainLanguage: 'nl',
+            name: {
+                nl: ''
+            },
+            calendarType: 'single',
+            startDate: '',
+            endDate: '',
+            terms: [],
+            location: {
+                '@id': ''
+            },
+            description: {
+                nl: ''
+            }
+        }
+        state.venue = {}
+    },
     evenementToStore(state, event) {
         state.evenementputToFireBase = event
 
@@ -54,9 +74,6 @@ export const mutations = {
     addChangedVenue(state, venue) {
         state.venue = venue
         state.evenementToPut.location['@id'] = venue.id
-    },
-    venueToNull(state) {
-        state.venue = null
     }
 }
 export const actions = {
@@ -75,7 +92,7 @@ export const actions = {
                     reject(err)
                 })
                 .finally(
-                    context.commit('venueToNull')
+                    context.commit('eventsToNull')
                 )
         })
     }

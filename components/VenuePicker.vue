@@ -1,48 +1,30 @@
 <template>
   <v-card dark>
     <v-card-text>
-      <h2
-        v-if="locatieprop"
-      >
-        Je selecteerde: <strong>{{ locatieprop.name }}</strong>
-      </h2>
-      <span v-if="!locatie">selecteer een andere locatie indien nodig</span>
       <v-autocomplete
         v-model="locatie"
         :items="this.$store.state.uiTdatabank.venues"
-        :loading="isLoading"
-        :search-input.sync="search"
         color="white"
         hide-no-data
         hide-selected
         item-text="name"
-        item-value="API"
         label="Locatie ?"
-        placeholder="Start typing to Search"
+        placeholder="Start met typen om te zoeken"
         prepend-icon="mdi-theater"
         return-object
-        :rules="[v => this.$store.state.uiTdatabank.venues.includes(v) || 'selecteer een locatie uit de lijst']"
+        :rules="[locationRules]"
       />
     </v-card-text>
   </v-card>
 </template>
 <script>
 export default {
-  props: {
-    locatieprop: {
-      type: Object,
-      default: null,
-      required: false
-    }
-  },
-  data: () => ({
-    isLoading: false,
-    search: null
-  }),
   computed: {
     locatie: {
       get () {
-        return this.$store.state.evenement.evenementToPostFireBase.locatie
+        if (!this.$route.params.id) {
+          return this.$store.state.evenement.evenementToPostFireBase.locatie
+        } else { return this.$store.state.evenementToPut.venue }
       },
       set (value) {
         if (value) {
@@ -52,10 +34,16 @@ export default {
       }
     }
   },
-  watch: {
-    search () {
-      if (this.$store.state.uiTdatabank.venues.length > 0) { return }
-      this.$store.dispatch('uiTdatabank/getVenues')
+  methods: {
+    locationRules (v) {
+      if (v) {
+        const result = this.$store.state.uiTdatabank.venues.findIndex(item => item.id === v.id)
+        return result >= 0
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('else waarde', v)
+        return 'selecteer een locatie uit de lijst'
+      }
     }
   }
 }

@@ -1,148 +1,146 @@
 <template>
   <v-main>
-    <div v-if="evenementToUpdate">
-      <v-card>
-        <v-card-title>
-          <span class="headline">Wijzig evenement: {{ evenementToUpdate.evenement }}</span>
-        </v-card-title>
-        <v-card-text>
-          <v-form ref="form" class="px-3">
-            <v-text-field
-              v-model="evenementToUpdate.evenement"
-              label="Naam Evenement"
-              prepend-icon="title"
-              required
-              :rules="inputValidationShortText"
-            />
-            <v-overflow-btn
-              v-model="evenementToUpdate.type"
-              label="Type Evenement?"
-              prepend-icon="event"
-              required
-              class="my-2 mx-2"
-              :items="getTypeAanbodLabel"
-              :rules="inputValidationSelectText"
-            />
-            <v-text-field
-              v-model="evenementToUpdate.organisator"
-              label="Organisator"
-              prepend-icon="mdi-account"
-              required
-              :rules="inputValidationShortText"
-            />
-            <VenuePicker class="mb-10" :locatieprop="evenementToUpdate.locatie" @naamVanVenue="evenementToUpdate.locatie=$event" />
-            <v-menu>
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  :value="formattedDate"
-                  prepend-icon="date_range"
-                  label="Datum evenement"
-                  v-bind="attrs"
-                  v-on="on"
-                />
-              </template>
-              <v-date-picker v-model="evenementToUpdate.datum" locale="nl" :min="nowDate" :max="getEndDate" />
-            </v-menu>
-            <v-row>
-              <v-col cols="11" sm="5">
-                <v-menu
-                  ref="menu1"
-                  v-model="timePicker1"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  :return-value.sync="evenementToUpdate.startUur"
-                  transition="scale-transition"
-                  offset-y
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="evenementToUpdate.startUur"
-                      label="start uur"
-                      prepend-icon="access_time"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    />
-                  </template>
-                  <v-time-picker
-                    v-if="timePicker1"
-                    v-model="evenementToUpdate.startUur"
-                    :max="evenementToUpdate.eindUur"
-                    full-width
-                    @click:minute="$refs.menu1.save(evenementToUpdate.startUur)"
-                  />
-                </v-menu>
-              </v-col>
-              <v-spacer />
-              <v-col cols="11" sm="5">
-                <v-menu
-                  ref="menu2"
-                  v-model="timePicker2"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  :return-value.sync="evenementToUpdate.eindUur"
-                  transition="scale-transition"
-                  offset-y
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="evenementToUpdate.eindUur"
-                      label="eind uur"
-                      prepend-icon="access_time"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    />
-                  </template>
-                  <v-time-picker
-                    v-if="timePicker2"
-                    v-model="evenementToUpdate.eindUur"
-                    :min="evenementToUpdate.startUur"
-                    full-width
-                    @click:minute="$refs.menu2.save(evenementToUpdate.eindUur)"
-                  />
-                </v-menu>
-              </v-col>
-            </v-row>
-
-            <v-overflow-btn
-              v-model="evenementToUpdate.status"
-              class="my-2 mx-2"
-              prepend-icon="help"
-              :items="getStatusArray"
-              :rules="inputValidationSelectText"
-              label="status ?"
-            />
-
-            <v-textarea
-              v-model="evenementToUpdate.beschrijving"
-              label="Beschrijving evenement"
-              prepend-icon="edit"
-              :rules="inputValidation"
-            />
-            <v-row justify="end">
-              <v-btn
-                :loading="loading"
-                class="success mx-2 mt-3"
-                @click="editEvenement"
+    <v-card>
+      <v-card-title>
+        <span class="headline">Wijzig evenement: {{ evenementToUpdate.evenement }}</span>
+      </v-card-title>
+      <v-card-text>
+        <v-form ref="form" class="px-3">
+          <v-text-field
+            v-model="evenementToUpdate.evenement"
+            label="Naam Evenement"
+            prepend-icon="title"
+            required
+            :counter="60"
+            :rules="inputValidationShortText"
+          />
+          <v-overflow-btn
+            v-model="evenementToUpdate.type"
+            label="Type Evenement?"
+            prepend-icon="event"
+            required
+            class="my-2 mx-2"
+            :items="getTypeAanbodLabel"
+            :rules="inputValidationSelectText"
+          />
+          <v-text-field
+            v-model="evenementToUpdate.organisator"
+            label="Organisator"
+            prepend-icon="mdi-account"
+            required
+            :counter="60"
+            :rules="inputValidationShortText"
+          />
+          <VenuePicker class="mb-10" />
+          <v-menu>
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                :value="formattedDate"
+                prepend-icon="date_range"
+                label="Datum evenement"
+                v-bind="attrs"
+                v-on="on"
+              />
+            </template>
+            <v-date-picker v-model="evenementToUpdate.datum" locale="nl" :min="nowDate" :max="getEndDate" />
+          </v-menu>
+          <v-row>
+            <v-col cols="11" sm="5">
+              <v-menu
+                ref="menu1"
+                v-model="timePicker1"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                :return-value.sync="evenementToUpdate.startUur"
+                transition="scale-transition"
+                offset-y
+                max-width="290px"
+                min-width="290px"
               >
-                Wijzig evenement
-              </v-btn>
-              <v-btn class="success mx-2 mt-3" @click="cancel">
-                annuleer
-              </v-btn>
-            </v-row>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </div>
-    <div v-else>
-      Dit evenement bestaat niet. De parameter Id is niet juist.
-    </div>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="evenementToUpdate.startUur"
+                    label="start uur"
+                    prepend-icon="access_time"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  />
+                </template>
+                <v-time-picker
+                  v-if="timePicker1"
+                  v-model="evenementToUpdate.startUur"
+                  :max="evenementToUpdate.eindUur"
+                  full-width
+                  @click:minute="$refs.menu1.save(evenementToUpdate.startUur)"
+                />
+              </v-menu>
+            </v-col>
+            <v-spacer />
+            <v-col cols="11" sm="5">
+              <v-menu
+                ref="menu2"
+                v-model="timePicker2"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                :return-value.sync="evenementToUpdate.eindUur"
+                transition="scale-transition"
+                offset-y
+                max-width="290px"
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="evenementToUpdate.eindUur"
+                    label="eind uur"
+                    prepend-icon="access_time"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  />
+                </template>
+                <v-time-picker
+                  v-if="timePicker2"
+                  v-model="evenementToUpdate.eindUur"
+                  :min="evenementToUpdate.startUur"
+                  full-width
+                  @click:minute="$refs.menu2.save(evenementToUpdate.eindUur)"
+                />
+              </v-menu>
+            </v-col>
+          </v-row>
+
+          <v-overflow-btn
+            v-model="evenementToUpdate.status"
+            class="my-2 mx-2"
+            prepend-icon="help"
+            :items="getStatusArray"
+            :rules="inputValidationSelectText"
+            label="status ?"
+          />
+
+          <v-textarea
+            v-model="evenementToUpdate.beschrijving"
+            label="Beschrijving evenement"
+            prepend-icon="edit"
+            :counter="300"
+            :rules="inputValidation"
+          />
+          <v-row justify="end">
+            <v-btn
+              :loading="loading"
+              class="success mx-2 mt-3"
+              @click="editEvenement"
+            >
+              Wijzig evenement
+            </v-btn>
+            <v-btn class="success mx-2 mt-3" @click="cancel">
+              annuleer
+            </v-btn>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </v-main>
 </template>
 
@@ -157,22 +155,24 @@ export default {
   name: 'EditEvenement',
   data () {
     return {
-      evenementToUpdate: null,
+      evenementToUpdate: {},
       loading: false,
       nowDate: new Date().toISOString().slice(0, 10),
       inputValidation: [
+        value => !!value || 'Verplicht veld',
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 300) || ' de maximum lengte is 300 karakters'
       ],
       inputValidationShortText: [
+        value => !!value || 'Verplicht veld',
         v => (v && v.length >= 3) || ' de minimum lengte is 3 karakters',
         v => (v && v.length <= 60) || ' de maximum lengte is 60 karakters'
       ],
       inputValidationSelectText: [
-        v => (v && v.length >= 3) || ' selecteer een item'
+        value => !!value || 'Verplicht veld'
       ],
       inputValidationDateTime: [
-        v => (v && v.length >= 3) || ' selecteer een tijdtstip'
+        value => !!value || 'Verplicht veld'
       ],
       timePicker1: false,
       timePicker2: false
@@ -211,6 +211,7 @@ export default {
           if (doc.exists) {
             this.evenementToUpdate = doc.data()
             this.evenementToUpdate.id = doc.id
+            this.addChangedVenue(this.evenementToUpdate.locatie)
           }
         })
         .catch(function (error) {
@@ -221,7 +222,8 @@ export default {
   methods: {
     ...mapMutations({
       addType: 'evenementToPut/addType',
-      evenementToStore: 'evenementToPut/evenementToStore'
+      evenementToStore: 'evenementToPut/evenementToStore',
+      addChangedVenue: 'evenementToPut/addChangedVenue'
     }),
     ...mapActions({
       putEventToAlldb: 'evenementToPut/putEventToAlldb'
@@ -240,19 +242,21 @@ export default {
 
         // put both objects to backend firestore and UiTdatabank
         this.putEventToAlldb()
-          .then(this.$router.push({ name: 'index' }))
           .catch((error) => {
             this.$store.commit('evenement/commitEventsToNull')
+            this.$store.commit('evenementToPut/eventsToNull')
             this.$nuxt.error({ statusCode: error.code, message: error.message })
           })
           .finally(
-            this.$store.commit('evenementToPut/venueToNull')
+            this.$store.commit('evenement/commitEventsToNull'),
+            this.$store.commit('evenementToPut/eventsToNull'),
+            this.$router.push({ name: 'index' })
           )
       }
     },
     cancel () {
       this.$store.commit('evenement/commitEventsToNull')
-      this.$store.commit('evenementToPut/venueToNull')
+      this.$store.commit('evenementToPut/eventsToNull')
       this.$router.push({ name: 'index' })
     }
   },
