@@ -40,8 +40,6 @@ export default {
         const result = this.$store.state.uiTdatabank.venues.findIndex(item => item.id === v.id)
         return result >= 0
       } else {
-        // eslint-disable-next-line no-console
-        console.log('else waarde', v)
         return 'selecteer een locatie uit de lijst'
       }
     }

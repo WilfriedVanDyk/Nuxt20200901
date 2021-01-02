@@ -190,9 +190,6 @@ export default {
         })
         : ''
     },
-    getLocatie () {
-      return this.getChangedVenue ? this.getChangedVenue : this.evenementToUpdate.locatie
-    },
     ...mapGetters({
       getChangedVenue: 'evenementToPut/getChangedVenue',
       getTypeAanbod: 'uiTdatabank/getTypeAanbod',
@@ -232,7 +229,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true
         // add location to date.evenementToUpdate
-        this.evenementToUpdate.locatie = this.getLocatie
+        this.evenementToUpdate.locatie = this.getChangedVenue
 
         // evenementToUpdate to store.evenementToPut.state objects for firestore and UiTdatabank
         this.evenementToStore(this.evenementToUpdate)

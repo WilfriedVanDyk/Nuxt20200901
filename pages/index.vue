@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 <template>
   <v-main>
     <v-snackbar v-model="snackbar" :timeout="4000" top color="teal">
